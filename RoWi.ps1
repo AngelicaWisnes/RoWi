@@ -75,3 +75,47 @@ function rainbow2 {
   Write-Host -BackgroundColor Blue "   " -NoNewline
   Write-Host -BackgroundColor Magenta "   " -NoNewline
 }
+
+function trans {
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  Write-Host ""
+  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
+  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
+  Write-Host -BackgroundColor White (" " * $windowWidth)
+  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
+  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
+  Write-Host ""
+}
+
+function ansiColors {
+  Param ([switch]$Background)
+
+  If ($Background) { $X = 48 }
+  Else { $X = 38 }
+
+  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
+  Else { $esc = $([char]0x1b) }   # For PS version < 7
+
+  $colorFormat = "$esc[$X;5;{0}m{1}$esc[0m"
+
+  0..255| ForEach-Object {
+    $text = $colorFormat -f $_, ("{0, 4}" -f $_)
+    # $text = $colorFormat -f $_, "TEST "
+
+    Write-Host $text -NoNewline
+    If ( $_ % 36 -eq 0 ) { Write-Host "" }
+  }
+
+  # Example formatting:
+  # $([char]0x1b)[38;5;252m'Sample Text'$([char]0x1b)[0m
+
+  # Breakdown of the formatting:
+  # $([char]0x1b) [ 38 ;5; 252 m 'Sample Text' $([char]0x1b) [0m
+  # AAAAAAAAAAAAA B XX BBB YYY B ZZZZZZZZZZZZZ AAAAAAAAAAAAA CCC
+
+  # Where:
+  # A, B, C = Constants
+  # X = 48 for background-color, or 38 for foregrount-color
+  # Y = The color-value (between 0 and 255)
+  # Z = The text that should be colored
+}
