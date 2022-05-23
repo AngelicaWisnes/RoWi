@@ -1,0 +1,9 @@
+
+
+- Regex for uppercase variables: \$[A-Z]{2,}            OR       \$(?!PSScriptRoot)([A-Z]{2,})      OR     \$(?!(PSScriptRoot|MY_POWERSHELL|MY_BROWSER|MY_DOTNET_IDE|DEFAULT_START_PATH|PROFILE|FIFTY_CHARS))([A-Z]{2,})
+  Make sure that the only variables that are all uppercase, are the ones that are used in AND outside of the defining file (global in some way)
+
+
+Create alias for all funtions, and change the corresponding function-name to something clear and selfexplainatory
+
+Prepend all "uncallable"/util-function-names with something like "util"
