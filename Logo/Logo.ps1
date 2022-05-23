@@ -115,8 +115,8 @@ function PRINT_LOGO_RAINBOW {
   for ($i = 0; $i -lt $logoLines.Count; $i++) {
     If ($i % $linesOfEachColor -eq 0) { $colorCount++ }
     Write-Host -ForegroundColor $colors[$colorCount] $logoLines[$i]
+    #Write-Host -BackgroundColor $colors[$colorCount] -ForegroundColor Black $logoLines[$i]
   }
-
 }
 
 function PRINT_IMAGE {
