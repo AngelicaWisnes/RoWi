@@ -1,3 +1,5 @@
+# Suppress 'unused-variable'-warning for this file
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')] param()
 
 ######################
 ###      SETUP     ###
