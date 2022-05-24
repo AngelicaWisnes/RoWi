@@ -196,6 +196,7 @@ $mainRGBs = @(
   ( $Gray           = [RGB]@{ r = 128 ; g = 128 ; b = 128 } ), #808080 
   ( $Black          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } )  #000000 
   # Colornames are taken from https://www.color-blindness.com/color-name-hue/
+  # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
 )
 
 function rgbColor {
