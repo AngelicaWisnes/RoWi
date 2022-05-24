@@ -14,8 +14,7 @@ function addToSystemList {
   $global:FunctionSubList_SYSTEM.Add(( [FunctionListElement]@{ category = "System"; name = $name; value = $value } ))
 }
 
-$categoriesRoot = $PSScriptRoot
-. $categoriesRoot\SystemDependent\$global:SYSTEM_NAME\SystemDependentFunctions.ps1
+. $global:SYSTEM_FUNCTIONS_PATH
 
 
 
@@ -54,5 +53,4 @@ $global:allProjects = [PROJECT]@{
   nestedProjects = @()
 };
 
-$global:systemProjectsPath = "$categoriesRoot\SystemDependent\$global:SYSTEM_NAME\SystemDependentProjects.ps1"
-. $global:systemProjectsPath
+. $global:SYSTEM_PROJECTS_PATH

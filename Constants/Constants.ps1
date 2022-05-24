@@ -6,14 +6,22 @@
 $constantsRoot = $PSScriptRoot
 $global:SYSTEM_NAME = WhoAmI #Alternative to WhoAmI:   [System.Security.Principal.WindowsIdentity]::GetCurrent().name
 
-. $constantsRoot\SystemDependent\$global:SYSTEM_NAME\SystemDependentConstants.ps1
 
+# Define dynamically defined paths
+$global:SYSTEM_CONSTANTS_PATH = "$global:ROWI\Constants\SystemDependent\$global:SYSTEM_NAME\SystemDependentConstants.ps1"
+$global:SYSTEM_PROJECTS_PATH = "$global:ROWI\Functions\Categories\SystemDependent\$global:SYSTEM_NAME\SystemDependentProjects.ps1"
+$global:SYSTEM_FUNCTIONS_PATH = "$global:ROWI\Functions\Categories\SystemDependent\$global:SYSTEM_NAME\SystemDependentFunctions.ps1"
 
-
+# Import SystemDependent Constants
+. $global:SYSTEM_CONSTANTS_PATH
 
 # Specify all relevant SystemDependentPaths:
 class SDP { [string]$variable ; [string]$value } 
 $SystemDependentPaths = @(
+    [SDP]@{variable = $global:SYSTEM_CONSTANTS_PATH    ; value = "SYSTEM_CONSTANTS_PATH = $global:SYSTEM_CONSTANTS_PATH" };
+    [SDP]@{variable = $global:SYSTEM_PROJECTS_PATH     ; value = "SYSTEM_PROJECTS_PATH = $global:SYSTEM_PROJECTS_PATH" };
+    [SDP]@{variable = $global:SYSTEM_FUNCTIONS_PATH    ; value = "SYSTEM_FUNCTIONS_PATH = $global:SYSTEM_FUNCTIONS_PATH" };
+
     [SDP]@{variable = $global:MY_POWERSHELL        ; value = "MY_POWERSHELL = $global:MY_POWERSHELL" };
     [SDP]@{variable = $global:MY_BROWSER           ; value = "MY_BROWSER = $global:MY_BROWSER" };
     [SDP]@{variable = $global:MY_DOTNET_IDE        ; value = "MY_DOTNET_IDE = $global:MY_DOTNET_IDE" };
