@@ -47,7 +47,7 @@ function _print_functions_and_aliases_single {
 
   $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_)) > $null }
 
-  Write-Host -ForegroundColor Red $sb.ToString()
+  Return $sb.ToString()
 }
 
 function _print_functions_and_aliases_single_no_padding {
@@ -57,7 +57,7 @@ function _print_functions_and_aliases_single_no_padding {
 
   $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}`n", (FormatElementWithoutPadding $_)) > $null }
 
-  Write-Host -ForegroundColor Red $sb.ToString()
+  Return $sb.ToString()
 }
 
 function _print_functions_and_aliases_single_dual {
@@ -74,7 +74,7 @@ function _print_functions_and_aliases_single_dual {
     $sb.AppendFormat("{0} {1}$newLine", ($col1_str), ($col2_str)) > $null 
   }
 
-  Write-Host -ForegroundColor Red $sb.ToString()
+  Return $sb.ToString()
 }
 
 
@@ -137,9 +137,11 @@ function INITIALIZE_FUNCTION_LIST_GENERATOR {
 ####################
 function print_functions_and_aliases {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width
-  If ($total_width_dual -lt ($windowWidth - 2)) { _print_functions_and_aliases_single_dual }
-  elseif ($total_width_sisngle -lt ($windowWidth - 2)) { _print_functions_and_aliases_single }
-  Else { _print_functions_and_aliases_single_no_padding }
+  If ($total_width_dual -lt ($windowWidth - 2)) { $functionList = _print_functions_and_aliases_single_dual }
+  elseif ($total_width_sisngle -lt ($windowWidth - 2)) { $functionList = _print_functions_and_aliases_single }
+  Else { $functionList = _print_functions_and_aliases_single_no_padding }
+
+  Write-Host -ForegroundColor Red $functionList
 }
 Set-Alias l print_functions_and_aliases
 
