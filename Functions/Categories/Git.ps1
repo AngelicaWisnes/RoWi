@@ -198,6 +198,14 @@ function prune { git gc --prune=now }
 addToList -name 'prune' -value 'git gc --prune=now'
 
 
+function quickCommitAll { 
+  git add .
+  git commit -m "Various small changes"
+}
+Set-Alias qca quickCommitAll
+addToList -name 'qca' -value 'Quick-Commit all'
+
+
 function s { git status }
 addToList -name 's' -value 'git status'
 

@@ -20,7 +20,7 @@ function pro {
     [array]$projects = $SYSTEM_PROJECTS,
     [int]$decision = -1 
   )
-  If ( $projects.Count -eq 0 ) {Return Write-Host -ForegroundColor Red "`n`tThe project-list is empty`n"}
+  If ( $projects.Count -eq 0 ) { Return Write-Host -ForegroundColor Red "`n`tThe project-list is empty`n" }
   
   # If decision is '-1', try to get a decision. If it still is '-1' after deciding, then return a cancel-statement
   Write-Host -ForegroundColor White "`nQuick-launching project..."
@@ -54,7 +54,7 @@ function proClean {
     
   # Open 'SystemProjects.ps1' to facilitate changes
   code $global:ROWI
-  code $global:systemProjectsPath
+  code $global:SYSTEM_PROJECTS_PATH
 
   startNewBrowser (_pro_getWebs -projects @($chosen))
 

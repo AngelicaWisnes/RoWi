@@ -28,6 +28,13 @@ function addToSystemList {
 enum ProjectType { ALL ; MULTIPLE ; STANDARD }
 enum IdeChoice { AUTO ; NONE; VSCODE ; DOTNET ; JS } # TODO: This is currently not in use. Implement the auto-choosing function first
 
+# $ides = [IdeChoice]::AUTO, [IdeChoice]::NONE, [IdeChoice]::VSCODE, [IdeChoice]::DOTNET, [IdeChoice]::JS
+# switch ($ides) {
+#   AUTO { "It's AUTO"; continue } # Match-alternative 1
+#   ([IdeChoice]::NONE) { "It's NONE" ; continue } # Match-alternative 2
+# }
+
+
 class PROJECT {
   [enum]$type;
   [string]$name; 
