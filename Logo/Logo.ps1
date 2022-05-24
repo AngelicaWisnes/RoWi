@@ -91,30 +91,25 @@ function Convert-ImageToAsciiArt {
 } 
 
 function PRINT_LOGO {
-  If ( (Get-Date -Format MM) -eq "06" ) { PRINT_LOGO_RAINBOW }
-  Else { PRINT_LOGO_STANDARD }
-}
-
-function PRINT_LOGO_STANDARD {
-  $logoExists = Test-Path -Path $rw_logo -PathType Leaf
-  If ($logoExists) { $logo = Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true }
-  Else { $logo = $rw_logo_150 }
-  Write-Host -ForegroundColor Red $logo
-}
-
-function PRINT_LOGO_RAINBOW {
   $logoExists = Test-Path -Path $rw_logo -PathType Leaf
   If ($logoExists) { $logo = Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true }
   Else { $logo = $rw_logo_150 }
 
-  $logoLines = $logo.Split("`n")
+  If ( (Get-Date -Format MM) -eq "06" ) { PRINT_MULTILINE_RAINBOW_STRING $logo }
+  Else { Write-Host -ForegroundColor Red $logo }
+}
+
+function PRINT_MULTILINE_RAINBOW_STRING {
+  param( [Parameter(Mandatory)][String]$outputString )
+
+  $lines = $outputString.Split("`n")
   $colors = @( "DarkRed", "Red", "Yellow", "Green", "Cyan", "Blue", "Magenta" )
-  $colorCount = -1
-  $linesOfEachColor = [int]($logoLines.Count / $colors.Count)
+  $colorNumber = -1
+  $linesOfEachColor = [int]($lines.Count / $colors.Count)
 
-  for ($i = 0; $i -lt $logoLines.Count; $i++) {
-    If ($i % $linesOfEachColor -eq 0) { $colorCount++ }
-    Write-Host -ForegroundColor $colors[$colorCount] $logoLines[$i]
+  for ($i = 0; $i -lt $lines.Count; $i++) {
+    If ($i % $linesOfEachColor -eq 0) { $colorNumber++ }
+    Write-Host -ForegroundColor $colors[$colorNumber] $lines[$i]
     #Write-Host -BackgroundColor $colors[$colorCount] -ForegroundColor Black $logoLines[$i]
   }
 }
