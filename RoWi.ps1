@@ -87,7 +87,7 @@ function trans {
   Write-Host ""
 }
 
-function ansiColors {
+function ansiColors_all {
   Param ([switch]$Background)
 
   If ($Background) { $X = 48 }
@@ -96,14 +96,15 @@ function ansiColors {
   If ($iscoreclr) { $esc = "`e" } # For PS version > 7
   Else { $esc = $([char]0x1b) }   # For PS version < 7
 
-  $colorFormat = "$esc[$X;5;{0}m{1}$esc[0m"
+  $ansiFormat = "$esc[$X;5;{0}m{1}$esc[0m"
 
-  0..255| ForEach-Object {
-    $text = $colorFormat -f $_, ("{0, 4}" -f $_)
+  0..255 | ForEach-Object {
+    $sample = "{0, 4}" -f $_
+    $text = $ansiFormat -f $_, $sample
     # $text = $colorFormat -f $_, "TEST "
 
     Write-Host $text -NoNewline
-    If ( $_ % 36 -eq 0 ) { Write-Host "" }
+    If ( ($_ - 15) % 36 -eq 0 ) { Write-Host "" }
   }
 
   # Example formatting:
@@ -118,4 +119,83 @@ function ansiColors {
   # X = 48 for background-color, or 38 for foregrount-color
   # Y = The color-value (between 0 and 255)
   # Z = The text that should be colored
+}
+
+function rgbColors_all {
+  Param ([switch]$Background)
+
+  If ($Background) { $X = 48 }
+  Else { $X = 38 }
+
+  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
+  Else { $esc = $([char]0x1b) }   # For PS version < 7
+
+  # Each of R, G and B have a value between 0 and 255
+  $rs = 0..255
+  $gs = 0..255
+  $bs = 0..255
+  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
+
+  for ($r = 0; $r -lt $rs.Count; $r += 15) {
+    for ($g = 0; $g -lt $gs.Count; $g += 15) {
+      for ($b = 0; $b -lt $bs.Count; $b += 15) {
+        $sample = "#"
+        $text = $rgbFormat -f $r, $g, $b, $sample
+        # $text = $colorFormat -f $_, "TEST "
+    
+        Write-Host $text -NoNewline
+        If ( ($b + 1) % 256 -eq 0 ) { Write-Host "" }
+      }
+      If ( ($g + 1) % 256 -eq 0 ) { Write-Host "" }
+    }
+  }
+
+  # Example formatting:
+  # $([char]0x1b)[38;5;66;245;138m'Sample Text'$([char]0x1b)[0m
+
+  # Breakdown of the formatting:
+  # $([char]0x1b) [ 38 ;2; 66 ; 245 ; 138 m 'Sample Text' $([char]0x1b) [0m
+  # 1111111111111 2 XX 222 RR 2 GGG 2 BBB 2 YYYYYYYYYYYYY 1111111111111 333
+
+  # Where:
+  # 1, 2, 3 = Constants
+  # X = 48 for background-color, or 38 for foregrount-color
+  # Y = The text that should be colored
+  # R, G, B = The color-values for RGB
+}
+
+
+class RGB { [int]$r; [int]$g; [int]$b; } 
+$mainRGBs = @(
+  [RGB]@{ r = 255 ; g = 0   ; b = 0 }; # Red
+  [RGB]@{ r = 255 ; g = 128 ; b = 0 }; # Orange
+  [RGB]@{ r = 255 ; g = 255 ; b = 0 }; # Yellow
+  [RGB]@{ r = 128 ; g = 255 ; b = 0 }; 
+  [RGB]@{ r = 0   ; g = 255 ; b = 0 }; # Green
+  [RGB]@{ r = 0   ; g = 255 ; b = 128 };
+  [RGB]@{ r = 0   ; g = 255 ; b = 255 }; # Cyan
+  [RGB]@{ r = 0   ; g = 128 ; b = 255 };
+  [RGB]@{ r = 0   ; g = 0   ; b = 255 }; # Blue
+  [RGB]@{ r = 128 ; g = 0   ; b = 255 }; # Purple
+  [RGB]@{ r = 255 ; g = 0   ; b = 255 }; # Magenta
+  [RGB]@{ r = 255 ; g = 0   ; b = 128 };
+)
+
+function rgbColor {
+  Param ([switch]$Background)
+
+  If ($Background) { $X = 48 }
+  Else { $X = 38 }
+
+  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
+  Else { $esc = $([char]0x1b) }   # For PS version < 7
+
+  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
+  $sample = "TEST THIS COLOR"
+ 
+  foreach ($rgb in $mainRGBs) {
+    $text = $rgbFormat -f $rgb.r, $rgb.g, $rgb.b, $sample
+      
+    Write-Host $text
+  }
 }
