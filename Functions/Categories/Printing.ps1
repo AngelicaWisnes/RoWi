@@ -1,7 +1,7 @@
 
-###########################
-# React-related functions #
-###########################
+##############################
+# Printing-related functions #
+##############################
 $global:FunctionSubList_PRINTING = new-object System.Collections.Generic.List[FunctionListElement]
 $global:FunctionSubList_PRINTING.Add( $FunctionSubList_BREAK )
 function addToList {
@@ -223,60 +223,71 @@ addToList -name 'rgbColors' -value 'See implemented RGB-colors'
 
 
 
-function rgbColor {
-  Param ([switch]$Background)
+class PrintElement { [string]$text; [RGB]$color; [switch]$background; } 
 
-  If ($Background) { $X = 48 }
+function getPrintableRGBs {
+  param( [Parameter(Mandatory)][Object[]]$printElements )
+  $PrintableRGBs = @()
+  foreach ($element in $printElements) {
+    If ( $element.GetType() -eq [string] ) {$PrintableRGBs += [PrintElement]@{ text = $element}}
+    If ( $element.GetType() -eq [RGB] ) {($PrintableRGBs[-1]).color = $element}
+    If ( $element.GetType() -eq [bool] ) {($PrintableRGBs[-1]).background = $element }
+  }
+  Return $PrintableRGBs
+}
+
+
+function OUT {
+  param( [Parameter(Mandatory)][Object[]]$printElements )
+
+  $PrintableRGBs = getPrintableRGBs $printElements
+  $sb = new-object -TypeName System.Text.StringBuilder
+  
+  Foreach ($element in $PrintableRGBs) {
+    $sb.AppendFormat("{0}", (getRGBFormattedString $element)) > $null
+  }
+
+  Write-Host $sb.ToString()
+}
+
+
+function getRGBFormattedString {
+  param( [Parameter(Mandatory)][PrintElement]$element )
+
+  If ($element.background) { $X = 48 }
   Else { $X = 38 }
 
   If ($iscoreclr) { $esc = "`e" } # For PS version > 7
   Else { $esc = $([char]0x1b) }   # For PS version < 7
 
-  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
-  $sample = "#" + (" " * 25)
+  $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
+  $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
  
-  foreach ($rgb in $RGBs.GetEnumerator()) {
-    $colorName = "{0, 25}" -f $rgb.Name
-
-    $color = $rgbFormat -f $rgb.Value.r, $rgb.Value.g, $rgb.Value.b, $sample
-      
-    Write-Host $colorName $color
-  }
+  Return ($rgbFormat -f $rgbCode, $element.text)      
 }
 
 
 
-class PrintElement { [string]$text; [RGB]$color; [switch]$background; } 
-function printElement {
-  param( 
-    [Parameter(Mandatory, Position = 0)][string]$text, 
-    [Parameter(Position = 1)][RGB]$color, 
-    [Parameter(Position = 2)][switch]$background 
-  )
-  Return [PrintElement]@{ text = $text ; color = $color ; background = $background }
-}
-Set-Alias pe printElement
-
-function OUT {
-  param( 
-    [Parameter(Mandatory)][PrintElement[]]$printElements 
-  )
-
-  foreach ($el in $printElements) {
-    $el
-    Write-Host "Testing: " $el.text
-  }
-}
 
 
-printRGB (pe "Y" $RGBs.ElectricIndigo), (pe "T" $RGBs.ElectricIndigo -b) 
 
-<#
- TODO: See if it could be cleaner to have the OUT-function parse a list of objects
- I.E.:
-  foreach ($arg in $args) {
-    If $arg.GetType() -eq string {Create new printElement}
-    If $arg.GetType() -eq RGB {Add this to previous element}
-    If $arg.GetType() -eq switch {Add this to previous element}
-  }
-#>
+
+
+
+# An alternative implementation of OUT
+# function createPrintElement {
+#   param( 
+#     [Parameter(Mandatory, Position = 0)][string]$text, 
+#     [Parameter(Position = 1)][RGB]$color, 
+#     [Parameter(Position = 2)][switch]$background 
+#   )
+#   Return [PrintElement]@{ text = $text ; color = $color ; background = $background }
+# }
+# Set-Alias pe createPrintElement
+# 
+# function OUT {
+#   param( [Parameter(Mandatory)][PrintElement[]]$printElements )
+#   foreach ($el in $printElements) { Write-Host "Testing: " $el.text }
+# }
+# 
+# OUT (pe "Y" $RGBs.ElectricIndigo), (pe "T" $RGBs.ElectricIndigo -b) 
