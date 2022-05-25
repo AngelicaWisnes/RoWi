@@ -168,38 +168,38 @@ function rgbColors_all {
 
 
 class RGB { [int]$r; [int]$g; [int]$b; } 
-$mainRGBs = @(
+$mainRGBs = @{
   # Light colors
-  ( $Red            = [RGB]@{ r = 255 ; g = 0   ; b = 0 } ),   #FF0000 
-  ( $Orange         = [RGB]@{ r = 255 ; g = 128 ; b = 0 } ),   #FF8000 
-  ( $Yellow         = [RGB]@{ r = 255 ; g = 255 ; b = 0 } ),   #FFFF00 
-  ( $Chartreuse     = [RGB]@{ r = 128 ; g = 255 ; b = 0 } ),   #80FF00 
-  ( $Lime           = [RGB]@{ r = 0   ; g = 255 ; b = 0 } ),   #00FF00 
-  ( $SpringGreen    = [RGB]@{ r = 0   ; g = 255 ; b = 128 } ), #00FF80 
-  ( $Cyan           = [RGB]@{ r = 0   ; g = 255 ; b = 255 } ), #00FFFF 
-  ( $DodgerBlue     = [RGB]@{ r = 0   ; g = 128 ; b = 255 } ), #0080FF 
-  ( $Blue           = [RGB]@{ r = 0   ; g = 0   ; b = 255 } ), #0000FF 
-  ( $ElectricIndigo = [RGB]@{ r = 128 ; g = 0   ; b = 255 } ), #8000FF 
-  ( $Magenta        = [RGB]@{ r = 255 ; g = 0   ; b = 255 } ), #FF00FF 
-  ( $DeepPink       = [RGB]@{ r = 255 ; g = 0   ; b = 128 } ), #FF0080 
-  ( $MonaLisa       = [RGB]@{ r = 255 ; g = 128 ; b = 128 } ), #FF8080 
-  ( $MintGreen      = [RGB]@{ r = 128 ; g = 255 ; b = 128 } ), #80FF80 
-  ( $LightSlateBlue = [RGB]@{ r = 128 ; g = 128 ; b = 255 } ), #8080FF 
+  Red            = @{ r = 255 ; g = 0   ; b = 0 } ; #FF0000 
+  Orange         = @{ r = 255 ; g = 128 ; b = 0 } ; #FF8000 
+  Yellow         = @{ r = 255 ; g = 255 ; b = 0 } ; #FFFF00 
+  Chartreuse     = @{ r = 128 ; g = 255 ; b = 0 } ; #80FF00 
+  Lime           = @{ r = 0   ; g = 255 ; b = 0 } ; #00FF00 
+  SpringGreen    = @{ r = 0   ; g = 255 ; b = 128 } ; #00FF80 
+  Cyan           = @{ r = 0   ; g = 255 ; b = 255 } ; #00FFFF 
+  DodgerBlue     = @{ r = 0   ; g = 128 ; b = 255 } ; #0080FF 
+  Blue           = @{ r = 0   ; g = 0   ; b = 255 } ; #0000FF 
+  ElectricIndigo = @{ r = 128 ; g = 0   ; b = 255 } ; #8000FF 
+  Magenta        = @{ r = 255 ; g = 0   ; b = 255 } ; #FF00FF 
+  DeepPink       = @{ r = 255 ; g = 0   ; b = 128 } ; #FF0080 
+  MonaLisa       = @{ r = 255 ; g = 128 ; b = 128 } ; #FF8080 
+  MintGreen      = @{ r = 128 ; g = 255 ; b = 128 } ; #80FF80 
+  LightSlateBlue = @{ r = 128 ; g = 128 ; b = 255 } ; #8080FF 
   # Dark colors
-  ( $Maroon         = [RGB]@{ r = 128 ; g = 0   ; b = 0 } ),   #800000 
-  ( $Olive          = [RGB]@{ r = 128 ; g = 128 ; b = 0 } ),   #808000 
-  ( $Green          = [RGB]@{ r = 0   ; g = 128 ; b = 0 } ),   #008000 
-  ( $Teal           = [RGB]@{ r = 0   ; g = 128 ; b = 128 } ), #008080 
-  ( $Navy           = [RGB]@{ r = 0   ; g = 0   ; b = 128 } ), #000080 
-  ( $Purple         = [RGB]@{ r = 128 ; g = 0   ; b = 128 } ), #800080 
+  Maroon         = @{ r = 128 ; g = 0   ; b = 0 } ; #800000 
+  Olive          = @{ r = 128 ; g = 128 ; b = 0 } ; #808000 
+  Green          = @{ r = 0   ; g = 128 ; b = 0 } ; #008000 
+  Teal           = @{ r = 0   ; g = 128 ; b = 128 } ; #008080 
+  Navy           = @{ r = 0   ; g = 0   ; b = 128 } ; #000080 
+  Purple         = @{ r = 128 ; g = 0   ; b = 128 } ; #800080 
   # Contrasts
-  ( $White          = [RGB]@{ r = 0   ; g = 0   ; b = 0 } ),   #FFFFFF 
-  ( $Silver         = [RGB]@{ r = 192 ; g = 192 ; b = 192 } ), #C0C0C0 
-  ( $Gray           = [RGB]@{ r = 128 ; g = 128 ; b = 128 } ), #808080 
-  ( $Black          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } )  #000000 
+  White          = @{ r = 0   ; g = 0   ; b = 0 } ; #FFFFFF 
+  Silver         = @{ r = 192 ; g = 192 ; b = 192 } ; #C0C0C0 
+  Gray           = @{ r = 128 ; g = 128 ; b = 128 } ; #808080 
+  Black          = @{ r = 255 ; g = 255 ; b = 255 } ; #000000 
   # Colornames are taken from https://www.color-blindness.com/color-name-hue/
   # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
-)
+}
 
 function rgbColor {
   Param ([switch]$Background)
@@ -211,9 +211,9 @@ function rgbColor {
   Else { $esc = $([char]0x1b) }   # For PS version < 7
 
   $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
-  $sample = " " * 25
+  $sample = "#" + (" " * 25)
  
-  foreach ($rgb in $mainRGBs) {
+  foreach ($rgb in $mainRGBs.Values) {
     $text = $rgbFormat -f $rgb.r, $rgb.g, $rgb.b, $sample
       
     Write-Host $text

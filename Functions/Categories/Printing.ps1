@@ -1,0 +1,49 @@
+
+###########################
+# React-related functions #
+###########################
+$global:FunctionSubList_PRINTING = new-object System.Collections.Generic.List[FunctionListElement]
+$global:FunctionSubList_PRINTING.Add( $FunctionSubList_BREAK )
+function addToList {
+  param(
+    [Parameter(Mandatory)][String]$name,
+    [Parameter(Mandatory)][String]$value
+  )
+  $global:FunctionSubList_REACT.Add(( [FunctionListElement]@{ category = "Printing"; name = $name; value = $value } ))
+}
+
+
+function syys { 
+  $currentPath = getPath
+  startNewPowershell { 
+    param($currentPath); 
+    Set-Location $currentPath; 
+    yarn; 
+    yarn start; 
+  } ($($currentPath))
+}
+addToList -name 'syys' -value 'Start new PS w/yarn && yarn start'
+
+
+Set-Alias y yarn
+addToList -name 'y' -value 'yarn'
+
+
+function ys { yarn start }
+addToList -name 'ys' -value 'yarn start'
+
+
+function yt { yarn test }
+addToList -name 'yt' -value 'yarn test'
+
+
+function yys { 
+  yarn
+  yarn start 
+}
+addToList -name 'yys' -value 'yarn && yarn start'
+
+
+function yu { yarn test -u }
+addToList -name 'yu' -value 'yarn test -u (Test w/upd snapshots)'
+
