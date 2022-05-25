@@ -88,6 +88,7 @@ function rainbow {
   Write-Host -BackgroundColor Magenta (" " * $windowWidth)
 }
 
+
 function rainbow2 {
   Write-Host -BackgroundColor DarkRed "   " -NoNewline
   Write-Host -BackgroundColor Red "   " -NoNewline
@@ -97,6 +98,7 @@ function rainbow2 {
   Write-Host -BackgroundColor Blue "   " -NoNewline
   Write-Host -BackgroundColor Magenta "   " -NoNewline
 }
+
 
 function trans {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
@@ -219,6 +221,8 @@ function rgbColors {
 addToList -name 'rgbColors' -value 'See implemented RGB-colors'
 
 
+
+
 function rgbColor {
   Param ([switch]$Background)
 
@@ -240,3 +244,39 @@ function rgbColor {
   }
 }
 
+
+
+class PrintElement { [string]$text; [RGB]$color; [switch]$background; } 
+function printElement {
+  param( 
+    [Parameter(Mandatory, Position = 0)][string]$text, 
+    [Parameter(Position = 1)][RGB]$color, 
+    [Parameter(Position = 2)][switch]$background 
+  )
+  Return [PrintElement]@{ text = $text ; color = $color ; background = $background }
+}
+Set-Alias pe printElement
+
+function OUT {
+  param( 
+    [Parameter(Mandatory)][PrintElement[]]$printElements 
+  )
+
+  foreach ($el in $printElements) {
+    $el
+    Write-Host "Testing: " $el.text
+  }
+}
+
+
+printRGB (pe "Y" $RGBs.ElectricIndigo), (pe "T" $RGBs.ElectricIndigo -b) 
+
+<#
+ TODO: See if it could be cleaner to have the OUT-function parse a list of objects
+ I.E.:
+  foreach ($arg in $args) {
+    If $arg.GetType() -eq string {Create new printElement}
+    If $arg.GetType() -eq RGB {Add this to previous element}
+    If $arg.GetType() -eq switch {Add this to previous element}
+  }
+#>
