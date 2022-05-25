@@ -101,6 +101,7 @@ function INITIALIZE_FUNCTION_LIST_GENERATOR {
   $global:FunctionList_single.AddRange( $global:FunctionSubList_REACT )
   $global:FunctionList_single.AddRange( $global:FunctionSubList_SYSTEM )
   $global:FunctionList_single.AddRange( $global:FunctionSubList_PROJECT )
+  $global:FunctionList_single.AddRange( $global:FunctionSubList_PRINTING )
   $global:FunctionList_single.AddRange( $FunctionSubList_Other )
   $global:FunctionList_single.Add( $FunctionSubList_End )
 
@@ -110,13 +111,14 @@ function INITIALIZE_FUNCTION_LIST_GENERATOR {
   $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_POWERSHELL )
   $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_JUPYTER )
   $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_SYSTEM )
-  $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_PROJECT )
+  $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_PRINTING )
   $global:FunctionList_Dual_Col1.AddRange( $FunctionSubList_Other )
-
+  
   $global:FunctionList_Dual_Col2 = new-object System.Collections.Generic.List[FunctionListElement]
   $global:FunctionList_Dual_Col2.Add( $FunctionSubList_Labels )
   $global:FunctionList_Dual_Col2.AddRange( $global:FunctionSubList_GIT )
   $global:FunctionList_Dual_Col2.AddRange( $global:FunctionSubList_REACT )
+  $global:FunctionList_Dual_Col2.AddRange( $global:FunctionSubList_PROJECT )
 
   # Define helper-variables for function-list-generation
   $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property Length).Maximum + 1

@@ -9,41 +9,234 @@ function addToList {
     [Parameter(Mandatory)][String]$name,
     [Parameter(Mandatory)][String]$value
   )
-  $global:FunctionSubList_REACT.Add(( [FunctionListElement]@{ category = "Printing"; name = $name; value = $value } ))
+  $global:FunctionSubList_PRINTING.Add(( [FunctionListElement]@{ category = "Printing"; name = $name; value = $value } ))
+}
+
+<#
+  Example formatting for ansi- and rgb-colors:
+  ANSI:   $([char]0x1b)[38;5;252m'Sample Text'$([char]0x1b)[0m
+  RGB:    $([char]0x1b)[38;2;255;255;255m'Sample Text'$([char]0x1b)[0m
+
+  Breakdown of the formatting:
+  ANSI:   1111111111111 2 XX 2 Y 2 AAA             2 VVVVVVVVVVVVV 1111111111111 444
+  ANSI:   $([char]0x1b) [ 38 ; 5 ; 252             m 'Sample Text' $([char]0x1b) [0m
+  RGB:    $([char]0x1b) [ 38 ; 2 ; 255 ; 255 ; 255 m 'Sample Text' $([char]0x1b) [0m
+  RGB:    1111111111111 2 XX 2 Y 2 RRR 3 GGG 3 BBB 2 VVVVVVVVVVVVV 1111111111111 444
+
+  Where:
+  1 = Escape-sequence
+  2 = Common separators/elements for color-code
+  3 = RGB-separators
+  4 = Color-reset code
+  X = 48 for background-color, OR 38 for foregrount-color
+  Y = 5 for ansi-color, OR 2 for rgb-color
+  V = The text to be colored
+  A = The color-values for ANSI
+  R, G, B = The color-values for RGB
+#>
+
+
+
+function dad { 
+  $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
+  $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
+  
+  Write-Host -ForegroundColor Cyan "`n$dadJoke`n"
+}
+addToList -name 'dad' -value 'Print random dad-joke'
+
+
+function dance {
+  $frames = @( 
+    "(>'-')>   ^('-')^   <('-'<)" , 
+    "^('-')^   <('-')>   ^('-')^" , 
+    "<('-'<)   ^('-')^   (>'-')>" , 
+    "^('-')^   <('-')>   ^('-')^" 
+  )
+  $loopCount = 10    # number of animation sets
+  $frameDelay = 200   # milliseconds
+  
+  try {
+    $cursorSave = (Get-Host).UI.RawUI.cursorsize
+    (Get-Host).UI.RawUI.cursorsize = 0
+    "`n" 
+    
+    for ( $n = 0; $n -lt $LoopCount; $n++ ) {
+      for ( $i = 0; $i -lt $frames.count; $i++ ) {
+        Write-Host -ForegroundColor Cyan "`r`t$($frames[$i])" -NoNewline
+        Start-Sleep -Milliseconds $frameDelay
+      }
+    }
+  }
+  finally {
+    (Get-Host).UI.RawUI.cursorsize = $cursorSave
+    "`n`n"
+  }
+}
+addToList -name 'dance' -value 'See the PowerShell DanceSquad'
+
+
+
+function rainbow {
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  Write-Host -BackgroundColor DarkRed (" " * $windowWidth)
+  Write-Host -BackgroundColor Red (" " * $windowWidth)
+  Write-Host -BackgroundColor Yellow (" " * $windowWidth)
+  Write-Host -BackgroundColor Green (" " * $windowWidth)
+  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
+  Write-Host -BackgroundColor Blue (" " * $windowWidth)
+  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
+}
+
+function rainbow2 {
+  Write-Host -BackgroundColor DarkRed "   " -NoNewline
+  Write-Host -BackgroundColor Red "   " -NoNewline
+  Write-Host -BackgroundColor Yellow "   " -NoNewline
+  Write-Host -BackgroundColor Green "   " -NoNewline
+  Write-Host -BackgroundColor Cyan "   " -NoNewline
+  Write-Host -BackgroundColor Blue "   " -NoNewline
+  Write-Host -BackgroundColor Magenta "   " -NoNewline
+}
+
+function trans {
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  Write-Host ""
+  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
+  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
+  Write-Host -BackgroundColor White (" " * $windowWidth)
+  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
+  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
+  Write-Host ""
 }
 
 
-function syys { 
-  $currentPath = getPath
-  startNewPowershell { 
-    param($currentPath); 
-    Set-Location $currentPath; 
-    yarn; 
-    yarn start; 
-  } ($($currentPath))
+function ansiColors_all {
+  Param ([switch]$Background)
+
+  If ($Background) { $X = 48 }
+  Else { $X = 38 }
+
+  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
+  Else { $esc = $([char]0x1b) }   # For PS version < 7
+
+  $ansiFormat = "$esc[$X;5;{0}m{1}$esc[0m"
+
+  0..255 | ForEach-Object {
+    $sample = "{0, 4}" -f $_
+    $text = $ansiFormat -f $_, $sample
+    # $text = $colorFormat -f $_, "TEST "
+
+    Write-Host $text -NoNewline
+    If ( ($_ - 15) % 36 -eq 0 ) { Write-Host "" }
+  }
 }
-addToList -name 'syys' -value 'Start new PS w/yarn && yarn start'
+addToList -name 'ansiColors_all' -value 'See all available ansi-colors'
 
 
-Set-Alias y yarn
-addToList -name 'y' -value 'yarn'
+function rgbColors_all {
+  Param ([switch]$Background)
 
+  If ($Background) { $X = 48 }
+  Else { $X = 38 }
 
-function ys { yarn start }
-addToList -name 'ys' -value 'yarn start'
+  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
+  Else { $esc = $([char]0x1b) }   # For PS version < 7
 
+  $rs = 0..255
+  $gs = 0..255
+  $bs = 0..255
+  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
 
-function yt { yarn test }
-addToList -name 'yt' -value 'yarn test'
-
-
-function yys { 
-  yarn
-  yarn start 
+  for ($r = 0; $r -lt $rs.Count; $r += 15) {
+    for ($g = 0; $g -lt $gs.Count; $g += 15) {
+      for ($b = 0; $b -lt $bs.Count; $b += 15) {
+        $sample = "#"
+        $text = $rgbFormat -f $r, $g, $b, $sample
+        # $text = $colorFormat -f $_, "TEST "
+    
+        Write-Host $text -NoNewline
+        If ( ($b + 1) % 256 -eq 0 ) { Write-Host "" }
+      }
+      If ( ($g + 1) % 256 -eq 0 ) { Write-Host "" }
+    }
+  }
 }
-addToList -name 'yys' -value 'yarn && yarn start'
+addToList -name 'rgbColors_all' -value 'See all available RGB-colors'
 
 
-function yu { yarn test -u }
-addToList -name 'yu' -value 'yarn test -u (Test w/upd snapshots)'
+class RGB { [int]$r; [int]$g; [int]$b; } 
+$RGBs = @{
+  # Light colors
+  Red            = [RGB]@{ r = 255 ; g = 0   ; b = 0 } ; #FF0000 
+  Orange         = [RGB]@{ r = 255 ; g = 128 ; b = 0 } ; #FF8000 
+  Yellow         = [RGB]@{ r = 255 ; g = 255 ; b = 0 } ; #FFFF00 
+  Chartreuse     = [RGB]@{ r = 128 ; g = 255 ; b = 0 } ; #80FF00 
+  Lime           = [RGB]@{ r = 0   ; g = 255 ; b = 0 } ; #00FF00 
+  SpringGreen    = [RGB]@{ r = 0   ; g = 255 ; b = 128 } ; #00FF80 
+  Cyan           = [RGB]@{ r = 0   ; g = 255 ; b = 255 } ; #00FFFF 
+  DodgerBlue     = [RGB]@{ r = 0   ; g = 128 ; b = 255 } ; #0080FF 
+  Blue           = [RGB]@{ r = 0   ; g = 0   ; b = 255 } ; #0000FF 
+  ElectricIndigo = [RGB]@{ r = 128 ; g = 0   ; b = 255 } ; #8000FF 
+  Magenta        = [RGB]@{ r = 255 ; g = 0   ; b = 255 } ; #FF00FF 
+  DeepPink       = [RGB]@{ r = 255 ; g = 0   ; b = 128 } ; #FF0080 
+  MonaLisa       = [RGB]@{ r = 255 ; g = 128 ; b = 128 } ; #FF8080 
+  MintGreen      = [RGB]@{ r = 128 ; g = 255 ; b = 128 } ; #80FF80 
+  LightSlateBlue = [RGB]@{ r = 128 ; g = 128 ; b = 255 } ; #8080FF 
+  # Dark colors
+  Maroon         = [RGB]@{ r = 128 ; g = 0   ; b = 0 } ; #800000 
+  Olive          = [RGB]@{ r = 128 ; g = 128 ; b = 0 } ; #808000 
+  Green          = [RGB]@{ r = 0   ; g = 128 ; b = 0 } ; #008000 
+  Teal           = [RGB]@{ r = 0   ; g = 128 ; b = 128 } ; #008080 
+  Navy           = [RGB]@{ r = 0   ; g = 0   ; b = 128 } ; #000080 
+  Purple         = [RGB]@{ r = 128 ; g = 0   ; b = 128 } ; #800080 
+  # Contrasts
+  White          = [RGB]@{ r = 0   ; g = 0   ; b = 0 } ; #FFFFFF 
+  Silver         = [RGB]@{ r = 192 ; g = 192 ; b = 192 } ; #C0C0C0 
+  Gray           = [RGB]@{ r = 128 ; g = 128 ; b = 128 } ; #808080 
+  Black          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } ; #000000 
+  # Colornames are taken from https://www.color-blindness.com/color-name-hue/
+  # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
+}
+
+
+function rgbColors {
+  $X = 48 
+  
+  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
+  Else { $esc = $([char]0x1b) }   # For PS version < 7
+
+  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
+  $sample = " " * 15
+ 
+  foreach ($rgb in $RGBs.GetEnumerator()) {
+    $colorName = "{0, 20}" -f $rgb.Name
+    $color = $rgbFormat -f $rgb.Value.r, $rgb.Value.g, $rgb.Value.b, $sample
+    $rgbValue = "RGB: {0, 3} , {1, 3} , {2, 3}" -f $rgb.Value.r, $rgb.Value.g, $rgb.Value.b
+    
+    Write-Host $colorName $color $rgbValue
+  }
+}
+addToList -name 'rgbColors' -value 'See implemented RGB-colors'
+
+
+function rgbColor {
+  Param ([switch]$Background)
+
+  If ($Background) { $X = 48 }
+  Else { $X = 38 }
+
+  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
+  Else { $esc = $([char]0x1b) }   # For PS version < 7
+
+  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
+  $sample = "#" + (" " * 25)
+ 
+  foreach ($rgb in $RGBs.GetEnumerator()) {
+    $colorName = "{0, 25}" -f $rgb.Name
+
+    $color = $rgbFormat -f $rgb.Value.r, $rgb.Value.g, $rgb.Value.b, $sample
+      
+    Write-Host $colorName $color
+  }
+}
 

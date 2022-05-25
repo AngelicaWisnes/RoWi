@@ -12,17 +12,9 @@ function addToList {
   $global:FunctionSubList_POWERSHELL.Add(( [FunctionListElement]@{ category = "PowerShell"; name = $name; value = $value } ))
 }
 
+
 function cd. { Set-Location .. }
 addToList -name 'cd.' -value 'cd ..'
-
-
-function dad { 
-  $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
-  $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  
-  Write-Host -ForegroundColor Cyan "`n$dadJoke`n"
-}
-addToList -name 'dad' -value 'Print random dad-joke'
 
 
 function ep { code $global:ROWI }
