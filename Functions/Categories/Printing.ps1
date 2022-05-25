@@ -112,6 +112,16 @@ function trans {
 }
 
 
+function trans2 {
+  $spaceLength = (" " * 15) + "`n"
+  OUT "`n", $spaceLength, $RGBs.Cyan, $True,
+            $spaceLength, $RGBs.Magenta, $True,
+            $spaceLength, $RGBs.White, $True,
+            $spaceLength, $RGBs.Magenta, $True,
+            $spaceLength, $RGBs.Cyan, $True
+}
+
+
 function ansiColors_all {
   Param ([switch]$Background)
 
@@ -192,10 +202,10 @@ $RGBs = @{
   Navy           = [RGB]@{ r = 0   ; g = 0   ; b = 128 } ; #000080 
   Purple         = [RGB]@{ r = 128 ; g = 0   ; b = 128 } ; #800080 
   # Contrasts
-  White          = [RGB]@{ r = 0   ; g = 0   ; b = 0 } ; #FFFFFF 
+  White          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } ; #FFFFFF 
   Silver         = [RGB]@{ r = 192 ; g = 192 ; b = 192 } ; #C0C0C0 
   Gray           = [RGB]@{ r = 128 ; g = 128 ; b = 128 } ; #808080 
-  Black          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } ; #000000 
+  Black          = [RGB]@{ r = 0   ; g = 0   ; b = 0 } ; #000000 
   # Colornames are taken from https://www.color-blindness.com/color-name-hue/
   # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
 }
