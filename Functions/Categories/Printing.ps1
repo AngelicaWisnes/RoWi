@@ -37,11 +37,46 @@ function addToList {
 
 
 
+
+class RGB { [int]$r; [int]$g; [int]$b; } 
+$global:RGBs = @{
+  # Light colors
+  Red            = [RGB]@{ r = 255 ; g = 0   ; b = 0 } ; #FF0000 
+  Orange         = [RGB]@{ r = 255 ; g = 128 ; b = 0 } ; #FF8000 
+  Yellow         = [RGB]@{ r = 255 ; g = 255 ; b = 0 } ; #FFFF00 
+  Chartreuse     = [RGB]@{ r = 128 ; g = 255 ; b = 0 } ; #80FF00 
+  Lime           = [RGB]@{ r = 0   ; g = 255 ; b = 0 } ; #00FF00 
+  SpringGreen    = [RGB]@{ r = 0   ; g = 255 ; b = 128 } ; #00FF80 
+  Cyan           = [RGB]@{ r = 0   ; g = 255 ; b = 255 } ; #00FFFF 
+  DodgerBlue     = [RGB]@{ r = 0   ; g = 128 ; b = 255 } ; #0080FF 
+  Blue           = [RGB]@{ r = 0   ; g = 0   ; b = 255 } ; #0000FF 
+  ElectricIndigo = [RGB]@{ r = 128 ; g = 0   ; b = 255 } ; #8000FF 
+  Magenta        = [RGB]@{ r = 255 ; g = 0   ; b = 255 } ; #FF00FF 
+  DeepPink       = [RGB]@{ r = 255 ; g = 0   ; b = 128 } ; #FF0080 
+  MonaLisa       = [RGB]@{ r = 255 ; g = 128 ; b = 128 } ; #FF8080 
+  MintGreen      = [RGB]@{ r = 128 ; g = 255 ; b = 128 } ; #80FF80 
+  LightSlateBlue = [RGB]@{ r = 128 ; g = 128 ; b = 255 } ; #8080FF 
+  # Dark colors
+  Maroon         = [RGB]@{ r = 128 ; g = 0   ; b = 0 } ; #800000 
+  Olive          = [RGB]@{ r = 128 ; g = 128 ; b = 0 } ; #808000 
+  Green          = [RGB]@{ r = 0   ; g = 128 ; b = 0 } ; #008000 
+  Teal           = [RGB]@{ r = 0   ; g = 128 ; b = 128 } ; #008080 
+  Navy           = [RGB]@{ r = 0   ; g = 0   ; b = 128 } ; #000080 
+  Purple         = [RGB]@{ r = 128 ; g = 0   ; b = 128 } ; #800080 
+  # Contrasts
+  White          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } ; #FFFFFF 
+  Silver         = [RGB]@{ r = 192 ; g = 192 ; b = 192 } ; #C0C0C0 
+  Gray           = [RGB]@{ r = 128 ; g = 128 ; b = 128 } ; #808080 
+  Black          = [RGB]@{ r = 0   ; g = 0   ; b = 0 } ; #000000 
+  # Colornames are taken from https://www.color-blindness.com/color-name-hue/
+  # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
+}
+
+
 function dad { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  
-  Write-Host -ForegroundColor Cyan "`n$dadJoke`n"
+  OUT "`n$dadJoke`n", $RGBs.Cyan
 }
 addToList -name 'dad' -value 'Print random dad-joke'
 
@@ -79,46 +114,33 @@ addToList -name 'dance' -value 'See the PowerShell DanceSquad'
 
 function rainbow {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  Write-Host -BackgroundColor DarkRed (" " * $windowWidth)
-  Write-Host -BackgroundColor Red (" " * $windowWidth)
-  Write-Host -BackgroundColor Yellow (" " * $windowWidth)
-  Write-Host -BackgroundColor Green (" " * $windowWidth)
-  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
-  Write-Host -BackgroundColor Blue (" " * $windowWidth)
-  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
+  $spaceLength = " " * $windowWidth
+  OUT "`n", $spaceLength, $RGBs.Red, $True,
+      "`n", $spaceLength, $RGBs.Orange, $True,
+      "`n", $spaceLength, $RGBs.Yellow, $True,
+      "`n", $spaceLength, $RGBs.Green, $True,
+      "`n", $spaceLength, $RGBs.Blue, $True,
+      "`n", $spaceLength, $RGBs.ElectricIndigo, $True, "`n"
 }
 
 
 function rainbow2 {
-  Write-Host -BackgroundColor DarkRed "   " -NoNewline
-  Write-Host -BackgroundColor Red "   " -NoNewline
-  Write-Host -BackgroundColor Yellow "   " -NoNewline
-  Write-Host -BackgroundColor Green "   " -NoNewline
-  Write-Host -BackgroundColor Cyan "   " -NoNewline
-  Write-Host -BackgroundColor Blue "   " -NoNewline
-  Write-Host -BackgroundColor Magenta "   " -NoNewline
+  OUT "   ", $RGBs.Red, $True,
+      "   ", $RGBs.Orange, $True,
+      "   ", $RGBs.Yellow, $True,
+      "   ", $RGBs.Green, $True,
+      "   ", $RGBs.Blue, $True,
+      "   ", $RGBs.ElectricIndigo, $True
 }
 
 
 function trans {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  Write-Host ""
-  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
-  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
-  Write-Host -BackgroundColor White (" " * $windowWidth)
-  Write-Host -BackgroundColor Magenta (" " * $windowWidth)
-  Write-Host -BackgroundColor Cyan (" " * $windowWidth)
-  Write-Host ""
-}
-
-
-function trans2 {
-  $spaceLength = (" " * 15) + "`n"
+  $spaceLength = " " * 15
   OUT "`n", $spaceLength, $RGBs.Cyan, $True,
-            $spaceLength, $RGBs.Magenta, $True,
-            $spaceLength, $RGBs.White, $True,
-            $spaceLength, $RGBs.Magenta, $True,
-            $spaceLength, $RGBs.Cyan, $True
+      "`n", $spaceLength, $RGBs.Magenta, $True,
+      "`n", $spaceLength, $RGBs.White, $True,
+      "`n", $spaceLength, $RGBs.Magenta, $True,
+      "`n", $spaceLength, $RGBs.Cyan, $True, "`n"
 }
 
 
@@ -176,56 +198,14 @@ function rgbColors_all {
 addToList -name 'rgbColors_all' -value 'See all available RGB-colors'
 
 
-class RGB { [int]$r; [int]$g; [int]$b; } 
-$RGBs = @{
-  # Light colors
-  Red            = [RGB]@{ r = 255 ; g = 0   ; b = 0 } ; #FF0000 
-  Orange         = [RGB]@{ r = 255 ; g = 128 ; b = 0 } ; #FF8000 
-  Yellow         = [RGB]@{ r = 255 ; g = 255 ; b = 0 } ; #FFFF00 
-  Chartreuse     = [RGB]@{ r = 128 ; g = 255 ; b = 0 } ; #80FF00 
-  Lime           = [RGB]@{ r = 0   ; g = 255 ; b = 0 } ; #00FF00 
-  SpringGreen    = [RGB]@{ r = 0   ; g = 255 ; b = 128 } ; #00FF80 
-  Cyan           = [RGB]@{ r = 0   ; g = 255 ; b = 255 } ; #00FFFF 
-  DodgerBlue     = [RGB]@{ r = 0   ; g = 128 ; b = 255 } ; #0080FF 
-  Blue           = [RGB]@{ r = 0   ; g = 0   ; b = 255 } ; #0000FF 
-  ElectricIndigo = [RGB]@{ r = 128 ; g = 0   ; b = 255 } ; #8000FF 
-  Magenta        = [RGB]@{ r = 255 ; g = 0   ; b = 255 } ; #FF00FF 
-  DeepPink       = [RGB]@{ r = 255 ; g = 0   ; b = 128 } ; #FF0080 
-  MonaLisa       = [RGB]@{ r = 255 ; g = 128 ; b = 128 } ; #FF8080 
-  MintGreen      = [RGB]@{ r = 128 ; g = 255 ; b = 128 } ; #80FF80 
-  LightSlateBlue = [RGB]@{ r = 128 ; g = 128 ; b = 255 } ; #8080FF 
-  # Dark colors
-  Maroon         = [RGB]@{ r = 128 ; g = 0   ; b = 0 } ; #800000 
-  Olive          = [RGB]@{ r = 128 ; g = 128 ; b = 0 } ; #808000 
-  Green          = [RGB]@{ r = 0   ; g = 128 ; b = 0 } ; #008000 
-  Teal           = [RGB]@{ r = 0   ; g = 128 ; b = 128 } ; #008080 
-  Navy           = [RGB]@{ r = 0   ; g = 0   ; b = 128 } ; #000080 
-  Purple         = [RGB]@{ r = 128 ; g = 0   ; b = 128 } ; #800080 
-  # Contrasts
-  White          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } ; #FFFFFF 
-  Silver         = [RGB]@{ r = 192 ; g = 192 ; b = 192 } ; #C0C0C0 
-  Gray           = [RGB]@{ r = 128 ; g = 128 ; b = 128 } ; #808080 
-  Black          = [RGB]@{ r = 0   ; g = 0   ; b = 0 } ; #000000 
-  # Colornames are taken from https://www.color-blindness.com/color-name-hue/
-  # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
-}
-
-
 function rgbColors {
-  $X = 48 
-  
-  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
-  Else { $esc = $([char]0x1b) }   # For PS version < 7
-
-  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
   $sample = " " * 15
  
-  foreach ($rgb in $RGBs.GetEnumerator()) {
-    $colorName = "{0, 20}" -f $rgb.Name
-    $color = $rgbFormat -f $rgb.Value.r, $rgb.Value.g, $rgb.Value.b, $sample
-    $rgbValue = "RGB: {0, 3} , {1, 3} , {2, 3}" -f $rgb.Value.r, $rgb.Value.g, $rgb.Value.b
-    
-    Write-Host $colorName $color $rgbValue
+  foreach ($rgb in ($RGBs.GetEnumerator() | Sort-Object -Property Key)) {
+    $colorName = "{0, 20} " -f $rgb.Name
+    $color = $rgb.Value
+    $rgbValue = " RGB: {0, 3} , {1, 3} , {2, 3}" -f $color.r, $color.g, $color.b
+    OUT $colorName, $sample, $color, $True, $rgbValue
   }
 }
 addToList -name 'rgbColors' -value 'See implemented RGB-colors'
@@ -254,7 +234,8 @@ function OUT {
   $sb = new-object -TypeName System.Text.StringBuilder
   
   Foreach ($element in $PrintableRGBs) {
-    $sb.AppendFormat("{0}", (getRGBFormattedString $element)) > $null
+    If ($null -eq $element.color) { $sb.AppendFormat( "{0}", $element.text ) > $null }
+    Else { $sb.AppendFormat( "{0}", (getRGBFormattedString $element) ) > $null }
   }
 
   Write-Host $sb.ToString()
