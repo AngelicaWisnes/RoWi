@@ -38,4 +38,8 @@ Foreach ($path in $SystemDependentPaths) {
 
 
 # Git-related constants
-$FIFTY_CHARS = "|--------1---------2---------3---------4---------|"
+$global:FIFTY_CHARS = "|--------1---------2---------3---------4---------|"
+
+
+# Print-related constants
+$global:COLOR_ESCAPE = "$([char]0x1b)"

@@ -116,31 +116,31 @@ function rainbow {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
   $spaceLength = " " * $windowWidth
   OUT "`n", $spaceLength, $RGBs.Red, $True,
-      "`n", $spaceLength, $RGBs.Orange, $True,
-      "`n", $spaceLength, $RGBs.Yellow, $True,
-      "`n", $spaceLength, $RGBs.Green, $True,
-      "`n", $spaceLength, $RGBs.Blue, $True,
-      "`n", $spaceLength, $RGBs.ElectricIndigo, $True, "`n"
+  "`n", $spaceLength, $RGBs.Orange, $True,
+  "`n", $spaceLength, $RGBs.Yellow, $True,
+  "`n", $spaceLength, $RGBs.Green, $True,
+  "`n", $spaceLength, $RGBs.Blue, $True,
+  "`n", $spaceLength, $RGBs.ElectricIndigo, $True, "`n"
 }
 
 
 function rainbow2 {
   OUT "   ", $RGBs.Red, $True,
-      "   ", $RGBs.Orange, $True,
-      "   ", $RGBs.Yellow, $True,
-      "   ", $RGBs.Green, $True,
-      "   ", $RGBs.Blue, $True,
-      "   ", $RGBs.ElectricIndigo, $True
+  "   ", $RGBs.Orange, $True,
+  "   ", $RGBs.Yellow, $True,
+  "   ", $RGBs.Green, $True,
+  "   ", $RGBs.Blue, $True,
+  "   ", $RGBs.ElectricIndigo, $True
 }
 
 
 function trans {
   $spaceLength = " " * 15
   OUT "`n", $spaceLength, $RGBs.Cyan, $True,
-      "`n", $spaceLength, $RGBs.Magenta, $True,
-      "`n", $spaceLength, $RGBs.White, $True,
-      "`n", $spaceLength, $RGBs.Magenta, $True,
-      "`n", $spaceLength, $RGBs.Cyan, $True, "`n"
+  "`n", $spaceLength, $RGBs.Magenta, $True,
+  "`n", $spaceLength, $RGBs.White, $True,
+  "`n", $spaceLength, $RGBs.Magenta, $True,
+  "`n", $spaceLength, $RGBs.Cyan, $True, "`n"
 }
 
 
@@ -150,8 +150,8 @@ function ansiColors_all {
   If ($Background) { $X = 48 }
   Else { $X = 38 }
 
-  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
-  Else { $esc = $([char]0x1b) }   # For PS version < 7
+  $esc = $global:COLOR_ESCAPE # For PS version < 7
+  If ($iscoreclr) { $esc = "`e" } # Override for PS version > 7
 
   $ansiFormat = "$esc[$X;5;{0}m{1}$esc[0m"
 
@@ -173,8 +173,8 @@ function rgbColors_all {
   If ($Background) { $X = 48 }
   Else { $X = 38 }
 
-  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
-  Else { $esc = $([char]0x1b) }   # For PS version < 7
+  $esc = $global:COLOR_ESCAPE # For PS version < 7
+  If ($iscoreclr) { $esc = "`e" } # Override for PS version > 7
 
   $rs = 0..255
   $gs = 0..255
@@ -219,9 +219,9 @@ function getPrintableRGBs {
   param( [Parameter(Mandatory)][Object[]]$printElements )
   $PrintableRGBs = @()
   foreach ($element in $printElements) {
-    If ( $element.GetType() -eq [string] ) {$PrintableRGBs += [PrintElement]@{ text = $element}}
-    If ( $element.GetType() -eq [RGB] ) {($PrintableRGBs[-1]).color = $element}
-    If ( $element.GetType() -eq [bool] ) {($PrintableRGBs[-1]).background = $element }
+    If ( $element.GetType() -eq [string] ) { $PrintableRGBs += [PrintElement]@{ text = $element } }
+    If ( $element.GetType() -eq [RGB] ) { ($PrintableRGBs[-1]).color = $element }
+    If ( $element.GetType() -eq [bool] ) { ($PrintableRGBs[-1]).background = $element }
   }
   Return $PrintableRGBs
 }
@@ -248,8 +248,8 @@ function getRGBFormattedString {
   If ($element.background) { $X = 48 }
   Else { $X = 38 }
 
-  If ($iscoreclr) { $esc = "`e" } # For PS version > 7
-  Else { $esc = $([char]0x1b) }   # For PS version < 7
+  $esc = $global:COLOR_ESCAPE # For PS version < 7
+  If ($iscoreclr) { $esc = "`e" } # Override for PS version > 7
 
   $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
   $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
