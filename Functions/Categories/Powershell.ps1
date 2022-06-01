@@ -94,3 +94,80 @@ function startNewPowershell {
 }
 Set-Alias snp startNewPowershell
 addToList -name 'snp' -value 'Start new powershell'
+
+
+
+
+$subDirUtils = @{
+  current     = 0 ; 
+  root        = getPath;
+  directories = (Get-ChildItem -Directory).name;
+  dirCount    = 0;
+  initialized = $false
+}
+
+function _openAllSubDirs_continue {
+  If ( $subDirUtils.dirCount -eq 0 ) { Return Write-Host -ForegroundColor Red "No subdirectories found" }
+  If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return Write-Host -ForegroundColor Red "Finished" }
+
+  $currentDir = $subDirUtils.directories[$subDirUtils.current]
+  Write-Host -ForegroundColor Cyan "`nCurrent directory: $($subDirUtils.current+1)/$($subDirUtils.dirCount) `n  $currentDir `n"
+  Set-Location "$($subDirUtils.root)\$currentDir"
+  $subDirUtils.current += 1
+}
+
+function _openAllSubDirs_init {
+  $subDirUtils.current = 0
+  $subDirUtils.root = getPath
+  $subDirUtils.directories = (Get-ChildItem -Directory).name
+  $subDirUtils.dirCount = $($subDirUtils.directories).Count
+  $subDirUtils.initialized = $True
+  
+  Write-Host -ForegroundColor Cyan "
+    Started 'openAllSubDirs -Init'. This will Set-Location for every subdirectory in current directory ($($subDirUtils.dirCount) times). 
+    NOTE: This function does not handle recursion, and will reset if run again with 'init'-parameter!
+
+    Run 'openAllSubDirs' to precede to the next subdirectory.`n"
+}
+
+
+function openAllSubDirs {
+  param( [switch]$Init = $False )
+  If ( $Init -or (-not $subDirUtils.initialized) ) { _openAllSubDirs_init }
+  Else { _openAllSubDirs_continue }
+}
+
+
+
+
+
+
+
+
+
+
+
+function _openAllSubDirs_continue_ORIG {
+  $root = getPath
+  $directories = (Get-ChildItem -Directory).name
+  $dirCount = $directories.Count
+  
+  If ( $dirCount -eq 0 ) { Return Write-Host -ForegroundColor Red "No subdirectories found" }
+
+  Write-Host -ForegroundColor Cyan "
+  `tStarted opening new powershell for every subdirectory in current directory 
+  `tMake sure to complete all tasks in new powershell before continuing here!"
+
+  For ($i = 0; $i -lt $dirCount; $i++) {
+    $currentDir = $directories[$i]
+    Write-Host -ForegroundColor Cyan "`nCurrent directory: $($i+1)/$dirCount `n  $currentDir `n"
+    $reply = Read-Host -Prompt "Continue?[y/n]"
+    If ( $reply -match "[yY]" ) { 
+      Set-Location $currentDir
+
+      startNewPowershell 
+      Set-Location $root
+    }
+    Else { Return }   
+  }
+}

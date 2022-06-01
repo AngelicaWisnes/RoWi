@@ -75,6 +75,11 @@ Set-Alias gb getCurrentGitBranch
 addToList -name 'gb' -value 'Get current git branch'
 
 
+function getMasterBranch { git config --get init.defaultBranch }
+Set-Alias gb getCurrentGitBranch
+addToList -name 'gmb' -value 'Get git master branch'
+
+
 function gd { 
   $currentGitBranch = getCurrentGitBranch
   $title = "$(_see_String m) `n`tgit branch -d $currentGitBranch `n`tgit push origin --delete $currentGitBranch"
@@ -140,7 +145,11 @@ function grb {
 addToList -name 'grb' -value 'Rename git branch'
 
 
-function m { git checkout master }
+function checkoutMasterBranch { 
+  $masterBranch = getMasterBranch
+  git checkout $masterBranch 
+}
+Set-Alias m checkoutMasterBranch
 addToList -name 'm' -value 'git checkout master'
 
 
@@ -209,3 +218,50 @@ addToList -name 'qca' -value 'Quick-Commit all'
 function s { git status }
 addToList -name 's' -value 'git status'
 
+
+
+
+
+function _pullAllRepos {
+  $root = getPath
+  $directories = (Get-ChildItem -Directory).name
+  
+  If ( $directories.Count -eq 0 ) { Return }
+
+  $needsManualWork = new-object -TypeName System.Text.StringBuilder
+
+  Foreach ($dir in $directories) {
+    Set-Location $root\$dir
+
+    $gitStatus = Get-GitStatus
+    
+    # If not a git-repo, recursively check sub-directiroes, then return jump to next
+    If ( $null -eq $gitStatus ) { 
+      $subDirs = _pullAllRepos
+      If ( $subDirs.Length -gt 0 ) { $needsManualWork.AppendFormat( "{0}", $subDirs ) > $null }
+      Continue 
+    }
+
+
+    $currentGitBranch = getCurrentGitBranch
+    $masterGitBranch = getMasterBranch
+  
+    # If working tree is clean
+    If ((Get-GitStatus).Working.length -eq 0 -and (Get-GitStatus).Index.length -eq 0) {
+      
+      #If ($currentGitBranch -ne $masterGitBranch) { checkoutMasterBranch }
+      #gpl
+    }
+    Else { $needsManualWork.AppendFormat( "  {0}`n", $(getPath) ) > $null }
+  }
+
+  Return $needsManualWork.ToString()
+}
+
+
+function pullAllRepos {
+  Set-Location $global:DEFAULT_START_PATH
+  $needsManualWork = _pullAllRepos
+
+  OUT "`nThe following repos need to be pulled manually:`n$needsManualWork", $RGBs.Red
+}
