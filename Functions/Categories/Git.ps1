@@ -23,7 +23,7 @@ addToList -name 'a' -value 'git add args'
 
 
 function createNewBranch {
-  Write-Host "`nInitiating git checkout -b `n`tName-length  $FIFTY_CHARS `n`tBranch-name: " -NoNewline
+  Write-Host "`nInitiating git checkout -b `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
   
   try { 
     [console]::ForegroundColor = 'DarkCyan'
@@ -41,7 +41,7 @@ addToList -name 'b' -value 'git checkout -b'
 
 
 function commitWithMessage {
-  Write-Host "`nInitiating git commit -m `n`tMessage-length  $FIFTY_CHARS `n`tCommit message: " -NoNewline
+  Write-Host "`nInitiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: " -NoNewline
   
   try { 
     [console]::ForegroundColor = 'DarkCyan'
@@ -119,7 +119,7 @@ addToList -name 'gr' -value 'git reset --hard'
 
 
 function grb { 
-  Write-Host "`nInitiating a renaming of current branch. Enter the new branch name `n`tName-length  $FIFTY_CHARS `n`tBranch-name: " -NoNewline
+  Write-Host "`nInitiating a renaming of current branch. Enter the new branch name `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
   try { 
     [console]::ForegroundColor = 'DarkCyan'
     $newBranchName = Read-Host 
