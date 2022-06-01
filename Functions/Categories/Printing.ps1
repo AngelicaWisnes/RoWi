@@ -36,8 +36,6 @@ function addToList {
 #>
 
 
-
-
 class RGB { [int]$r; [int]$g; [int]$b; } 
 $global:RGBs = @{
   # Light colors
@@ -109,7 +107,6 @@ function dance {
   }
 }
 addToList -name 'dance' -value 'See the PowerShell DanceSquad'
-
 
 
 function rainbow {
@@ -201,7 +198,7 @@ addToList -name 'rgbColors_all' -value 'See all available RGB-colors'
 function rgbColors {
   $sample = " " * 15
  
-  foreach ($rgb in ($RGBs.GetEnumerator() | Sort-Object -Property Key)) {
+  foreach ($rgb in $RGBs.GetEnumerator()) {
     $colorName = "{0, 20} " -f $rgb.Name
     $color = $rgb.Value
     $rgbValue = " RGB: {0, 3} , {1, 3} , {2, 3}" -f $color.r, $color.g, $color.b
