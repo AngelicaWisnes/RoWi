@@ -109,7 +109,7 @@ $global:HEXs = @{
 function dad { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  OUT "`n$dadJoke`n", $RGBs.Cyan
+  OUT "`n$dadJoke`n", $HEXs.Cyan
 }
 addToList -name 'dad' -value 'Print random dad-joke'
 
@@ -147,32 +147,32 @@ addToList -name 'dance' -value 'See the PowerShell DanceSquad'
 function rainbow {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
   $spaceLength = " " * $windowWidth
-  OUT "`n", $spaceLength, $RGBs.Red, $True,
-  "`n", $spaceLength, $RGBs.Orange, $True,
-  "`n", $spaceLength, $RGBs.Yellow, $True,
-  "`n", $spaceLength, $RGBs.Green, $True,
-  "`n", $spaceLength, $RGBs.Blue, $True,
-  "`n", $spaceLength, $RGBs.ElectricIndigo, $True, "`n"
+  OUT "`n", $spaceLength, $HEXs.Red, $True,
+  "`n", $spaceLength, $HEXs.Orange, $True,
+  "`n", $spaceLength, $HEXs.Yellow, $True,
+  "`n", $spaceLength, $HEXs.Green, $True,
+  "`n", $spaceLength, $HEXs.Blue, $True,
+  "`n", $spaceLength, $HEXs.ElectricIndigo, $True, "`n"
 }
 
 
 function rainbow2 {
-  OUT "   ", $RGBs.Red, $True,
-  "   ", $RGBs.Orange, $True,
-  "   ", $RGBs.Yellow, $True,
-  "   ", $RGBs.Green, $True,
-  "   ", $RGBs.Blue, $True,
-  "   ", $RGBs.ElectricIndigo, $True
+  OUT "   ", $HEXs.Red, $True,
+  "   ", $HEXs.Orange, $True,
+  "   ", $HEXs.Yellow, $True,
+  "   ", $HEXs.Green, $True,
+  "   ", $HEXs.Blue, $True,
+  "   ", $HEXs.ElectricIndigo, $True
 }
 
 
 function trans {
   $spaceLength = " " * 15
-  OUT "`n", $spaceLength, $RGBs.Cyan, $True,
-  "`n", $spaceLength, $RGBs.Magenta, $True,
-  "`n", $spaceLength, $RGBs.White, $True,
-  "`n", $spaceLength, $RGBs.Magenta, $True,
-  "`n", $spaceLength, $RGBs.Cyan, $True, "`n"
+  OUT "`n", $spaceLength, $HEXs.Cyan, $True,
+  "`n", $spaceLength, $HEXs.Magenta, $True,
+  "`n", $spaceLength, $HEXs.White, $True,
+  "`n", $spaceLength, $HEXs.Magenta, $True,
+  "`n", $spaceLength, $HEXs.Cyan, $True, "`n"
 }
 
 
@@ -233,7 +233,8 @@ addToList -name 'rgbColors_all' -value 'See all available RGB-colors'
 function rgbColors {
   $sample = " " * 15
  
-  foreach ($rgb in $RGBs.GetEnumerator()) {
+  foreach ($hex in $HEXs.GetEnumerator()) {
+    $rgb = Convert-HexToRgb $hex
     $colorName = "{0, 20} " -f $rgb.Name
     $color = $rgb.Value
     $rgbValue = " RGB: {0, 3} , {1, 3} , {2, 3}" -f $color.r, $color.g, $color.b
@@ -315,7 +316,7 @@ function getRGBFormattedString {
 #   foreach ($el in $printElements) { Write-Host "Testing: " $el.text }
 # }
 # 
-# OUT (pe "Y" $RGBs.ElectricIndigo), (pe "T" $RGBs.ElectricIndigo -b) 
+# OUT (pe "Y" $HEXs.ElectricIndigo), (pe "T" $HEXs.ElectricIndigo -b) 
 
 
 

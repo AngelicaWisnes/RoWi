@@ -118,7 +118,7 @@ function PRINT_MULTILINE_RAINBOW_STRING_RGB {
   param( [Parameter(Mandatory)][String]$outputString )
 
   $lines = $outputString.Split("`n")
-  $colors = @( $RGBs.Red, $RGBs.Orange, $RGBs.Yellow, $RGBs.Lime, $RGBs.Blue, $RGBs.Purple  )
+  $colors = @( $HEXs.Red, $HEXs.Orange, $HEXs.Yellow, $HEXs.Lime, $HEXs.Blue, $HEXs.Purple  )
   $colorNumber = -1
   $linesOfEachColor = [int]($lines.Count / $colors.Count)
 

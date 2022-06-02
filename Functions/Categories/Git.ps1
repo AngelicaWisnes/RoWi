@@ -265,5 +265,5 @@ function pullAllRepos {
   $needsManualWork = _pullAllRepos
   Set-Location $global:DEFAULT_START_PATH
   
-  OUT "`nThe following repos need to be pulled manually:`n$needsManualWork", $RGBs.Red
+  OUT "`nThe following repos need to be pulled manually:`n$needsManualWork", $HEXs.Red
 }
