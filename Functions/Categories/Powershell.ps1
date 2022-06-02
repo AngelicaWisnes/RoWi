@@ -130,44 +130,8 @@ function _openAllSubDirs_init {
     Run 'openAllSubDirs' to precede to the next subdirectory.`n"
 }
 
-
 function openAllSubDirs {
   param( [switch]$Init = $False )
   If ( $Init -or (-not $subDirUtils.initialized) ) { _openAllSubDirs_init }
   Else { _openAllSubDirs_continue }
-}
-
-
-
-
-
-
-
-
-
-
-
-function _openAllSubDirs_continue_ORIG {
-  $root = getPath
-  $directories = (Get-ChildItem -Directory).name
-  $dirCount = $directories.Count
-  
-  If ( $dirCount -eq 0 ) { Return Write-Host -ForegroundColor Red "No subdirectories found" }
-
-  Write-Host -ForegroundColor Cyan "
-  `tStarted opening new powershell for every subdirectory in current directory 
-  `tMake sure to complete all tasks in new powershell before continuing here!"
-
-  For ($i = 0; $i -lt $dirCount; $i++) {
-    $currentDir = $directories[$i]
-    Write-Host -ForegroundColor Cyan "`nCurrent directory: $($i+1)/$dirCount `n  $currentDir `n"
-    $reply = Read-Host -Prompt "Continue?[y/n]"
-    If ( $reply -match "[yY]" ) { 
-      Set-Location $currentDir
-
-      startNewPowershell 
-      Set-Location $root
-    }
-    Else { Return }   
-  }
 }

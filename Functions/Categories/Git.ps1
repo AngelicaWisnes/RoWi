@@ -242,9 +242,10 @@ function _pullAllRepos {
       Continue 
     }
 
+    # TODO: This function is not finished
 
-    $currentGitBranch = getCurrentGitBranch
-    $masterGitBranch = getMasterBranch
+    #$currentGitBranch = getCurrentGitBranch
+    #$masterGitBranch = getMasterBranch
   
     # If working tree is clean
     If ((Get-GitStatus).Working.length -eq 0 -and (Get-GitStatus).Index.length -eq 0) {
