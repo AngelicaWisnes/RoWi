@@ -71,6 +71,41 @@ $global:RGBs = @{
 }
 
 
+class HEX { [string]$h; } 
+$global:HEXs = @{
+  # Light colors
+  Red            = [HEX]@{ h = "#FF0000" };
+  Orange         = [HEX]@{ h = "#FF8000" };
+  Yellow         = [HEX]@{ h = "#FFFF00" };
+  Chartreuse     = [HEX]@{ h = "#80FF00" };
+  Lime           = [HEX]@{ h = "#00FF00" };
+  SpringGreen    = [HEX]@{ h = "#00FF80" };
+  Cyan           = [HEX]@{ h = "#00FFFF" };
+  DodgerBlue     = [HEX]@{ h = "#0080FF" };
+  Blue           = [HEX]@{ h = "#0000FF" };
+  ElectricIndigo = [HEX]@{ h = "#8000FF" };
+  Magenta        = [HEX]@{ h = "#FF00FF" };
+  DeepPink       = [HEX]@{ h = "#FF0080" };
+  MonaLisa       = [HEX]@{ h = "#FF8080" };
+  MintGreen      = [HEX]@{ h = "#80FF80" };
+  LightSlateBlue = [HEX]@{ h = "#8080FF" };
+  # Dark colors
+  Maroon         = [HEX]@{ h = "#800000" };
+  Olive          = [HEX]@{ h = "#808000" };
+  Green          = [HEX]@{ h = "#008000" };
+  Teal           = [HEX]@{ h = "#008080" };
+  Navy           = [HEX]@{ h = "#000080" };
+  Purple         = [HEX]@{ h = "#800080" };
+  # Contrasts
+  White          = [HEX]@{ h = "#FFFFFF" };
+  Silver         = [HEX]@{ h = "#C0C0C0" };
+  Gray           = [HEX]@{ h = "#808080" };
+  Black          = [HEX]@{ h = "#000000" };
+  # Colornames are taken from https://www.color-blindness.com/color-name-hue/
+  # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
+}
+
+
 function dad { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
@@ -218,6 +253,7 @@ function getPrintableRGBs {
   foreach ($element in $printElements) {
     If ( $element.GetType() -eq [string] ) { $PrintableRGBs += [PrintElement]@{ text = $element } }
     If ( $element.GetType() -eq [RGB] ) { ($PrintableRGBs[-1]).color = $element }
+    If ( $element.GetType() -eq [HEX] ) { ($PrintableRGBs[-1]).color = Convert-HexToRgb $element }
     If ( $element.GetType() -eq [bool] ) { ($PrintableRGBs[-1]).background = $element }
   }
   Return $PrintableRGBs
@@ -250,12 +286,13 @@ function getRGBFormattedString {
 
   $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
   $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
- 
+  
   Return ($rgbFormat -f $rgbCode, $element.text)      
 }
 
 
 
+#"$([char]0x1b)[48;0x00FFFFFFm'TEST'$([char]0x1b)[0m"
 
 
 
@@ -279,3 +316,39 @@ function getRGBFormattedString {
 # }
 # 
 # OUT (pe "Y" $RGBs.ElectricIndigo), (pe "T" $RGBs.ElectricIndigo -b) 
+
+
+
+
+function Convert-HexToRgb {
+  param( [Parameter(Mandatory)][HEX]$hexObject )
+  $hex = $hexObject.h -replace '#', '' # Remove the '#' from the string
+
+  $Red = $HEX.Remove(2, 4)
+  $Green = $HEX.Remove(4, 2)
+  $Green = $Green.remove(0, 2)
+  $Blue = $hex.Remove(0, 4)
+  $Red = [convert]::ToInt32($red, 16)
+  $Green = [convert]::ToInt32($green, 16)
+  $Blue = [convert]::ToInt32($blue, 16)
+
+  Return [RGB]@{ r = $Red ; g = $Green ; b = $Blue }
+}
+
+
+function Convert-HexToRgb_Strings {
+  param( [Parameter(Mandatory)][String]$hex )
+  $hex = $hex -replace '#', '' # Remove the '#' from the string
+
+  $Red = $HEX.Remove(2, 4)
+  $Green = $HEX.Remove(4, 2)
+  $Green = $Green.remove(0, 2)
+  $Blue = $hex.Remove(0, 4)
+  $Red = [convert]::ToInt32($red, 16)
+  $Green = [convert]::ToInt32($green, 16)
+  $Blue = [convert]::ToInt32($blue, 16)
+
+  $rgbCode = "{0};{1};{2}" -f $red, $green, $blue
+
+  Return $rgbCode
+}

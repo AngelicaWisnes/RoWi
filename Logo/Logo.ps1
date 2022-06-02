@@ -103,14 +103,28 @@ function PRINT_MULTILINE_RAINBOW_STRING {
   param( [Parameter(Mandatory)][String]$outputString )
 
   $lines = $outputString.Split("`n")
-  $colors = @( "DarkRed", "Red", "Yellow", "Green", "Cyan", "Blue", "Magenta" )
+  $colors = @( "DarkRed", "Red", "Yellow", "Green", "Blue", "Magenta" )
   $colorNumber = -1
   $linesOfEachColor = [int]($lines.Count / $colors.Count)
 
   for ($i = 0; $i -lt $lines.Count; $i++) {
-    If ($i % $linesOfEachColor -eq 0) { $colorNumber++ }
+    If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
     Write-Host -ForegroundColor $colors[$colorNumber] $lines[$i]
     #Write-Host -BackgroundColor $colors[$colorCount] -ForegroundColor Black $logoLines[$i]
+  }
+}
+
+function PRINT_MULTILINE_RAINBOW_STRING_RGB {
+  param( [Parameter(Mandatory)][String]$outputString )
+
+  $lines = $outputString.Split("`n")
+  $colors = @( $RGBs.Red, $RGBs.Orange, $RGBs.Yellow, $RGBs.Lime, $RGBs.Blue, $RGBs.Purple  )
+  $colorNumber = -1
+  $linesOfEachColor = [int]($lines.Count / $colors.Count)
+
+  for ($i = 0; $i -lt $lines.Count; $i++) {
+    If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
+    OUT $lines[$i], $colors[$colorNumber]
   }
 }
 
