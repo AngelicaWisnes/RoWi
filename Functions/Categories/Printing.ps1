@@ -181,9 +181,7 @@ function ansiColors_all {
 
   If ($Background) { $X = 48 }
   Else { $X = 38 }
-
-  $esc = $global:COLOR_ESCAPE # For PS version < 7
-  If ($iscoreclr) { $esc = "`e" } # Override for PS version > 7
+  $esc = $global:COLOR_ESCAPE
 
   $ansiFormat = "$esc[$X;5;{0}m{1}$esc[0m"
 
@@ -204,9 +202,7 @@ function rgbColors_all {
 
   If ($Background) { $X = 48 }
   Else { $X = 38 }
-
-  $esc = $global:COLOR_ESCAPE # For PS version < 7
-  If ($iscoreclr) { $esc = "`e" } # Override for PS version > 7
+  $esc = $global:COLOR_ESCAPE
 
   $rs = 0..255
   $gs = 0..255
@@ -281,9 +277,7 @@ function getRGBFormattedString {
 
   If ($element.background) { $X = 48 }
   Else { $X = 38 }
-
-  $esc = $global:COLOR_ESCAPE # For PS version < 7
-  If ($iscoreclr) { $esc = "`e" } # Override for PS version > 7
+  $esc = $global:COLOR_ESCAPE
 
   $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
   $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
