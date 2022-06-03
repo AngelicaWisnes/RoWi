@@ -1,6 +1,10 @@
 
-function upgrade {
+function upgradeWinget {
   winget upgrade --all
+}
+
+
+function upgradeChoco {
   choco upgrade all
   # choco upgrade all --except="'skype,conemu'"
 }
