@@ -275,14 +275,24 @@ function OUT {
 function getRGBFormattedString {
   param( [Parameter(Mandatory)][PrintElement]$element )
 
+  $trimmed = $element.text
   If ($element.background) { $X = 48 }
-  Else { $X = 38 }
+  Else { 
+    $X = 38 
+    $trimmed = ($element.text).Trim()
+  }
   $esc = $global:COLOR_ESCAPE
 
   $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
-  $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
+  # $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
+
+  $startSequence = "$esc[$X;2;{0}m" -f $rgbCode
+  $endSequence = "$esc[0m"
   
-  Return ($rgbFormat -f $rgbCode, $element.text)      
+  $result = ($element.text).Replace($trimmed, $startSequence + $trimmed + $endSequence)
+
+  Return $result
+  #  Return ($rgbFormat -f $rgbCode, $element.text)      
 }
 
 
