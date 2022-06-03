@@ -37,40 +37,6 @@ function addToList {
 
 
 class RGB { [int]$r; [int]$g; [int]$b; } 
-$global:RGBs = @{
-  # Light colors
-  Red            = [RGB]@{ r = 255 ; g = 0   ; b = 0 } ; #FF0000 
-  Orange         = [RGB]@{ r = 255 ; g = 128 ; b = 0 } ; #FF8000 
-  Yellow         = [RGB]@{ r = 255 ; g = 255 ; b = 0 } ; #FFFF00 
-  Chartreuse     = [RGB]@{ r = 128 ; g = 255 ; b = 0 } ; #80FF00 
-  Lime           = [RGB]@{ r = 0   ; g = 255 ; b = 0 } ; #00FF00 
-  SpringGreen    = [RGB]@{ r = 0   ; g = 255 ; b = 128 } ; #00FF80 
-  Cyan           = [RGB]@{ r = 0   ; g = 255 ; b = 255 } ; #00FFFF 
-  DodgerBlue     = [RGB]@{ r = 0   ; g = 128 ; b = 255 } ; #0080FF 
-  Blue           = [RGB]@{ r = 0   ; g = 0   ; b = 255 } ; #0000FF 
-  ElectricIndigo = [RGB]@{ r = 128 ; g = 0   ; b = 255 } ; #8000FF 
-  Magenta        = [RGB]@{ r = 255 ; g = 0   ; b = 255 } ; #FF00FF 
-  DeepPink       = [RGB]@{ r = 255 ; g = 0   ; b = 128 } ; #FF0080 
-  MonaLisa       = [RGB]@{ r = 255 ; g = 128 ; b = 128 } ; #FF8080 
-  MintGreen      = [RGB]@{ r = 128 ; g = 255 ; b = 128 } ; #80FF80 
-  LightSlateBlue = [RGB]@{ r = 128 ; g = 128 ; b = 255 } ; #8080FF 
-  # Dark colors
-  Maroon         = [RGB]@{ r = 128 ; g = 0   ; b = 0 } ; #800000 
-  Olive          = [RGB]@{ r = 128 ; g = 128 ; b = 0 } ; #808000 
-  Green          = [RGB]@{ r = 0   ; g = 128 ; b = 0 } ; #008000 
-  Teal           = [RGB]@{ r = 0   ; g = 128 ; b = 128 } ; #008080 
-  Navy           = [RGB]@{ r = 0   ; g = 0   ; b = 128 } ; #000080 
-  Purple         = [RGB]@{ r = 128 ; g = 0   ; b = 128 } ; #800080 
-  # Contrasts
-  White          = [RGB]@{ r = 255 ; g = 255 ; b = 255 } ; #FFFFFF 
-  Silver         = [RGB]@{ r = 192 ; g = 192 ; b = 192 } ; #C0C0C0 
-  Gray           = [RGB]@{ r = 128 ; g = 128 ; b = 128 } ; #808080 
-  Black          = [RGB]@{ r = 0   ; g = 0   ; b = 0 } ; #000000 
-  # Colornames are taken from https://www.color-blindness.com/color-name-hue/
-  # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
-}
-
-
 class HEX { [string]$h; } 
 $global:HEXs = @{
   # Light colors
@@ -103,6 +69,18 @@ $global:HEXs = @{
   Black          = [HEX]@{ h = "#000000" };
   # Colornames are taken from https://www.color-blindness.com/color-name-hue/
   # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
+  # Pride-specific codes
+  PrideWhite     = [HEX]@{ h = "#FFFFFF" };
+  PridePink      = [HEX]@{ h = "#FFAFC7" };
+  PrideCyan      = [HEX]@{ h = "#73D7EE" };
+  PrideBrown     = [HEX]@{ h = "#613915" };
+  PrideBlack     = [HEX]@{ h = "#000000" };
+  PrideRed       = [HEX]@{ h = "#E50000" };
+  PrideOrange    = [HEX]@{ h = "#FF8D00" };
+  PrideYellow    = [HEX]@{ h = "#FFEE00" };
+  PrideGreen     = [HEX]@{ h = "#028121" };
+  PrideBlue      = [HEX]@{ h = "#004CFF" };
+  PridePurple    = [HEX]@{ h = "#730088" };
 }
 
 
@@ -142,38 +120,6 @@ function dance {
   }
 }
 addToList -name 'dance' -value 'See the PowerShell DanceSquad'
-
-
-function rainbow {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  $spaceLength = " " * $windowWidth
-  OUT "`n", $spaceLength, $HEXs.Red, $True,
-  "`n", $spaceLength, $HEXs.Orange, $True,
-  "`n", $spaceLength, $HEXs.Yellow, $True,
-  "`n", $spaceLength, $HEXs.Green, $True,
-  "`n", $spaceLength, $HEXs.Blue, $True,
-  "`n", $spaceLength, $HEXs.ElectricIndigo, $True, "`n"
-}
-
-
-function rainbow2 {
-  OUT "   ", $HEXs.Red, $True,
-  "   ", $HEXs.Orange, $True,
-  "   ", $HEXs.Yellow, $True,
-  "   ", $HEXs.Green, $True,
-  "   ", $HEXs.Blue, $True,
-  "   ", $HEXs.ElectricIndigo, $True
-}
-
-
-function trans {
-  $spaceLength = " " * 15
-  OUT "`n", $spaceLength, $HEXs.Cyan, $True,
-  "`n", $spaceLength, $HEXs.Magenta, $True,
-  "`n", $spaceLength, $HEXs.White, $True,
-  "`n", $spaceLength, $HEXs.Magenta, $True,
-  "`n", $spaceLength, $HEXs.Cyan, $True, "`n"
-}
 
 
 function ansiColors_all {
@@ -275,23 +221,19 @@ function OUT {
 function getRGBFormattedString {
   param( [Parameter(Mandatory)][PrintElement]$element )
 
-  $trimmed = $element.text
   If ($element.background) { $X = 48 }
-  Else { 
-    $X = 38 
-    $trimmed = ($element.text).Trim()
-  }
+  Else { $X = 38 }
   $esc = $global:COLOR_ESCAPE
-
+  
   $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
-  # $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
-
   $startSequence = "$esc[$X;2;{0}m" -f $rgbCode
   $endSequence = "$esc[0m"
+  $trimmed = ($element.text).Replace("`n", "")
   
   $result = ($element.text).Replace($trimmed, $startSequence + $trimmed + $endSequence)
-
+  
   Return $result
+  # $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
   #  Return ($rgbFormat -f $rgbCode, $element.text)      
 }
 
