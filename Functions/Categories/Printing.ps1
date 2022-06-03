@@ -87,7 +87,7 @@ $global:HEXs = @{
 function dad { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  OUT "`n$dadJoke`n", $HEXs.Cyan
+  Write-Host -ForegroundColor Cyan "`n$dadJoke`n"
 }
 addToList -name 'dad' -value 'Print random dad-joke'
 
