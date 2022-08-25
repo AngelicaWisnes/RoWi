@@ -12,7 +12,7 @@ function upgradeChoco {
 
 
 
-$upgraderJob_winget = Start-Job -ScriptBlock {
+function getWingetUpgradeList {
   class Software {
     [string]$Name
     [string]$Id
@@ -54,8 +54,21 @@ $upgraderJob_winget = Start-Job -ScriptBlock {
   Return $upgradeList_winget | Format-Table
 }
 
-$upgraderJob_choco = Start-Job -ScriptBlock {
+function getChocoUpgradeLists {
   Return choco outdated -r | ConvertFrom-Csv -Delimiter '|' -Header 'Name', 'Version', 'AvailableVersion', 'Pinned?' | Format-Table
+}
+
+function getUpgradeLists {
+  getWingetUpgradeList
+  getChocoUpgradeLists
+}
+
+$upgraderJob_winget = Start-Job -ScriptBlock {
+  Return getWingetUpgradeList
+}
+
+$upgraderJob_choco = Start-Job -ScriptBlock {
+  Return getChocoUpgradeLists
 }
 
 
