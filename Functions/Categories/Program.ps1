@@ -41,6 +41,11 @@ Set-Alias c. ide_vsCode
 addToList -name 'c.' -value 'Open VS Code in current dir'
 
 
+function ide_vsCode_NewFile { code -n NewFile }
+Set-Alias cn ide_vsCode_NewFile
+addToList -name 'cn' -value 'Open new file in VS Code'
+
+
 function o { 
   If ($args.Length -eq 0) { Invoke-Item . }
   Else { Invoke-Item $args }
