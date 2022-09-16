@@ -1,0 +1,10 @@
+
+
+# Set tab-color of new tabs
+wt --tabColor '#009999' `; new-tab --tabColor '#f59218'
+
+# Go to next tab
+wt focus-tab -n
+
+# Go to previous tab
+wt focus-tab -p
