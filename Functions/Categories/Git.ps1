@@ -75,7 +75,7 @@ Set-Alias gb getCurrentGitBranch
 addToList -name 'gb' -value 'Get current git branch'
 
 
-function getMasterBranch { git config --get init.defaultBranch }
+function getMasterBranch { basename $(git symbolic-ref --short refs/remotes/origin/HEAD) }
 Set-Alias gb getCurrentGitBranch
 addToList -name 'gmb' -value 'Get git master branch'
 
@@ -104,7 +104,10 @@ function gme { git merge $args }
 addToList -name 'gme' -value 'git merge args'
 
 
-function gmm { git merge master }
+function gmm { 
+  $masterBranch = getMasterBranch
+  git merge $masterBranch 
+}
 addToList -name 'gmm' -value 'git merge master'
 
 
@@ -150,7 +153,7 @@ function checkoutMasterBranch {
   git checkout $masterBranch 
 }
 Set-Alias m checkoutMasterBranch
-addToList -name 'm' -value 'git checkout master'
+addToList -name 'm' -value 'git checkout master/main'
 
 
 function openGitBranchInBrowser {

@@ -6,6 +6,8 @@
 ######################
 Clear-Host
 
+#$PSDefaultParameterValues = @{"Import-Module:UseWindowsPowerShell" = $false;}
+
 $global:ROWI = $PSScriptRoot
 . $global:ROWI\Setup\Setup.ps1
 
@@ -23,7 +25,6 @@ PRINT_LOGO
 PRINT_FUNCTION_LIST_GENERATOR_INFO
 PRINT_UPGRADER_INFO
 dad
-
 
 ############################
 
