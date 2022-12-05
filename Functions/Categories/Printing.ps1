@@ -85,11 +85,31 @@ $global:HEXs = @{
 
 
 function dad { 
+  if ($PSVersionTable.PSVersion.Major -eq 7) {
+    dad7
+  }
+  else {
+    dad5
+  }
+
+}
+addToList -name 'dad' -value 'Print random dad-joke'
+
+
+function dad5 { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
   Write-Host -ForegroundColor Cyan "`n$dadJoke`n"
 }
-addToList -name 'dad' -value 'Print random dad-joke'
+
+
+function dad7 { 
+  [console]::ForegroundColor = 'Cyan'
+  Write-Host
+  curl https://icanhazdadjoke.com/
+  Write-Host "`n"
+  [console]::ResetColor()
+}
 
 
 function dance {
