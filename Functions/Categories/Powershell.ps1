@@ -44,6 +44,9 @@ addToList -name 'i' -value 'Invoke-History'
 function rc { [console]::ResetColor() }
 addToList -name 'rc' -value 'Reset color scheme'
 
+function rowi { cd $global:ROWI }
+addToList -name 'rowi' -value 'cd $ROWI'
+
 
 function rr { 
   $startPath = Get-Location
