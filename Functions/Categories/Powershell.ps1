@@ -50,7 +50,7 @@ addToList -name 'rowi' -value 'cd $ROWI'
 
 function rr { 
   $startPath = Get-Location
-  Write-Host -ForegroundColor Cyan "`n`tReloading profile with startpath: `n`t$startpath`n"
+  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:HEXs.Cyan
   . $global:ROWI\RoWi.ps1
 }
 addToList -name '. rr' -value 'Reload RoWi'
@@ -58,7 +58,7 @@ addToList -name '. rr' -value 'Reload RoWi'
 
 function rrp { 
   $startPath = Get-Location
-  Write-Host -ForegroundColor Cyan "`n`tReloading profile with startpath: `n`t$startpath`n"
+  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:HEXs.Cyan
   . $profile
 }
 addToList -name '. rrp' -value 'Reload PS-profile'
@@ -79,7 +79,7 @@ function _see_getFunctionNameFromCommandName {
   $commandType = $command.CommandType
   If ( $commandType -eq "Function" ) { Return $commandName }
   If ( $commandType -eq "Alias" ) { Return $command.Definition }
-  Else { Write-Host -ForegroundColor Red "`n`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in _see_getFunctionNameFromCommandName`n" }
+  Else { OUT "`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in _see_getFunctionNameFromCommandName`n", $global:HEXs.Red }
 }
 
 
@@ -110,11 +110,11 @@ $subDirUtils = @{
 }
 
 function _openAllSubDirs_continue {
-  If ( $subDirUtils.dirCount -eq 0 ) { Return Write-Host -ForegroundColor Red "No subdirectories found" }
-  If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return Write-Host -ForegroundColor Red "Finished" }
+  If ( $subDirUtils.dirCount -eq 0 ) { Return OUT "No subdirectories found", $global:HEXs.Red }
+  If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return OUT "Finished", $global:HEXs.Red }
 
   $currentDir = $subDirUtils.directories[$subDirUtils.current]
-  Write-Host -ForegroundColor Cyan "`nCurrent directory: $($subDirUtils.current+1)/$($subDirUtils.dirCount) `n  $currentDir `n"
+  Write-Host -ForegroundColor Cyan "Current directory: $($subDirUtils.current+1)/$($subDirUtils.dirCount) `n  $currentDir `n"
   Set-Location "$($subDirUtils.root)\$currentDir"
   $subDirUtils.current += 1
 }

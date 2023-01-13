@@ -29,5 +29,5 @@ dad
 ############################
 
 function t {
-  Write-Host -ForegroundColor Red "This is a function-name available for testing scripts in the profile. It is not currently in use."
+  OUT "This is a function-name available for testing scripts in the profile. It is not currently in use.", $global:HEXs.Red
 }

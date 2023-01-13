@@ -48,7 +48,7 @@ function commitWithMessage {
   }
   finally { [console]::ResetColor() }
   
-  OUT "`tTrying: git commit -m ", "'$commitMessage'`n", $global:HEXs.DarkCyan
+  OUT "Trying: git commit -m ", "'$commitMessage'`n", $global:HEXs.DarkCyan
   
   git commit -m $commitMessage
 }
@@ -80,20 +80,20 @@ addToList -name 'gmb' -value 'Get git master branch'
 
 function gd { 
   $currentGitBranch = getCurrentGitBranch
-  $title = "$(_see_String m) `n`tgit branch -d $currentGitBranch `n`tgit push origin --delete $currentGitBranch"
+  $title = "$(_see_String checkoutMasterBranch)  git branch -d $currentGitBranch `n  git push origin --delete $currentGitBranch"
   $question = 'Are you sure you want to proceed?'
   $choices = '&Yes', '&No'
   
-  Write-Host "`nTrying to run the following commands:" -NoNewline
+  OUT "Trying to run the following commands:" -NoNewline
   $decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
   
   If ($decision -eq 0) {
-    Write-Host 'Confirmed'
+    OUT "Confirmed"
     m
     git branch -d $currentGitBranch
     git push origin --delete $currentGitBranch
   }
-  Else { Write-Host 'Cancelled' }
+  Else { OUT "Cancelled" }
 }
 addToList -name 'gd' -value 'Delete current branch (local&remote)'
 
@@ -125,7 +125,7 @@ addToList -name 'gr' -value 'git reset --hard'
 
 
 function grb { 
-  Write-Host "`nInitiating a renaming of current branch. Enter the new branch name `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
+  OUT "Initiating a renaming of current branch. Enter the new branch name `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
   try { 
     [console]::ForegroundColor = 'DarkCyan'
     $newBranchName = Read-Host 
@@ -192,14 +192,14 @@ function pu {
   $question = 'Are you sure you want to proceed?'
   $choices = '&Yes', '&No'
   
-  Write-Host "`nTrying to run the following command:" -NoNewline
+  OUT "Trying to run the following command:" -NoNewline
   $decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
   
   If ($decision -eq 0) {
-    Write-Host 'Confirmed'
+    OUT "Confirmed"
     git push --set-upstream origin $currentGitBranch
   }
-  Else { Write-Host 'Cancelled' }
+  Else { OUT "Cancelled" }
 }
 addToList -name 'pu' -value 'git push --set-upstream origin'
 
@@ -266,5 +266,5 @@ function pullAllRepos {
   $needsManualWork = _pullAllRepos
   Set-Location $global:DEFAULT_START_PATH
   
-  OUT "`nThe following repos need to be pulled manually:`n$needsManualWork", $HEXs.Red
+  OUT "The following repos need to be pulled manually:`n$needsManualWork", $HEXs.Red
 }

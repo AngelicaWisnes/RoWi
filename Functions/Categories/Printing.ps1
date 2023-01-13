@@ -103,28 +103,28 @@ $global:HEXs = @{
 
 function dad { 
   if ($PSVersionTable.PSVersion.Major -eq 7) {
-    dad7
+    dad_PowerShell7
   }
   else {
-    dad5
+    dad_PowerShell5
   }
 
 }
 addToList -name 'dad' -value 'Print random dad-joke'
 
 
-function dad5 { 
+function dad_PowerShell5 { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  Write-Host -ForegroundColor Cyan "`n$dadJoke`n"
+  OUT "$dadJoke", $global:HEXs.Cyan
 }
 
 
-function dad7 { 
+function dad_PowerShell7 { 
   [console]::ForegroundColor = 'Cyan'
   Write-Host
   curl https://icanhazdadjoke.com/
-  Write-Host "`n"
+  Write-Host 
   [console]::ResetColor()
 }
 
@@ -142,8 +142,8 @@ function dance {
   try {
     $cursorSave = (Get-Host).UI.RawUI.cursorsize
     (Get-Host).UI.RawUI.cursorsize = 0
-    "`n" 
-    
+    Write-Host
+
     for ( $n = 0; $n -lt $LoopCount; $n++ ) {
       for ( $i = 0; $i -lt $frames.count; $i++ ) {
         Write-Host -ForegroundColor Cyan "`r`t$($frames[$i])" -NoNewline
@@ -153,7 +153,7 @@ function dance {
   }
   finally {
     (Get-Host).UI.RawUI.cursorsize = $cursorSave
-    "`n`n"
+    Write-Host
   }
 }
 addToList -name 'dance' -value 'See the PowerShell DanceSquad'
@@ -248,7 +248,7 @@ function OUT {
 
   $PrintableRGBs = getPrintableRGBs $printElements
   $sb = new-object -TypeName System.Text.StringBuilder
-  $sb.Append( "`n") > $null
+  $sb.Append("`n") > $null
   
   Foreach ($element in $PrintableRGBs) {
     If ($null -eq $element.color) { $sb.AppendFormat( "{0}", $element.text ) > $null }
