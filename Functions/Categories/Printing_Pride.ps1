@@ -15,12 +15,12 @@ function addToList {
 
 function rainbow {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  $spaceLength = (" " * $windowWidth) + "`n"
-  OUT "`n", $spaceLength, $HEXs.PrideRed, $True,
-  $spaceLength, $HEXs.PrideOrange, $True,
-  $spaceLength, $HEXs.PrideYellow, $True,
-  $spaceLength, $HEXs.PrideGreen, $True,
-  $spaceLength, $HEXs.PrideBlue, $True,
+  $spaceLength = (" " * $windowWidth)
+  OUT $spaceLength, $HEXs.PrideRed, $True, "`n",
+  $spaceLength, $HEXs.PrideOrange, $True, "`n",
+  $spaceLength, $HEXs.PrideYellow, $True, "`n",
+  $spaceLength, $HEXs.PrideGreen, $True, "`n",
+  $spaceLength, $HEXs.PrideBlue, $True, "`n",
   $spaceLength, $HEXs.PridePurple, $True
 }
 
@@ -36,9 +36,8 @@ function rainbow2 {
 }
 
 
-function progress {
-  OUT "`n", 
-  "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################", $HEXs.PrideRed, "`n",
+function pride {
+  OUT "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################", $HEXs.PrideRed, "`n",
   "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###################################", $HEXs.PrideRed, "`n",
   "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#################################", $HEXs.PrideOrange, "`n",
   "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "################################", $HEXs.PrideOrange, "`n",
@@ -49,13 +48,12 @@ function progress {
   "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "################################", $HEXs.PrideBlue, "`n",
   "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#################################", $HEXs.PrideBlue, "`n",
   "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###################################", $HEXs.PridePurple, "`n",
-  "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################", $HEXs.PridePurple, "`n"
+  "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################", $HEXs.PridePurple
 }
 
 
-function progress4 { 
-  OUT "`n", 
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################################################################", $HEXs.PrideRed, "`n",
+function pride4 { 
+  OUT <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "############################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###########################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite,#> "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################", $HEXs.PrideRed, "`n",
@@ -78,13 +76,12 @@ function progress4 {
   <#"", $HEXs.PrideWhite,#> "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###########################################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "############################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################################################################", $HEXs.PridePurple, "`n"
+  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################################################################", $HEXs.PridePurple
 }
 
 
-function progress5 { 
-  OUT "`n", 
-  <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> " ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                             ", $HEXs.PrideRed, $True, "`n",
+function pride5 { 
+  OUT <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> " ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                             ", $HEXs.PrideRed, $True, "`n",
   <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> "  ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                            ", $HEXs.PrideRed, $True, "`n",
   <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                           ", $HEXs.PrideRed, $True, "`n",
   <#"", $HEXs.PrideWhite, $True,#> " ", $HEXs.PridePink, $True, "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                          ", $HEXs.PrideRed, $True, "`n",
@@ -107,13 +104,12 @@ function progress5 {
   <#"", $HEXs.PrideWhite, $True,#> " ", $HEXs.PridePink, $True, "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                          ", $HEXs.PridePurple, $True, "`n",
   <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                           ", $HEXs.PridePurple, $True, "`n",
   <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> "  ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                            ", $HEXs.PridePurple, $True, "`n",
-  <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> " ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                             ", $HEXs.PridePurple, $True, "`n"
+  <#"", $HEXs.PrideWhite, $True, "", $HEXs.PridePink, $True,#> " ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                                                             ", $HEXs.PridePurple, $True
 }
 
 
-function progress6 { 
-  OUT "`n", 
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################", $HEXs.PrideRed, "`n",
+function pride6 { 
+  OUT <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################################", $HEXs.PrideRed, "`n",
   <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################################", $HEXs.PrideRed, "`n",
@@ -136,13 +132,12 @@ function progress6 {
   <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################", $HEXs.PridePurple, "`n"
+  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################", $HEXs.PridePurple
 }
 
 
-function progress7 { 
-  OUT "`n", 
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PrideRed, "`n",
+function pride7 { 
+  OUT <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################################################", $HEXs.PrideRed, "`n",
   <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#########################################################################################################       ####", $HEXs.PrideRed, "`n",
@@ -171,13 +166,12 @@ function progress7 {
   <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###############################    ###     #########      ##########################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PridePurple, "`n"
+  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PridePurple
 }
 
 
-function progress8 { 
-  OUT "`n", 
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PrideRed, "`n",
+function pride8 { 
+  OUT <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################################################", $HEXs.PrideRed, "`n",
   <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################################################", $HEXs.PrideRed, "`n",
   <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#########################################################################################################|||||||####", $HEXs.PrideRed, "`n",
@@ -206,13 +200,12 @@ function progress8 {
   <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###############################||||###|||||#########||||||##########################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################################################", $HEXs.PridePurple, "`n",
   <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PridePurple, "`n"
+  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PridePurple
 }
 
 
-function progress3 {
-  OUT "`n", 
-  "  ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                    ", $HEXs.PrideRed, $True, "`n",
+function pride3 {
+  OUT "  ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                    ", $HEXs.PrideRed, $True, "`n",
   "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                   ", $HEXs.PrideRed, $True, "`n",
   "  ", $HEXs.PridePink, $True, "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                 ", $HEXs.PrideOrange, $True, "`n",
   "   ", $HEXs.PridePink, $True, "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                ", $HEXs.PrideOrange, $True, "`n",
@@ -223,26 +216,25 @@ function progress3 {
   "   ", $HEXs.PridePink, $True, "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                ", $HEXs.PrideBlue, $True, "`n",
   "  ", $HEXs.PridePink, $True, "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                 ", $HEXs.PrideBlue, $True, "`n",
   "   ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                   ", $HEXs.PridePurple, $True, "`n",
-  "  ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                    ", $HEXs.PridePurple, $True, "`n"
+  "  ", $HEXs.PrideCyan, $True, "   ", $HEXs.PrideBrown, $True, "   ", $HEXs.PrideBlack, $True, "                                    ", $HEXs.PridePurple, $True
 }
 
 
-function progress2 {
-  OUT "`n", 
-  "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "###################", $HEXs.PrideRed, "`n",
+function pride2 {
+  OUT "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "###################", $HEXs.PrideRed, "`n",
   "##", $HEXs.PridePink, "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "#################", $HEXs.PrideOrange, "`n",
   "##", $HEXs.PrideWhite, "##", $HEXs.PridePink, "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "###############", $HEXs.PrideYellow, "`n",
   "##", $HEXs.PrideWhite, "##", $HEXs.PridePink, "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "###############", $HEXs.PrideGreen, "`n",
   "##", $HEXs.PridePink, "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "#################", $HEXs.PrideBlue, "`n",
-  "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "###################", $HEXs.PridePurple, "`n"
+  "##", $HEXs.PrideCyan, "##", $HEXs.PrideBrown, "##", $HEXs.PrideBlack, "###################", $HEXs.PridePurple
 }
 
 
 function trans {
-  $spaceLength = (" " * 15) + "`n"
-  OUT "`n", $spaceLength, $HEXs.PrideCyan, $True,
-  $spaceLength, $HEXs.PridePink, $True,
-  $spaceLength, $HEXs.PrideWhite, $True,
-  $spaceLength, $HEXs.PridePink, $True,
+  $spaceLength = (" " * 15)
+  OUT $spaceLength, $HEXs.PrideCyan, $True, "`n",
+  $spaceLength, $HEXs.PridePink, $True, "`n",
+  $spaceLength, $HEXs.PrideWhite, $True, "`n",
+  $spaceLength, $HEXs.PridePink, $True, "`n",
   $spaceLength, $HEXs.PrideCyan, $True
 }

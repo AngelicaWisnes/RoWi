@@ -64,3 +64,17 @@ Set-PSReadLineKeyHandler -Chord Ctrl+2 -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::Insert('PRINT_IMAGE')
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
+
+function prompt {
+  # Your non-prompt logic here
+  #$prompt = Write-Prompt "Text before posh-git prompt " -ForegroundColor ([ConsoleColor]::Green)
+  $prompt = Write-Prompt "`n"
+  
+  $prompt += & $GitPromptScriptBlock
+  #$prompt += "`n"
+  
+  $prompt.replace(">", "`n>")
+
+  #$prompt += Write-Prompt "Text after posh-git prompt" -ForegroundColor ([ConsoleColor]::Magenta)
+  if ($prompt) { "$prompt " } else { " " }
+}

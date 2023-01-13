@@ -35,52 +35,69 @@ function addToList {
   R, G, B = The color-values for RGB
 #>
 
-
 class RGB { [int]$r; [int]$g; [int]$b; } 
 class HEX { [string]$h; } 
 $global:HEXs = @{
   # Light colors
-  Red            = [HEX]@{ h = "#FF0000" };
-  Orange         = [HEX]@{ h = "#FF8000" };
-  Yellow         = [HEX]@{ h = "#FFFF00" };
-  Chartreuse     = [HEX]@{ h = "#80FF00" };
-  Lime           = [HEX]@{ h = "#00FF00" };
-  SpringGreen    = [HEX]@{ h = "#00FF80" };
-  Cyan           = [HEX]@{ h = "#00FFFF" };
-  DodgerBlue     = [HEX]@{ h = "#0080FF" };
-  Blue           = [HEX]@{ h = "#0000FF" };
-  ElectricIndigo = [HEX]@{ h = "#8000FF" };
-  Magenta        = [HEX]@{ h = "#FF00FF" };
-  DeepPink       = [HEX]@{ h = "#FF0080" };
-  MonaLisa       = [HEX]@{ h = "#FF8080" };
-  MintGreen      = [HEX]@{ h = "#80FF80" };
-  LightSlateBlue = [HEX]@{ h = "#8080FF" };
+  Red                = [HEX]@{ h = "#FF0000" };
+  Orange             = [HEX]@{ h = "#FF8000" };
+  Yellow             = [HEX]@{ h = "#FFFF00" };
+  Chartreuse         = [HEX]@{ h = "#80FF00" };
+  Lime               = [HEX]@{ h = "#00FF00" };
+  SpringGreen        = [HEX]@{ h = "#00FF80" };
+  Cyan               = [HEX]@{ h = "#00FFFF" };
+  DarkCyan           = [HEX]@{ h = "#3A96DD" };
+  DodgerBlue         = [HEX]@{ h = "#0080FF" };
+  Blue               = [HEX]@{ h = "#0000FF" };
+  ElectricIndigo     = [HEX]@{ h = "#8000FF" };
+  Magenta            = [HEX]@{ h = "#FF00FF" };
+  DeepPink           = [HEX]@{ h = "#FF0080" };
+  MonaLisa           = [HEX]@{ h = "#FF8080" };
+  MintGreen          = [HEX]@{ h = "#80FF80" };
+  LightSlateBlue     = [HEX]@{ h = "#8080FF" };
   # Dark colors
-  Maroon         = [HEX]@{ h = "#800000" };
-  Olive          = [HEX]@{ h = "#808000" };
-  Green          = [HEX]@{ h = "#008000" };
-  Teal           = [HEX]@{ h = "#008080" };
-  Navy           = [HEX]@{ h = "#000080" };
-  Purple         = [HEX]@{ h = "#800080" };
+  Maroon             = [HEX]@{ h = "#800000" };
+  Olive              = [HEX]@{ h = "#808000" };
+  Green              = [HEX]@{ h = "#008000" };
+  Teal               = [HEX]@{ h = "#008080" };
+  Navy               = [HEX]@{ h = "#000080" };
+  Purple             = [HEX]@{ h = "#800080" };
   # Contrasts
-  White          = [HEX]@{ h = "#FFFFFF" };
-  Silver         = [HEX]@{ h = "#C0C0C0" };
-  Gray           = [HEX]@{ h = "#808080" };
-  Black          = [HEX]@{ h = "#000000" };
+  White              = [HEX]@{ h = "#FFFFFF" };
+  Silver             = [HEX]@{ h = "#C0C0C0" };
+  Gray               = [HEX]@{ h = "#808080" };
+  Black              = [HEX]@{ h = "#000000" };
+  # SystemColors   Get their RGB values by foreach ($color in [System.ConsoleColor].GetEnumValues()) {[System.Drawing.Color]::FromName($color)}
+  System_Black       = [HEX]@{ h = "#000000" };
+  System_DarkBlue    = [HEX]@{ h = "#00008B" };
+  System_DarkGreen   = [HEX]@{ h = "#006400" };
+  System_DarkCyan    = [HEX]@{ h = "#008B8B" };
+  System_DarkRed     = [HEX]@{ h = "#8B0000" };
+  System_DarkMagenta = [HEX]@{ h = "#8B008B" };
+  System_DarkYellow  = [HEX]@{ h = "#000000" };
+  System_Gray        = [HEX]@{ h = "#808080" };
+  System_DarkGray    = [HEX]@{ h = "#A9A9A9" };
+  System_Blue        = [HEX]@{ h = "#0000FF" };
+  System_Green       = [HEX]@{ h = "#008000" };
+  System_Cyan        = [HEX]@{ h = "#00FFFF" };
+  System_Red         = [HEX]@{ h = "#FF0000" };
+  System_Magenta     = [HEX]@{ h = "#FF00FF" };
+  System_Yellow      = [HEX]@{ h = "#FFFF00" };
+  System_White       = [HEX]@{ h = "#FFFFFF" };
   # Colornames are taken from https://www.color-blindness.com/color-name-hue/
   # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
   # Pride-specific codes
-  PrideWhite     = [HEX]@{ h = "#FFFFFF" };
-  PridePink      = [HEX]@{ h = "#FFAFC7" };
-  PrideCyan      = [HEX]@{ h = "#73D7EE" };
-  PrideBrown     = [HEX]@{ h = "#613915" };
-  PrideBlack     = [HEX]@{ h = "#000000" };
-  PrideRed       = [HEX]@{ h = "#E50000" };
-  PrideOrange    = [HEX]@{ h = "#FF8D00" };
-  PrideYellow    = [HEX]@{ h = "#FFEE00" };
-  PrideGreen     = [HEX]@{ h = "#028121" };
-  PrideBlue      = [HEX]@{ h = "#004CFF" };
-  PridePurple    = [HEX]@{ h = "#730088" };
+  PrideWhite         = [HEX]@{ h = "#FFFFFF" };
+  PridePink          = [HEX]@{ h = "#FFAFC7" };
+  PrideCyan          = [HEX]@{ h = "#73D7EE" };
+  PrideBrown         = [HEX]@{ h = "#613915" };
+  PrideBlack         = [HEX]@{ h = "#000000" };
+  PrideRed           = [HEX]@{ h = "#E50000" };
+  PrideOrange        = [HEX]@{ h = "#FF8D00" };
+  PrideYellow        = [HEX]@{ h = "#FFEE00" };
+  PrideGreen         = [HEX]@{ h = "#028121" };
+  PrideBlue          = [HEX]@{ h = "#004CFF" };
+  PridePurple        = [HEX]@{ h = "#730088" };
 }
 
 
@@ -224,17 +241,26 @@ function getPrintableRGBs {
 
 
 function OUT {
-  param( [Parameter(Mandatory)][Object[]]$printElements )
+  param( 
+    [Parameter(Mandatory)][Object[]]$printElements,
+    [switch]$NoNewline = $False
+  )
 
   $PrintableRGBs = getPrintableRGBs $printElements
   $sb = new-object -TypeName System.Text.StringBuilder
+  $sb.Append( "`n") > $null
   
   Foreach ($element in $PrintableRGBs) {
     If ($null -eq $element.color) { $sb.AppendFormat( "{0}", $element.text ) > $null }
     Else { $sb.AppendFormat( "{0}", (getRGBFormattedString $element) ) > $null }
   }
 
-  Write-Host $sb.ToString()
+  if ($NoNewline) {
+    Write-Host $sb.ToString() -NoNewline
+  }
+  else {
+    Write-Host $sb.ToString()
+  }
 }
 
 

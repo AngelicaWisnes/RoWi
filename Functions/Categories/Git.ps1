@@ -23,7 +23,7 @@ addToList -name 'a' -value 'git add args'
 
 
 function createNewBranch {
-  Write-Host "`nInitiating git checkout -b `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
+  OUT "Initiating git checkout -b `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
   
   try { 
     [console]::ForegroundColor = 'DarkCyan'
@@ -31,8 +31,7 @@ function createNewBranch {
   }
   finally { [console]::ResetColor() }
   
-  Write-Host "`tTrying: git checkout -b " -NoNewline 
-  Write-Host -ForegroundColor DarkCyan "'$branchName'`n"
+  OUT "Trying: git checkout -b ", "'$branchName'`n", $global:HEXs.DarkCyan
   
   git checkout -b $branchName
 }
@@ -41,7 +40,7 @@ addToList -name 'b' -value 'git checkout -b'
 
 
 function commitWithMessage {
-  Write-Host "`nInitiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: " -NoNewline
+  OUT "Initiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: " -NoNewline
   
   try { 
     [console]::ForegroundColor = 'DarkCyan'
@@ -49,8 +48,7 @@ function commitWithMessage {
   }
   finally { [console]::ResetColor() }
   
-  Write-Host "`tTrying: git commit -m " -NoNewline
-  Write-Host -ForegroundColor DarkCyan "'$commitMessage'`n"
+  OUT "`tTrying: git commit -m ", "'$commitMessage'`n", $global:HEXs.DarkCyan
   
   git commit -m $commitMessage
 }
