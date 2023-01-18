@@ -124,7 +124,22 @@ function PRINT_MULTILINE_RAINBOW_STRING_RGB {
 
   for ($i = 0; $i -lt $lines.Count; $i++) {
     If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
-    OUT $lines[$i], $colors[$colorNumber]
+    OUT $lines[$i], $colors[$colorNumber] -NoNewlineStart
+  }
+}
+
+function PRINT_MULTILINE_TRANS_STRING_RGB {
+  param( [Parameter(Mandatory)][String]$outputString )
+
+  $lines = $outputString.Split("`n")
+  $colors = @( $HEXs.PrideCyan, $HEXs.PridePink, $HEXs.PrideWhite, $HEXs.PridePink, $HEXs.PrideCyan )
+
+  $colorNumber = -1
+  $linesOfEachColor = [int]($lines.Count / $colors.Count)
+
+  for ($i = 0; $i -lt $lines.Count; $i++) {
+    If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
+    OUT $lines[$i], $colors[$colorNumber] -NoNewlineStart
   }
 }
 

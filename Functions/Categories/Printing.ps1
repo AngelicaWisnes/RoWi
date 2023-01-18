@@ -243,12 +243,15 @@ function getPrintableRGBs {
 function OUT {
   param( 
     [Parameter(Mandatory)][Object[]]$printElements,
-    [switch]$NoNewline = $False
+    [switch]$NoNewline = $False,
+    [switch]$NoNewlineStart = $False
   )
 
   $PrintableRGBs = getPrintableRGBs $printElements
   $sb = new-object -TypeName System.Text.StringBuilder
-  $sb.Append("`n") > $null
+  if (-Not $NoNewlineStart) {
+    $sb.Append("`n") > $null
+  }
   
   Foreach ($element in $PrintableRGBs) {
     If ($null -eq $element.color) { $sb.AppendFormat( "{0}", $element.text ) > $null }
@@ -274,6 +277,11 @@ function getRGBFormattedString {
   $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
   $startSequence = "$esc[$X;2;{0}m" -f $rgbCode
   $endSequence = "$esc[0m"
+  
+  if ($element.text.Length -eq 0) {
+    Return ""
+  }
+  
   $trimmed = ($element.text).Replace("`n", "")
   
   $result = ($element.text).Replace($trimmed, $startSequence + $trimmed + $endSequence)
