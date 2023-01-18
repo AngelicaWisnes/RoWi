@@ -95,8 +95,12 @@ function PRINT_LOGO {
   If ($logoExists) { $logo = Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true }
   Else { $logo = $rw_logo_150 }
 
-  If ( (Get-Date -Format MM) -eq "06" ) { PRINT_MULTILINE_RAINBOW_STRING $logo }
-  Else { Write-Host -ForegroundColor Red $logo }
+  Switch (Get-Date -Format MM) {
+    "06" { PRINT_MULTILINE_RAINBOW_STRING_RGB $logo }
+    "11" { PRINT_MULTILINE_TRANS_STRING_RGB $logo }
+    default { Write-Host -ForegroundColor Red $logo }
+  }
+
 }
 
 function PRINT_MULTILINE_RAINBOW_STRING {
