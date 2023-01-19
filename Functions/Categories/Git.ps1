@@ -13,16 +13,16 @@ function addToList {
 }
 
 
-function addAllOrArg { 
+function GitAddAllOrArg { 
   If ($args.Length -eq 0) { git add . }
   Else { git add $args }
-  git status
+  Get-GitStatusStandard
 }
-Set-Alias a addAllOrArg
+Set-Alias a GitAddAllOrArg
 addToList -name 'a' -value 'git add args'
 
 
-function createNewBranch {
+function GitCreateNewBranch {
   OUT "Initiating git checkout -b `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
   
   try { 
@@ -35,11 +35,11 @@ function createNewBranch {
   
   git checkout -b $branchName
 }
-Set-Alias b createNewBranch
+Set-Alias b GitCreateNewBranch
 addToList -name 'b' -value 'git checkout -b'
 
 
-function commitWithMessage {
+function GitCommitWithMessage {
   OUT "Initiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: " -NoNewline
   
   try { 
@@ -52,15 +52,17 @@ function commitWithMessage {
   
   git commit -m $commitMessage
 }
-Set-Alias c commitWithMessage
+Set-Alias c GitCommitWithMessage
 addToList -name 'c' -value 'git commit -m'
 
 
-function co { git checkout $args }
+function GitCheckout { git checkout $args }
+Set-Alias co GitCheckout
 addToList -name 'co' -value 'git checkout args'
 
 
-function d { git checkout develop }
+function GitCheckoutDevelop { git checkout develop }
+Set-Alias d GitCheckoutDevelop
 addToList -name 'd' -value 'git checkout develop'
 
 
@@ -68,19 +70,19 @@ Set-Alias g git
 addToList -name 'g' -value 'git'
 
 
-function getCurrentGitBranch { git rev-parse --abbrev-ref HEAD }
-Set-Alias gb getCurrentGitBranch
+function Get-CurrentGitBranch { git rev-parse --abbrev-ref HEAD }
+Set-Alias gb Get-CurrentGitBranch
 addToList -name 'gb' -value 'Get current git branch'
 
 
-function getMasterBranch { basename $(git symbolic-ref --short refs/remotes/origin/HEAD) }
-Set-Alias gb getCurrentGitBranch
+function Get-MasterBranch { basename $(git symbolic-ref --short refs/remotes/origin/HEAD) }
+Set-Alias gmb Get-MasterBranch
 addToList -name 'gmb' -value 'Get git master branch'
 
 
-function gd { 
-  $currentGitBranch = getCurrentGitBranch
-  $title = "$(_see_String checkoutMasterBranch)  git branch -d $currentGitBranch `n  git push origin --delete $currentGitBranch"
+function GitDeleteCurrentBranch { 
+  $currentGitBranch = Get-CurrentGitBranch
+  $title = "$(_see_String GitCheckoutMaster)  git branch -d $currentGitBranch `n  git push origin --delete $currentGitBranch"
   $question = 'Are you sure you want to proceed?'
   $choices = '&Yes', '&No'
   
@@ -89,42 +91,48 @@ function gd {
   
   If ($decision -eq 0) {
     OUT "Confirmed"
-    m
+    GitCheckoutMaster
     git branch -d $currentGitBranch
     git push origin --delete $currentGitBranch
   }
   Else { OUT "Cancelled" }
 }
+Set-Alias gd GitDeleteCurrentBranch
 addToList -name 'gd' -value 'Delete current branch (local&remote)'
 
 
-function gme { git merge $args }
+function GitMergeArgs { git merge $args }
+Set-Alias gme GitMergeArgs
 addToList -name 'gme' -value 'git merge args'
 
 
-function gmm { 
-  $masterBranch = getMasterBranch
+function GitMergeMaster { 
+  $masterBranch = Get-MasterBranch
   git merge $masterBranch 
 }
+Set-Alias gmm GitMergeMaster
 addToList -name 'gmm' -value 'git merge master'
 
 
-function gpl { git pull }
+function GitPull { git pull }
+Set-Alias gpl GitPull
 addToList -name 'gpl' -value 'git pull'
 
 
-function gppl { 
-  git gc --prune=now
-  git pull 
+function GitPruneAndPull { 
+  GitPrune
+  GitPull
 }
+Set-Alias gppl GitPruneAndPull
 addToList -name 'gppl' -value 'git gc --prune=now && git pull'
 
 
-function gr { git reset --hard }
+function GitHardReset { git reset --hard }
+Set-Alias gr GitHardReset
 addToList -name 'gr' -value 'git reset --hard'
 
 
-function grb { 
+function GitRenameBranch { 
   OUT "Initiating a renaming of current branch. Enter the new branch name `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: " -NoNewline
   try { 
     [console]::ForegroundColor = 'DarkCyan'
@@ -132,7 +140,7 @@ function grb {
   }
   finally { [console]::ResetColor() }
   
-  $oldBranchName = getCurrentGitBranch
+  $oldBranchName = Get-CurrentGitBranch
   
   # Rename local branch.
   git branch -m $newBranchName
@@ -143,29 +151,30 @@ function grb {
   # Reset the upstream branch for the new-name local branch.
   git push origin -u $newBranchName
 }
+Set-Alias grb GitRenameBranch
 addToList -name 'grb' -value 'Rename git branch'
 
 
-function checkoutMasterBranch { 
-  $masterBranch = getMasterBranch
+function GitCheckoutMaster { 
+  $masterBranch = Get-MasterBranch
   git checkout $masterBranch 
 }
-Set-Alias m checkoutMasterBranch
+Set-Alias m GitCheckoutMaster
 addToList -name 'm' -value 'git checkout master/main'
 
 
-function openGitBranchInBrowser {
+function GitOpenBranchInBrowser {
   param( 
     [string]$repo = $(getRepo),
-    [string]$currentGitBranch = $(getCurrentGitBranch)
+    [string]$currentGitBranch = $(Get-CurrentGitBranch)
   )
-  Start-Process $global:MY_BROWSER -ArgumentList $(_openGitBranchInBrowser_string -repo $repo -branch $currentGitBranch)
+  Start-Process $global:MY_BROWSER -ArgumentList $(Get-GitBranchUrl -repo $repo -branch $currentGitBranch)
 }
-Set-Alias ob openGitBranchInBrowser
+Set-Alias ob GitOpenBranchInBrowser
 addToList -name 'ob' -value 'Open git-branch in browser'
 
 
-function _openGitBranchInBrowser_string {
+function Get-GitBranchUrl {
   param( 
     [Parameter(Mandatory)][string]$repo,
     [Parameter(Mandatory)][string]$branch
@@ -173,21 +182,25 @@ function _openGitBranchInBrowser_string {
   If ($global:GIT_BRANCH_URL.Contains("{1}")) { Return $global:GIT_BRANCH_URL -f $repo, $branch }
   Else { Return $global:GIT_BRANCH_URL -f $repo }
 }
+Set-Alias gbu Get-GitBranchUrl
+addToList -name 'gbu' -value 'Get url for current git-branch'
 
 
-function p { git push }
+function GitPush { git push }
+Set-Alias p GitPush
 addToList -name 'p' -value 'git push'
 
 
-function po { 
-  p
-  openGitBranchInBrowser
+function GitPushAndOpenBranchInBrowser { 
+  GitPush
+  GitOpenBranchInBrowser
 }
-addToList -name 'po' -value 'git push && Open BitBucket-git branch'
+Set-Alias po GitPushAndOpenBranchInBrowser
+addToList -name 'po' -value 'git push && Open git-branch i browser'
 
 
-function pu { 
-  $currentGitBranch = getCurrentGitBranch
+function GitSetUpstreamAndPush { 
+  $currentGitBranch = Get-CurrentGitBranch
   $title = "`tgit push --set-upstream origin $currentGitBranch"
   $question = 'Are you sure you want to proceed?'
   $choices = '&Yes', '&No'
@@ -201,22 +214,25 @@ function pu {
   }
   Else { OUT "Cancelled" }
 }
+Set-Alias pu GitSetUpstreamAndPush
 addToList -name 'pu' -value 'git push --set-upstream origin'
 
 
-function prune { git gc --prune=now }
-addToList -name 'prune' -value 'git gc --prune=now'
+function GitPrune { git gc --prune=now }
+Set-Alias gpr GitPrune
+addToList -name 'gpr' -value 'git gc --prune=now'
 
 
-function quickCommitAll { 
+function GitQuickCommitAll { 
   git add .
   git commit -m "Various small changes"
 }
-Set-Alias qca quickCommitAll
+Set-Alias qca GitQuickCommitAll
 addToList -name 'qca' -value 'Quick-Commit all'
 
 
-function s { git status }
+function Get-GitStatusStandard { git status }
+Set-Alias s Get-GitStatusStandard
 addToList -name 's' -value 'git status'
 
 
@@ -245,14 +261,14 @@ function _pullAllRepos {
 
     # TODO: This function is not finished
 
-    #$currentGitBranch = getCurrentGitBranch
-    #$masterGitBranch = getMasterBranch
+    #$currentGitBranch = Get-CurrentGitBranch
+    #$masterGitBranch = Get-MasterBranch
   
     # If working tree is clean
     If ((Get-GitStatus).Working.length -eq 0 -and (Get-GitStatus).Index.length -eq 0) {
       
-      #If ($currentGitBranch -ne $masterGitBranch) { checkoutMasterBranch }
-      #gpl
+      #If ($currentGitBranch -ne $masterGitBranch) { GitCheckoutMaster }
+      #GitPull
     }
     Else { $needsManualWork.AppendFormat( "  {0}`n", $(getPath) ) > $null }
   }
