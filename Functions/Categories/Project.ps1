@@ -150,7 +150,7 @@ function _pro_newPsStdActions {
     [int]$useDotNetIde = 0
   )
 
-  startNewPowershell { 
+  Start-NewPowershell { 
     param($repo, $branch, $useDotNetIde); 
     _pro_stdActions $repo $branch $useDotNetIde; 
   } ($($repo), $($branch), $($useDotNetIde))

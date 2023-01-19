@@ -68,6 +68,6 @@ addToList -name 'snb' -value 'Start new browser'
 
 function _startIDE {
   param( [Parameter(Mandatory)][string]$IDE )
-  $currentPath = getPath
+  $currentPath = Get-FullPath
   Start-Process $IDE -ArgumentList "$currentPath" 
 }

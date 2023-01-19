@@ -14,8 +14,8 @@ function addToList {
 
 
 function syys { 
-  $currentPath = getPath
-  startNewPowershell { 
+  $currentPath = Get-FullPath
+  Start-NewPowershell { 
     param($currentPath); 
     Set-Location $currentPath; 
     yarn; 

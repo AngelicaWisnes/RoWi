@@ -82,7 +82,7 @@ addToList -name 'gmb' -value 'Get git master branch'
 
 function GitDeleteCurrentBranch { 
   $currentGitBranch = Get-CurrentGitBranch
-  $title = "$(_see_String GitCheckoutMaster)  git branch -d $currentGitBranch `n  git push origin --delete $currentGitBranch"
+  $title = "$(Get-FunctionDefinitionAsString GitCheckoutMaster)  git branch -d $currentGitBranch `n  git push origin --delete $currentGitBranch"
   $question = 'Are you sure you want to proceed?'
   $choices = '&Yes', '&No'
   
@@ -165,7 +165,7 @@ addToList -name 'm' -value 'git checkout master/main'
 
 function GitOpenBranchInBrowser {
   param( 
-    [string]$repo = $(getRepo),
+    [string]$repo = $(Get-CurrentRepo),
     [string]$currentGitBranch = $(Get-CurrentGitBranch)
   )
   Start-Process $global:MY_BROWSER -ArgumentList $(Get-GitBranchUrl -repo $repo -branch $currentGitBranch)
@@ -238,9 +238,9 @@ addToList -name 's' -value 'git status'
 
 
 
-
+# TODO: Check if this function is completed - If not: Complete it
 function _pullAllRepos {
-  $root = getPath
+  $root = Get-FullPath
   $directories = (Get-ChildItem -Directory).name
   
   If ( $directories.Count -eq 0 ) { Return }
@@ -270,13 +270,13 @@ function _pullAllRepos {
       #If ($currentGitBranch -ne $masterGitBranch) { GitCheckoutMaster }
       #GitPull
     }
-    Else { $needsManualWork.AppendFormat( "  {0}`n", $(getPath) ) > $null }
+    Else { $needsManualWork.AppendFormat( "  {0}`n", $(Get-FullPath) ) > $null }
   }
 
   Return $needsManualWork.ToString()
 }
 
-
+# TODO: Check if this function is completed - If not: Complete it
 function pullAllRepos {
   Set-Location $global:DEFAULT_START_PATH
   $needsManualWork = _pullAllRepos

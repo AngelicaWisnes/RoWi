@@ -13,89 +13,100 @@ function addToList {
 }
 
 
-function cd. { Set-Location .. }
+function Set-LocationOneBack { Set-Location .. }
+Set-Alias cd. Set-LocationOneBack
 addToList -name 'cd.' -value 'cd ..'
 
 
-function ep { code $global:ROWI }
+function Edit-RowiProfile { code $global:ROWI }
+Set-Alias ep Edit-RowiProfile
 addToList -name 'ep' -value 'Edit RoWi'
 
 
-function epp { 
-  code $global:ROWI
+function Edit-RowiAndPsProfile { 
+  Edit-RowiProfile
   code $profile 
 }
+Set-Alias epp Edit-RowiAndPsProfile
 addToList -name 'epp' -value 'Edit RoWi and PS-profile'
 
-function getPath { (Resolve-Path .\).Path }
-addToList -name 'getPath' -value 'Get current path'
+function Get-FullPath { (Resolve-Path .\).Path }
+Set-Alias pa Get-FullPath
+addToList -name 'pa' -value 'Get current path'
 
 
-function getRepo { Split-Path -Leaf (getPath) }
-addToList -name 'getRepo' -value 'Get current repo'
+function Get-CurrentRepo { Split-Path -Leaf (Get-FullPath) }
+Set-Alias re Get-CurrentRepo
+addToList -name 're' -value 'Get current repo'
 
 
-function home { Push-Location $global:DEFAULT_START_PATH }
-addToList -name 'home' -value 'Go back to start-path'
+function Push-LocationHome { Push-Location $global:DEFAULT_START_PATH }
+Set-Alias home Push-LocationHome
+addToList -name 'home' -value 'Push-Location default-start-path'
 
 Set-Alias i Invoke-History
 addToList -name 'i' -value 'Invoke-History'
 
-function rc { [console]::ResetColor() }
+function Reset-Color { [console]::ResetColor() }
+Set-Alias rc Reset-Color
 addToList -name 'rc' -value 'Reset color scheme'
 
-function rowi { Set-Location $global:ROWI }
-addToList -name 'rowi' -value 'cd $ROWI'
+function Push-LocationRowi { Push-Location $global:ROWI }
+Set-Alias rowi Push-LocationRowi
+addToList -name 'rowi' -value 'Push-Location $ROWI'
 
 
-function rr { 
+function ReloadRowi { 
   $startPath = Get-Location
   OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:HEXs.Cyan
   . $global:ROWI\RoWi.ps1
 }
+Set-Alias rr ReloadRowi
 addToList -name '. rr' -value 'Reload RoWi'
 
 
-function rrp { 
+function ReloadPsProfile { 
   $startPath = Get-Location
   OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:HEXs.Cyan
   . $profile
 }
+Set-Alias rrp ReloadPsProfile
 addToList -name '. rrp' -value 'Reload PS-profile'
 
 
-function see {
+function Get-FunctionDefinition {
   param( [Parameter(Mandatory)][String]$commandName )
-  $functionName = _see_getFunctionNameFromCommandName( $commandName )
-  $codeBlock = _see_String $functionName
+  $functionName = Get-FunctionNameFromCommandName( $commandName )
+  $codeBlock = Get-FunctionDefinitionAsString $functionName
   Write-Host -ForegroundColor White "$codeBlock"
 }
+Set-Alias see Get-FunctionDefinition
 addToList -name 'see' -value 'See the code-block of function'
 
 
-function _see_getFunctionNameFromCommandName {
+function Get-FunctionNameFromCommandName {
   param( [Parameter(Mandatory)][String]$commandName )
   $command = Get-Command $commandName
   $commandType = $command.CommandType
   If ( $commandType -eq "Function" ) { Return $commandName }
   If ( $commandType -eq "Alias" ) { Return $command.Definition }
-  Else { OUT "`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in _see_getFunctionNameFromCommandName`n", $global:HEXs.Red }
+  Else { OUT "`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in Get-FunctionNameFromCommandName`n", $global:HEXs.Red }
 }
 
 
-function _see_String { Return (Get-Command $args).ScriptBlock }
+function Get-FunctionDefinitionAsString { Return (Get-Command $args).ScriptBlock }
 
 
-function startNewPowershell {
+function Start-NewPowershell {
   param (
     [scriptblock]$script = { param($currentPath); Set-Location $currentPath; },
-    [array]$params = ($(getPath))
+    [array]$params = ($(Get-FullPath))
   )
 
   Start-Process $global:MY_POWERSHELL -ArgumentList `
     "-NoExit -Command & { $($script -replace '"', '\"') } $params"
 }
-Set-Alias snp startNewPowershell
+Set-Alias snp Start-NewPowershell
 addToList -name 'snp' -value 'Start new powershell'
 
 
@@ -103,12 +114,13 @@ addToList -name 'snp' -value 'Start new powershell'
 
 $subDirUtils = @{
   current     = 0 ; 
-  root        = getPath;
+  root        = Get-FullPath;
   directories = (Get-ChildItem -Directory).name;
   dirCount    = 0;
   initialized = $false
 }
 
+# TODO: Check if this function is completed - If not: Complete it
 function _openAllSubDirs_continue {
   If ( $subDirUtils.dirCount -eq 0 ) { Return OUT "No subdirectories found", $global:HEXs.Red }
   If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return OUT "Finished", $global:HEXs.Red }
@@ -119,9 +131,10 @@ function _openAllSubDirs_continue {
   $subDirUtils.current += 1
 }
 
+# TODO: Check if this function is completed - If not: Complete it
 function _openAllSubDirs_init {
   $subDirUtils.current = 0
-  $subDirUtils.root = getPath
+  $subDirUtils.root = Get-FullPath
   $subDirUtils.directories = (Get-ChildItem -Directory).name
   $subDirUtils.dirCount = $($subDirUtils.directories).Count
   $subDirUtils.initialized = $True
@@ -133,6 +146,7 @@ function _openAllSubDirs_init {
     Run 'openAllSubDirs' to precede to the next subdirectory.`n"
 }
 
+# TODO: Check if this function is completed - If not: Complete it
 function openAllSubDirs {
   param( [switch]$Init = $False )
   If ( $Init -or (-not $subDirUtils.initialized) ) { _openAllSubDirs_init }

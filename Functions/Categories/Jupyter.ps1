@@ -12,15 +12,17 @@ function addToList {
   $global:FunctionSubList_JUPYTER.Add(( [FunctionListElement]@{ category = "Jupyter"; name = $name; value = $value }))
 }
 
-function jn { jupyter notebook }
+function Open-JupyterNotebook { jupyter notebook }
+Set-Alias jn Open-JupyterNotebook
 addToList -name 'jn' -value 'Open_Jupyter_Notebook'
 
 
-function jSize {
+function Get-JupyterOutputSizeCode {
   Set-Clipboard -Value "# Utility code to extend the height of output-cells
   from IPython.core.display import display, HTML    
   # To change size of output-cell:         Change height here, Change width here
   display(HTML('<style>div.output_scroll {    height: 80em;       width: 80em;   }</style>'))" 
 }
-addToList -name 'jSize' -value 'Get jupiter output-size-code'
+Set-Alias jns Get-JupyterOutputSizeCode
+addToList -name 'jns' -value 'Get jupiter output-size-code'
 
