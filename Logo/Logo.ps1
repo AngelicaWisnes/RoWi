@@ -90,22 +90,18 @@ function Convert-ImageToAsciiArt {
   Return $sb.ToString()
 } 
 
-function PRINT_LOGO {
-  $logoExists = Test-Path -Path $rw_logo -PathType Leaf
-  If ($logoExists) { $logo = Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true }
-  Else { $logo = $rw_logo_150 }
-
+function Get-Logo {
   Switch (Get-Date -Format MM) {
-    "06" { PRINT_MULTILINE_RAINBOW_STRING_RGB $logo }
-    "11" { PRINT_MULTILINE_TRANS_STRING_RGB $logo }
-    default { Write-Host -ForegroundColor Red $logo }
+    "06" { Get-LogoRainbowRGB }
+    "11" { Get-LogoTransRGB }
+    default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
   }
-
+  Get-RainbowSlimLine
+  Write-Host
 }
 
-function PRINT_MULTILINE_RAINBOW_STRING {
-  param( [Parameter(Mandatory)][String]$outputString )
-
+function Get-LogoRainbow {
+  $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
   $colors = @( "DarkRed", "Red", "Yellow", "Green", "Blue", "Magenta" )
   $colorNumber = -1
@@ -118,11 +114,10 @@ function PRINT_MULTILINE_RAINBOW_STRING {
   }
 }
 
-function PRINT_MULTILINE_RAINBOW_STRING_RGB {
-  param( [Parameter(Mandatory)][String]$outputString )
-
+function Get-LogoRainbowRGB {
+  $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
-  $colors = @( $HEXs.Red, $HEXs.Orange, $HEXs.Yellow, $HEXs.Lime, $HEXs.Blue, $HEXs.Purple  )
+  $colors = @( $HEXs.PrideRed, $HEXs.PrideOrange, $HEXs.PrideYellow, $HEXs.PrideGreen, $HEXs.PrideBlue, $HEXs.PridePurple )
   $colorNumber = -1
   $linesOfEachColor = [int]($lines.Count / $colors.Count)
 
@@ -132,9 +127,8 @@ function PRINT_MULTILINE_RAINBOW_STRING_RGB {
   }
 }
 
-function PRINT_MULTILINE_TRANS_STRING_RGB {
-  param( [Parameter(Mandatory)][String]$outputString )
-
+function Get-LogoTransRGB {
+  $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
   $colors = @( $HEXs.PrideCyan, $HEXs.PridePink, $HEXs.PrideWhite, $HEXs.PridePink, $HEXs.PrideCyan )
 
@@ -147,9 +141,15 @@ function PRINT_MULTILINE_TRANS_STRING_RGB {
   }
 }
 
-function PRINT_IMAGE {
+function Get-Selfie {
   $logoExists = Test-Path -Path $rw_image -PathType Leaf
   If ($logoExists) { $image = Convert-ImageToAsciiArt -Path $rw_image }
   Else { $image = "Could not print RW, as the image is missing" }
   Write-Host -ForegroundColor Red $image
+}
+
+function Get-LogoAsString {
+  $logoExists = Test-Path -Path $rw_logo -PathType Leaf
+  If ($logoExists) { Return Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true }
+  Else { Return $rw_logo_150 }  
 }

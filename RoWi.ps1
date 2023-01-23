@@ -21,7 +21,7 @@ Else { Push-Location $global:DEFAULT_START_PATH }
 ###      AFTER SETUP     ###
 ############################
 
-PRINT_LOGO
+Get-Logo
 PRINT_FUNCTION_LIST_GENERATOR_INFO
 PRINT_UPGRADER_INFO
 dad

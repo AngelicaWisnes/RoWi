@@ -61,7 +61,7 @@ Set-PSReadLineKeyHandler -Chord Ctrl+1 -ScriptBlock {
 
 Set-PSReadLineKeyHandler -Chord Ctrl+2 -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
-  [Microsoft.PowerShell.PSConsoleReadLine]::Insert('PRINT_IMAGE')
+  [Microsoft.PowerShell.PSConsoleReadLine]::Insert('Get-Selfie')
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
