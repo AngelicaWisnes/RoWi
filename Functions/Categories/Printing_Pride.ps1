@@ -26,10 +26,22 @@ function Get-RainbowLine {
 }
 
 
+function Get-TransLine {
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $spaceLength = (" " * $windowWidth)
+  
+  OUT $spaceLength, $HEXs.PrideCyan, $True, "`n",
+  $spaceLength, $HEXs.PridePink, $True, "`n",
+  $spaceLength, $HEXs.PrideWhite, $True, "`n",
+  $spaceLength, $HEXs.PridePink, $True, "`n",
+  $spaceLength, $HEXs.PrideCyan, $True
+}
+
+
 function Get-RainbowSlimLine {
   param( [switch]$NoNewlineStart = $False )
 
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width
   $spaceLength = [math]::floor($windowWidth / 6)
   $spaces = " " * $spaceLength
   $restSpaceLength = $windowWidth - ($spaceLength * 6)
@@ -48,7 +60,7 @@ function Get-RainbowSlimLine {
 function Get-TransSlimLine {
   param( [switch]$NoNewlineStart = $False )
 
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width
   $spaceLength = [math]::floor($windowWidth / 5)
   $spaces = " " * $spaceLength
   $restSpaceLength = $windowWidth - ($spaceLength * 5)
@@ -71,18 +83,6 @@ function Get-RainbowSlimShortLine {
   $spaceLength, $HEXs.PrideGreen, $True,
   $spaceLength, $HEXs.PrideBlue, $True,
   $spaceLength, $HEXs.PridePurple, $True
-}
-
-
-function Get-Trans {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  $spaceLength = (" " * $windowWidth)
-  
-  OUT $spaceLength, $HEXs.PrideCyan, $True, "`n",
-  $spaceLength, $HEXs.PridePink, $True, "`n",
-  $spaceLength, $HEXs.PrideWhite, $True, "`n",
-  $spaceLength, $HEXs.PridePink, $True, "`n",
-  $spaceLength, $HEXs.PrideCyan, $True
 }
 
 
@@ -194,9 +194,10 @@ function Get-PrideLogo {
 
 function Get-PrideCollection {
   Get-RainbowLine
+  Get-TransLine
   Get-RainbowSlimLine
+  Get-TransSlimLine
   Get-RainbowSlimShortLine
-  Get-Trans   
   Get-PrideSmall
   Get-PrideMedium
   Get-PrideLarge
