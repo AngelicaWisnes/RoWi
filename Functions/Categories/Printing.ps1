@@ -258,12 +258,7 @@ function OUT {
     Else { $sb.AppendFormat( "{0}", (getRGBFormattedString $element) ) > $null }
   }
 
-  if ($NoNewline) {
-    Write-Host $sb.ToString() -NoNewline
-  }
-  else {
-    Write-Host $sb.ToString()
-  }
+  Write-Host $sb.ToString() -NoNewline:$NoNewline
 }
 
 

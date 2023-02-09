@@ -96,7 +96,7 @@ function Get-Logo {
     "11" { Get-LogoTransRGB }
     default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
   }
-  Get-RainbowSlimLine
+  Get-RainbowSlimLine 
   Get-TransSlimLine -NoNewlineStart
   Write-Host
 }

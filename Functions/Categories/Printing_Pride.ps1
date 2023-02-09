@@ -27,6 +27,8 @@ function Get-RainbowLine {
 
 
 function Get-RainbowSlimLine {
+  param( [switch]$NoNewlineStart = $False )
+
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
   $spaceLength = [math]::floor($windowWidth / 6)
   $spaces = " " * $spaceLength
@@ -39,14 +41,12 @@ function Get-RainbowSlimLine {
   $spaces, $HEXs.PrideGreen, $True,
   $spaces, $HEXs.PrideBlue, $True,
   $spaces, $HEXs.PridePurple, $True,
-  $restSpaces, $HEXs.PridePurple, $True
+  $restSpaces, $HEXs.PridePurple, $True -NoNewlineStart:$NoNewlineStart
 }
 
 
 function Get-TransSlimLine {
-  param( 
-    [switch]$NoNewlineStart = $False
-  )
+  param( [switch]$NoNewlineStart = $False )
 
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
   $spaceLength = [math]::floor($windowWidth / 5)
@@ -59,7 +59,7 @@ function Get-TransSlimLine {
   $spaces, $HEXs.PrideWhite, $True,
   $spaces, $HEXs.PridePink, $True,
   $spaces, $HEXs.PrideCyan, $True,
-  $restSpaces, $HEXs.PrideCyan, $True -NoNewlineStart
+  $restSpaces, $HEXs.PrideCyan, $True -NoNewlineStart:$NoNewlineStart
 }
 
 
