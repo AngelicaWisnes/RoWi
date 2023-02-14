@@ -35,6 +35,9 @@ logTime "Logo"
 logTime "Upgrader"
 
 # Import modules
+if (!(Get-Module -ListAvailable -Name posh-git)) {
+  Install-Module -Name posh-git
+}
 Import-Module -Name posh-git -ArgumentList @($false, $false, $true) # Arguments: [bool]$ForcePoshGitPrompt, [bool]$UseLegacyTabExpansion, [bool]$EnableProxyFunctionExpansion
 logTime "Posh" -restart $false
 
@@ -65,16 +68,18 @@ Set-PSReadLineKeyHandler -Chord Ctrl+2 -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
-function prompt {
-  # Your non-prompt logic here
-  #$prompt = Write-Prompt "Text before posh-git prompt " -ForegroundColor ([ConsoleColor]::Green)
-  $prompt = Write-Prompt "`n"
-  
-  $prompt += & $GitPromptScriptBlock
-  #$prompt += "`n"
-  
-  $prompt.replace(">", "`n>")
-
-  #$prompt += Write-Prompt "Text after posh-git prompt" -ForegroundColor ([ConsoleColor]::Magenta)
-  if ($prompt) { "$prompt " } else { " " }
-}
+#function prompt {
+#  # Your non-prompt logic here
+#  #$prompt = Write-Prompt "Text before posh-git prompt " -ForegroundColor ([ConsoleColor]::Green)
+#  if (Get-Module -ListAvailable -Name posh-git) { Get-Command $GitPromptScriptBlock } else { write-host "false" }
+#
+#  $prompt = Write-Prompt "`n"
+#  
+#  $prompt += & $GitPromptScriptBlock
+#  #$prompt += "`n"
+#  
+#  $prompt.replace(">", "`n>")
+#
+#  #$prompt += Write-Prompt "Text after posh-git prompt" -ForegroundColor ([ConsoleColor]::Magenta)
+#  if ($prompt) { "$prompt " } else { "FAIL > " }
+#}

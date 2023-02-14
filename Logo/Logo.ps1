@@ -1,7 +1,7 @@
 
 $logoRoot = $PSScriptRoot
-$rw_logo = "$logoRoot\Images\RW_LOGO.png"
-$rw_image = "$logoRoot\Images\RW_IMAGE.png"
+$rw_logo = "$logoRoot\Images\RW_LOGO.png" | Resolve-Path
+$rw_image = "$logoRoot\Images\RW_IMAGE.png" | Resolve-Path
 $rw_logo_150 = "
                                                                                                                                          ############
                                                                                                                                     #################

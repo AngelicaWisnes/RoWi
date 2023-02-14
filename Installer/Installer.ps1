@@ -1,7 +1,7 @@
 
 function COPY_ZIPPED_PROFILE_DIRECTORY {
-  $profileDirectory = "$PSScriptRoot\.." | Convert-Path
-  $profileDirectoryZip = "$profileDirectory.zip"
+  $profileDirectory = "$PSScriptRoot\.." | Resolve-Path
+  $profileDirectoryZip = "$profileDirectory.zip" | Resolve-Path
 
   Compress-Archive -Path $profileDirectory -DestinationPath $profileDirectory
   Set-Clipboard -Path $profileDirectoryZip
@@ -16,14 +16,14 @@ function INSTALL_TERMINAL {
   #winget install --id Microsoft.WindowsTerminal
 
   #Desired path for shortcur placement
-  $path = "$PSScriptRoot\InstallSources"
-  $shortcutPath = "$path\Windows Terminal.lnk"
+  $path = "$PSScriptRoot\InstallSources" | Resolve-Path
+  $shortcutPath = "$path\Windows Terminal.lnk" | Resolve-Path
 
   # Create shortcut
   $WshShell = New-Object -comObject WScript.Shell
   $Shortcut = $WshShell.CreateShortcut($shortcutPath)
-  $Shortcut.TargetPath = "%LocalAppData%\Microsoft\WindowsApps\wt.exe"
-  $shortcut.IconLocation = "$PSScriptRoot\InstallSources\terminal.ico"
+  $Shortcut.TargetPath = "%LocalAppData%\Microsoft\WindowsApps\wt.exe" | Resolve-Path
+  $shortcut.IconLocation = "$PSScriptRoot\InstallSources\terminal.ico" | Resolve-Path
   $Shortcut.Save()
 
   # Make the shortcut rus as administrator
@@ -41,12 +41,12 @@ function INSTALL_TERMINAL {
 
 function CREATE_PS7_ADMIN_SHORTCUT {
   #Desired path for shortcur placement
-  $shortcutPath = "$PSScriptRoot\InstallSources\Powershell7.lnk"
+  $shortcutPath = "$PSScriptRoot\InstallSources\Powershell7.lnk" | Resolve-Path
 
   # Create shortcut
   $WshShell = New-Object -comObject WScript.Shell
   $Shortcut = $WshShell.CreateShortcut($shortcutPath)
-  $Shortcut.TargetPath = "C:\Program Files\PowerShell\7\pwsh.exe"
+  $Shortcut.TargetPath = "C:\Program Files\PowerShell\7\pwsh.exe" | Resolve-Path
   $Shortcut.Save()
 
   # Make the shortcut rus as administrator

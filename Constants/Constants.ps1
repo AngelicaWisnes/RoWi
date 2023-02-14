@@ -8,9 +8,9 @@ $global:SYSTEM_NAME = WhoAmI #Alternative to WhoAmI:   [System.Security.Principa
 
 
 # Define dynamically defined paths
-$global:SYSTEM_CONSTANTS_PATH = "$global:ROWI\Constants\SystemDependent\$global:SYSTEM_NAME\SystemDependentConstants.ps1"
-$global:SYSTEM_PROJECTS_PATH = "$global:ROWI\Functions\Categories\SystemDependent\$global:SYSTEM_NAME\SystemDependentProjects.ps1"
-$global:SYSTEM_FUNCTIONS_PATH = "$global:ROWI\Functions\Categories\SystemDependent\$global:SYSTEM_NAME\SystemDependentFunctions.ps1"
+$global:SYSTEM_CONSTANTS_PATH = "$global:ROWI\Constants\SystemDependent\$global:SYSTEM_NAME\SystemDependentConstants.ps1" | Resolve-Path
+$global:SYSTEM_PROJECTS_PATH = "$global:ROWI\Functions\Categories\SystemDependent\$global:SYSTEM_NAME\SystemDependentProjects.ps1" | Resolve-Path
+$global:SYSTEM_FUNCTIONS_PATH = "$global:ROWI\Functions\Categories\SystemDependent\$global:SYSTEM_NAME\SystemDependentFunctions.ps1" | Resolve-Path
 
 # Import SystemDependent Constants
 . $global:SYSTEM_CONSTANTS_PATH

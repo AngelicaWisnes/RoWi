@@ -127,7 +127,7 @@ function _openAllSubDirs_continue {
 
   $currentDir = $subDirUtils.directories[$subDirUtils.current]
   Write-Host -ForegroundColor Cyan "Current directory: $($subDirUtils.current+1)/$($subDirUtils.dirCount) `n  $currentDir `n"
-  Set-Location "$($subDirUtils.root)\$currentDir"
+  Set-Location ("$($subDirUtils.root)\$currentDir" | Resolve-Path)
   $subDirUtils.current += 1
 }
 

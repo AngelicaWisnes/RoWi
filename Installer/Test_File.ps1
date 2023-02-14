@@ -55,7 +55,7 @@ function AddToPath {
         $PathNew = "$PathOld;$PathToAdd"
         Set-ItemProperty -Path $RegPropertyLocation -Name $PathType -Value $PathNew
         Get-ItemProperty -Path $RegPropertyLocation -Name $PathType | Select-Object -ExpandProperty $PathType
-        If ($PathType -eq "Path") { $env:Path += ";$PathToAdd" }                  # Add to Path also for this current session
+        If ($PathType -eq "Path") { $env:PATH += ";$PathToAdd" }                  # Add to Path also for this current session
         If ($PathType -eq "PSModulePath") { $env:PSModulePath += ";$PathToAdd" }  # Add to PSModulePath also for this current session
         "`n$PathToAdd has been added to the $UserType $PathType"
     }
