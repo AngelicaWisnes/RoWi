@@ -1,6 +1,7 @@
 
 $logoRoot = $PSScriptRoot
 $rw_logo = "$logoRoot\Images\RW_LOGO.png" | Resolve-Path
+$rw_logo_text = "$logoRoot\Images\RW_LOGO_TEXT.txt" | Resolve-Path
 $rw_image = "$logoRoot\Images\RW_IMAGE.png" | Resolve-Path
 $rw_logo_150 = "
                                                                                                                                          ############
@@ -90,6 +91,41 @@ function Convert-ImageToAsciiArt {
   Return $sb.ToString()
 } 
 
+
+function Resize-AsciiArt {
+  param([String]$Path = $rw_logo_text)
+
+  [string[]]$imageArrayFromFile = Get-Content -Path $Path
+  
+  $inputImageWidth = $imageArrayFromFile[0].Length
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $minScaleWidth = $windowWidth / $inputImageWidth
+
+  $inputImageHeight = $imageArrayFromFile.Length 
+  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 1
+  $minScaleHeight = $windowHeight / $inputImageHeight
+
+  $minOutputScale = [Math]::Min($minScaleWidth, $minScaleHeight)
+  $outputWidth = [Math]::Floor($inputImageWidth * $minOutputScale)
+  $outputHeight = [Math]::Floor($inputImageHeight * $minOutputScale)
+  
+  $outputImageArray = [string[]]::new($outputHeight)
+  
+  # Take each pixel line...
+  for ($y = 0; $y -lt $outputHeight; $y++) {
+    $nearestY = [Math]::Floor($y / $minOutputScale)
+    $line = $imageArrayFromFile[$nearestY]
+    # Take each pixel column...
+    for ($x = 0; $x -lt $outputWidth; $x++) {
+      $nearestX = [Math]::Floor($x / $minOutputScale)
+      $pixel = $line.Substring($nearestX, 1)
+      $outputImageArray[$y] += $pixel # Add character to line
+    }
+  }
+
+  Return $outputImageArray
+} 
+
 function Get-Logo {
   Switch (Get-Date -Format MM) {
     "06" { Get-LogoRainbowRGB }
@@ -150,7 +186,13 @@ function Get-Selfie {
 }
 
 function Get-LogoAsString {
-  $logoExists = Test-Path -Path $rw_logo -PathType Leaf
-  If ($logoExists) { Return Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true }
+  $logoImageExists = Test-Path -Path $rw_logo -PathType Leaf
+  $logoTextExists = Test-Path -Path $rw_logo_text -PathType Leaf
+  If ($PSVersionTable.OS.Contains('Windows') -AND $logoImageExists) { 
+    Return Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true
+  }
+  Elseif ($logoTextExists) {
+    Return Resize-AsciiArt -Path $rw_logo_text
+  }
   Else { Return $rw_logo_150 }  
 }
