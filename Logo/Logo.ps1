@@ -3,6 +3,7 @@ $logoRoot = $PSScriptRoot
 $rw_logo = "$logoRoot\Images\RW_LOGO.png" | Resolve-Path
 $rw_logo_text = "$logoRoot\Images\RW_LOGO_TEXT.txt" | Resolve-Path
 $rw_image = "$logoRoot\Images\RW_IMAGE.png" | Resolve-Path
+$rw_image_text = "$logoRoot\Images\RW_LOGO_TEXT.txt" | Resolve-Path
 $rw_logo_150 = "
                                                                                                                                          ############
                                                                                                                                     #################
@@ -37,11 +38,9 @@ $rw_logo_150 = "
 " 
 
 
-
 function Convert-ImageToAsciiArt {
   param(
-    [Parameter(Mandatory)][String]
-    $Path,
+    [Parameter(Mandatory)][String] $Path,
     [bool]$BinaryPixelated = $false
   )
 
@@ -93,7 +92,7 @@ function Convert-ImageToAsciiArt {
 
 
 function Resize-AsciiArt {
-  param([String]$Path = $rw_logo_text)
+  param([Parameter(Mandatory)][String] $Path)
 
   [string[]]$imageArrayFromFile = Get-Content -Path $Path
   
@@ -111,20 +110,21 @@ function Resize-AsciiArt {
   
   $outputImageArray = [string[]]::new($outputHeight)
   
-  # Take each pixel line...
+  # Nearest-neighbor interpolation
   for ($y = 0; $y -lt $outputHeight; $y++) {
     $nearestY = [Math]::Floor($y / $minOutputScale)
     $line = $imageArrayFromFile[$nearestY]
-    # Take each pixel column...
+    
     for ($x = 0; $x -lt $outputWidth; $x++) {
       $nearestX = [Math]::Floor($x / $minOutputScale)
       $pixel = $line.Substring($nearestX, 1)
-      $outputImageArray[$y] += $pixel # Add character to line
+      $outputImageArray[$y] += $pixel
     }
   }
 
   Return $outputImageArray
 } 
+
 
 function Get-Logo {
   Switch (Get-Date -Format MM) {
@@ -179,8 +179,13 @@ function Get-LogoTransRGB {
 }
 
 function Get-Selfie {
-  $logoExists = Test-Path -Path $rw_image -PathType Leaf
-  If ($logoExists) { $image = Convert-ImageToAsciiArt -Path $rw_image }
+  $imageExists = Test-Path -Path $rw_image -PathType Leaf
+  $imageTextExists = Test-Path -Path $rw_image_text -PathType Leaf
+
+  If ($PSVersionTable.OS.Contains('Windows') -AND $imageExists) { 
+    $image = Convert-ImageToAsciiArt -Path $rw_image 
+  }
+  Elseif ($imageTextExists) { Return Resize-AsciiArt -Path $rw_image_text }
   Else { $image = "Could not print RW, as the image is missing" }
   Write-Host -ForegroundColor Red $image
 }
@@ -188,11 +193,10 @@ function Get-Selfie {
 function Get-LogoAsString {
   $logoImageExists = Test-Path -Path $rw_logo -PathType Leaf
   $logoTextExists = Test-Path -Path $rw_logo_text -PathType Leaf
+
   If ($PSVersionTable.OS.Contains('Windows') -AND $logoImageExists) { 
     Return Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true
   }
-  Elseif ($logoTextExists) {
-    Return Resize-AsciiArt -Path $rw_logo_text
-  }
+  Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $rw_logo_text }
   Else { Return $rw_logo_150 }  
 }
