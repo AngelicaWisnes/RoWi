@@ -5,6 +5,7 @@
 # Import system-dependent paths
 $constantsRoot = $PSScriptRoot
 $global:SYSTEM_NAME = WhoAmI #Alternative to WhoAmI:   [System.Security.Principal.WindowsIdentity]::GetCurrent().name
+$global:SYSTEM_OS = [System.Environment]::OSVersion.VersionString
 
 
 # Define dynamically defined paths

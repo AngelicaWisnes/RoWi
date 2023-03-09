@@ -182,7 +182,7 @@ function Get-Selfie {
   $imageExists = Test-Path -Path $rw_image -PathType Leaf
   $imageTextExists = Test-Path -Path $rw_image_text -PathType Leaf
 
-  If ($PSVersionTable.OS.Contains('Windows') -AND $imageExists) { 
+  If ($global:SYSTEM_OS.Contains('Windows') -AND $imageExists) { 
     $image = Convert-ImageToAsciiArt -Path $rw_image 
   }
   Elseif ($imageTextExists) { Return Resize-AsciiArt -Path $rw_image_text }
@@ -194,7 +194,7 @@ function Get-LogoAsString {
   $logoImageExists = Test-Path -Path $rw_logo -PathType Leaf
   $logoTextExists = Test-Path -Path $rw_logo_text -PathType Leaf
 
-  If ($PSVersionTable.OS.Contains('Windows') -AND $logoImageExists) { 
+  If ($global:SYSTEM_OS.Contains('Windows') -AND $logoImageExists) { 
     Return Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true
   }
   Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $rw_logo_text }
