@@ -318,31 +318,23 @@ function getRGBFormattedString {
 
 function Convert-HexToRgb {
   param( [Parameter(Mandatory)][HEX]$hexObject )
-  $hex = $hexObject.h -replace '#', '' # Remove the '#' from the string
+  $hex = $hexObject.h
+  
+  $red = [convert]::ToInt32($hex.Substring(1, 2), 16)
+  $green = [convert]::ToInt32($hex.Substring(3, 2), 16)
+  $blue = [convert]::ToInt32($hex.Substring(5, 2), 16)
 
-  $Red = $HEX.Remove(2, 4)
-  $Green = $HEX.Remove(4, 2)
-  $Green = $Green.remove(0, 2)
-  $Blue = $hex.Remove(0, 4)
-  $Red = [convert]::ToInt32($red, 16)
-  $Green = [convert]::ToInt32($green, 16)
-  $Blue = [convert]::ToInt32($blue, 16)
-
-  Return [RGB]@{ r = $Red ; g = $Green ; b = $Blue }
+  Return [RGB]@{ r = $red ; g = $green ; b = $blue }
 }
 
 
 function Convert-HexToRgb_Strings {
   param( [Parameter(Mandatory)][String]$hex )
-  $hex = $hex -replace '#', '' # Remove the '#' from the string
-
-  $Red = $HEX.Remove(2, 4)
-  $Green = $HEX.Remove(4, 2)
-  $Green = $Green.remove(0, 2)
-  $Blue = $hex.Remove(0, 4)
-  $Red = [convert]::ToInt32($red, 16)
-  $Green = [convert]::ToInt32($green, 16)
-  $Blue = [convert]::ToInt32($blue, 16)
+  $hex = $hexObject.h
+  
+  $red = [convert]::ToInt32($hex.Substring(1, 2), 16)
+  $green = [convert]::ToInt32($hex.Substring(3, 2), 16)
+  $blue = [convert]::ToInt32($hex.Substring(5, 2), 16)
 
   $rgbCode = "{0};{1};{2}" -f $red, $green, $blue
 
