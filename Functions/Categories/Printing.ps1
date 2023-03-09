@@ -102,13 +102,8 @@ $global:HEXs = @{
 
 
 function dad { 
-  if ($PSVersionTable.PSVersion.Major -eq 7) {
-    dad_PowerShell7
-  }
-  else {
-    dad_PowerShell5
-  }
-
+  If ($PSVersionTable.PSVersion.Major -eq 7) { dad_PowerShell7 }
+  Else { dad_PowerShell5 }
 }
 addToList -name 'dad' -value 'Print random dad-joke'
 
@@ -159,75 +154,66 @@ function dance {
 addToList -name 'dance' -value 'See the PowerShell DanceSquad'
 
 
-function ansiColors_all {
+function Get-AllAnsiColors {
   Param ([switch]$Background)
 
   If ($Background) { $X = 48 }
   Else { $X = 38 }
   $esc = $global:COLOR_ESCAPE
 
-  $ansiFormat = "$esc[$X;5;{0}m{1}$esc[0m"
-
   0..255 | ForEach-Object {
     $sample = "{0, 4}" -f $_
-    $text = $ansiFormat -f $_, $sample
-    # $text = $colorFormat -f $_, "TEST "
-
+    $text = "$esc[$X;5;{0}m{1}$global:RESET_SEQUENCE" -f $_, $sample
     Write-Host $text -NoNewline
     If ( ($_ - 15) % 36 -eq 0 ) { Write-Host "" }
   }
 }
-addToList -name 'ansiColors_all' -value 'See all available ansi-colors'
+addToList -name 'Get-AllAnsiColors' -value 'See all available ansi-colors'
 
 
-function rgbColors_all {
+function Get-AllRGBColors {
   Param ([switch]$Background)
 
   If ($Background) { $X = 48 }
   Else { $X = 38 }
-  $esc = $global:COLOR_ESCAPE
-
+  
   $rs = 0..255
   $gs = 0..255
   $bs = 0..255
-  $rgbFormat = "$esc[$X;2;{0};{1};{2}m{3}$esc[0m"
 
   for ($r = 0; $r -lt $rs.Count; $r += 15) {
     for ($g = 0; $g -lt $gs.Count; $g += 15) {
       for ($b = 0; $b -lt $bs.Count; $b += 15) {
-        $sample = "#"
-        $text = $rgbFormat -f $r, $g, $b, $sample
-        # $text = $colorFormat -f $_, "TEST "
-    
-        Write-Host $text -NoNewline
+        $colorSequence = $global:RGB_SEQUENCE -f $X, $r, $g, $b
+        Write-Host $colorSequence "#" $global:RESET_SEQUENCE -NoNewline
         If ( ($b + 1) % 256 -eq 0 ) { Write-Host "" }
       }
       If ( ($g + 1) % 256 -eq 0 ) { Write-Host "" }
     }
   }
 }
-addToList -name 'rgbColors_all' -value 'See all available RGB-colors'
+addToList -name 'Get-AllRGBColors' -value 'See all available RGB-colors'
 
 
-function rgbColors {
+function Get-ImplementedRGBColors {
   $sample = " " * 15
  
   foreach ($hex in $HEXs.GetEnumerator()) {
-    $rgb = Convert-HexToRgb $hex
-    $colorName = "{0, 20} " -f $rgb.Name
-    $color = $rgb.Value
-    $rgbValue = " RGB: {0, 3} , {1, 3} , {2, 3}" -f $color.r, $color.g, $color.b
-    OUT $colorName, $sample, $color, $True, $rgbValue
+    $rgb = Convert-HexToRgb $hex.value
+    $colorName = "{0, 20} " -f $hex.Name
+    $rgbValue = " RGB: {0, 3} , {1, 3} , {2, 3}" -f $rgb.r, $rgb.g, $rgb.b
+
+    OUT $colorName, $sample, $rgb, $True, $rgbValue
   }
 }
-addToList -name 'rgbColors' -value 'See implemented RGB-colors'
+addToList -name 'Get-ImplementedRGBColors' -value 'See implemented RGB-colors'
 
 
 
 
 class PrintElement { [string]$text; [RGB]$color; [switch]$background; } 
 
-function getPrintableRGBs {
+function Get-PrintableRGBs {
   param( [Parameter(Mandatory)][Object[]]$printElements )
   $PrintableRGBs = @()
   foreach ($element in $printElements) {
@@ -247,73 +233,31 @@ function OUT {
     [switch]$NoNewlineStart = $False
   )
 
-  $PrintableRGBs = getPrintableRGBs $printElements
+  $PrintableRGBs = Get-PrintableRGBs $printElements
   $sb = new-object -TypeName System.Text.StringBuilder
-  if (-Not $NoNewlineStart) {
-    $sb.Append("`n") > $null
-  }
+  If (-Not $NoNewlineStart) { $sb.Append("`n") > $null }
   
   Foreach ($element in $PrintableRGBs) {
     If ($null -eq $element.color) { $sb.AppendFormat( "{0}", $element.text ) > $null }
-    Else { $sb.AppendFormat( "{0}", (getRGBFormattedString $element) ) > $null }
+    Else { $sb.AppendFormat( "{0}", (Get-RGBFormattedString $element) ) > $null }
   }
 
   Write-Host $sb.ToString() -NoNewline:$NoNewline
 }
 
 
-function getRGBFormattedString {
+function Get-RGBFormattedString {
   param( [Parameter(Mandatory)][PrintElement]$element )
-
+  If ($element.text.Length -eq 0) { Return "" }
+  
   If ($element.background) { $X = 48 }
   Else { $X = 38 }
-  $esc = $global:COLOR_ESCAPE
   
-  $rgbCode = "{0};{1};{2}" -f $element.color.r, $element.color.g, $element.color.b
-  $startSequence = "$esc[$X;2;{0}m" -f $rgbCode
-  $endSequence = "$esc[0m"
-  
-  if ($element.text.Length -eq 0) {
-    Return ""
-  }
-  
+  $colorSequence = $global:RGB_SEQUENCE -f $X, $element.color.r, $element.color.g, $element.color.b
   $trimmed = ($element.text).Replace("`n", "")
   
-  $result = ($element.text).Replace($trimmed, $startSequence + $trimmed + $endSequence)
-  
-  Return $result
-  # $rgbFormat = "$esc[$X;2;{0}m{1}$esc[0m"
-  #  Return ($rgbFormat -f $rgbCode, $element.text)      
+  Return ($element.text).Replace($trimmed, $colorSequence + $trimmed + $global:RESET_SEQUENCE)
 }
-
-
-
-#"$([char]0x1b)[48;0x00FFFFFFm'TEST'$([char]0x1b)[0m"
-
-
-
-
-
-
-# An alternative implementation of OUT
-# function createPrintElement {
-#   param( 
-#     [Parameter(Mandatory, Position = 0)][string]$text, 
-#     [Parameter(Position = 1)][RGB]$color, 
-#     [Parameter(Position = 2)][switch]$background 
-#   )
-#   Return [PrintElement]@{ text = $text ; color = $color ; background = $background }
-# }
-# Set-Alias pe createPrintElement
-# 
-# function OUT {
-#   param( [Parameter(Mandatory)][PrintElement[]]$printElements )
-#   foreach ($el in $printElements) { Write-Host "Testing: " $el.text }
-# }
-# 
-# OUT (pe "Y" $HEXs.ElectricIndigo), (pe "T" $HEXs.ElectricIndigo -b) 
-
-
 
 
 function Convert-HexToRgb {
@@ -325,18 +269,4 @@ function Convert-HexToRgb {
   $blue = [convert]::ToInt32($hex.Substring(5, 2), 16)
 
   Return [RGB]@{ r = $red ; g = $green ; b = $blue }
-}
-
-
-function Convert-HexToRgb_Strings {
-  param( [Parameter(Mandatory)][String]$hex )
-  $hex = $hexObject.h
-  
-  $red = [convert]::ToInt32($hex.Substring(1, 2), 16)
-  $green = [convert]::ToInt32($hex.Substring(3, 2), 16)
-  $blue = [convert]::ToInt32($hex.Substring(5, 2), 16)
-
-  $rgbCode = "{0};{1};{2}" -f $red, $green, $blue
-
-  Return $rgbCode
 }

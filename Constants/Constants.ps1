@@ -45,3 +45,6 @@ $global:FIFTY_CHARS = "|--------1---------2---------3---------4---------|"
 # Print-related constants
 $global:COLOR_ESCAPE = "$([char]0x1b)"
 IF ($PSVersionTable.PSVersion.Major -gt 5) { $global:COLOR_ESCAPE = "`e" }
+$global:RGB_SEQUENCE = "$global:COLOR_ESCAPE[{0};2;{1};{2};{3}m"
+$global:RESET_SEQUENCE = "$global:COLOR_ESCAPE[0m"
+
