@@ -8,3 +8,11 @@ wt focus-tab -n
 
 # Go to previous tab
 wt focus-tab -p
+
+
+
+
+
+# Color-theme for terminal:
+- Screen Text (RGB): 255;  3;178
+- Screen Back (RGB):  66;  1; 47
