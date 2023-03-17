@@ -1,8 +1,11 @@
 .vs
 .VS*
 
-*wisrog*
-*rogerwisnes*
+*Constants/SystemDependent/*
+!*Constants/SystemDependent/Template
+
+*Functions/Categories/SystemDependent/*
+!*Functions/Categories/SystemDependent/Template
 
 .idea*
 
