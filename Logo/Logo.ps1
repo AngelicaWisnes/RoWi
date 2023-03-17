@@ -45,7 +45,7 @@ function Convert-ImageToAsciiArt {
   )
   
   Add-Type -AssemblyName System.Drawing # Load drawing functionality
-  $imageFromFile = [Drawing.Image]::FromFile($path) # Load image
+  $imageFromFile = [Drawing.Image]::FromFile($path) 
   $characters = (& { If ($BinaryPixelated) { '# ' } Else { '$#H&@*+;:-,. ' } }).ToCharArray() # Characters from dark to light  
   $charCount = $characters.count 
     
@@ -62,31 +62,26 @@ function Convert-ImageToAsciiArt {
   $outputWidth = [Math]::Floor($inputImageWidth * $minOutputScale)
   $outputHeight = [Math]::Floor($inputImageHeight * $minOutputScale)
 
-  $bitmap = new-object Drawing.Bitmap($imageFromFile , $outputWidth, $outputHeight) # Paint image on a bitmap with the desired size
+  $bitmap = new-object Drawing.Bitmap($imageFromFile , $outputWidth, $outputHeight) 
   
-  # Use a string builder to store the characters
   [System.Text.StringBuilder]$sb = ""
-  $null = $sb.AppendLine() # Add a new line
+  $null = $sb.AppendLine() 
 
-  # Take each pixel line...
   for ($y = 0; $y -lt $outputHeight; $y++) {
-    # Take each pixel column...
     for ($x = 0; $x -lt $outputWidth; $x++) {
-      # Examine pixel
       $color = $bitmap.GetPixel($x, $y)
       $brightness = $color.GetBrightness()
 
-      # Choose the character that best matches the pixel brightness
       $offset = [Math]::Floor($brightness * $charCount)
       $ch = $characters[$offset]
       If (-not $ch) { $ch = $characters[-1] }
       
-      $null = $sb.Append($ch) # Add character to line
+      $null = $sb.Append($ch)
     }
-    $null = $sb.AppendLine() # Add a new line
+    $null = $sb.AppendLine()
   }
 
-  $imageFromFile.Dispose() # Clean up before returning string
+  $imageFromFile.Dispose()
   Return $sb.ToString()
 } 
 
