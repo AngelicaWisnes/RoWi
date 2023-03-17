@@ -45,39 +45,39 @@ function Convert-ImageToAsciiArt {
   )
   
   Add-Type -AssemblyName System.Drawing # Load drawing functionality
-  $image = [Drawing.Image]::FromFile($path) # Load image
+  $imageFromFile = [Drawing.Image]::FromFile($path) # Load image
   $characters = (& { If ($BinaryPixelated) { '# ' } Else { '$#H&@*+;:-,. ' } }).ToCharArray() # Characters from dark to light  
-  $c = $characters.count 
-  
+  $charCount = $characters.count 
+    
+  $inputImageWidth = $imageFromFile.Width
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 10
-  $charHeightWidthRatio = 2#1.5
+  $minScaleWidth = $windowWidth / $inputImageWidth
   
-  $maxheight = $image.Height / ($image.Width / $windowWidth) / $charHeightWidthRatio # Get image size
+  $charHeightWidthRatio = 2 # A pixel has a H/W-ratio of 1/1, while a char has a H/W-ratio of 2/1
+  $inputImageHeight = $imageFromFile.Height / $charHeightWidthRatio
+  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 10
+  $minScaleHeight = $windowHeight / $inputImageHeight
 
-  # Make sure the output fits inside the window
-  If ($windowHeight -lt $maxheight) {
-    $sizeRatio = $windowHeight / $maxheight
-    $windowWidth = $windowWidth * $sizeRatio
-    $maxheight = $maxheight * $sizeRatio
-  }
+  $minOutputScale = [Math]::Min($minScaleWidth, $minScaleHeight)
+  $outputWidth = [Math]::Floor($inputImageWidth * $minOutputScale)
+  $outputHeight = [Math]::Floor($inputImageHeight * $minOutputScale)
 
-  $bitmap = new-object Drawing.Bitmap($image , $windowWidth, $maxheight) # Paint image on a bitmap with the desired size
+  $bitmap = new-object Drawing.Bitmap($imageFromFile , $outputWidth, $outputHeight) # Paint image on a bitmap with the desired size
   
   # Use a string builder to store the characters
   [System.Text.StringBuilder]$sb = ""
   $null = $sb.AppendLine() # Add a new line
 
   # Take each pixel line...
-  for ($y = 0; $y -lt $bitmap.Height; $y++) {
+  for ($y = 0; $y -lt $outputHeight; $y++) {
     # Take each pixel column...
-    for ($x = 0; $x -lt $bitmap.Width; $x++) {
+    for ($x = 0; $x -lt $outputWidth; $x++) {
       # Examine pixel
       $color = $bitmap.GetPixel($x, $y)
       $brightness = $color.GetBrightness()
 
       # Choose the character that best matches the pixel brightness
-      $offset = [Math]::Floor($brightness * $c)
+      $offset = [Math]::Floor($brightness * $charCount)
       $ch = $characters[$offset]
       If (-not $ch) { $ch = $characters[-1] }
       
