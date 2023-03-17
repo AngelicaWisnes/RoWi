@@ -43,16 +43,16 @@ function Convert-ImageToAsciiArt {
     [Parameter(Mandatory)][String] $Path,
     [bool]$BinaryPixelated = $false
   )
-
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 1
-  $charHeightWidthRatio = 2#1.5
-  $characters = (& { If ($BinaryPixelated) { '# ' } Else { '$#H&@*+;:-,. ' } }).ToCharArray() # Characters from dark to light  
-  $c = $characters.count 
-  
   
   Add-Type -AssemblyName System.Drawing # Load drawing functionality
   $image = [Drawing.Image]::FromFile($path) # Load image
+  $characters = (& { If ($BinaryPixelated) { '# ' } Else { '$#H&@*+;:-,. ' } }).ToCharArray() # Characters from dark to light  
+  $c = $characters.count 
+  
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 10
+  $charHeightWidthRatio = 2#1.5
+  
   $maxheight = $image.Height / ($image.Width / $windowWidth) / $charHeightWidthRatio # Get image size
 
   # Make sure the output fits inside the window
@@ -101,7 +101,7 @@ function Resize-AsciiArt {
   $minScaleWidth = $windowWidth / $inputImageWidth
 
   $inputImageHeight = $imageArrayFromFile.Length 
-  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 1
+  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 10
   $minScaleHeight = $windowHeight / $inputImageHeight
 
   $minOutputScale = [Math]::Min($minScaleWidth, $minScaleHeight)
