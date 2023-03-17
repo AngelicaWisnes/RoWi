@@ -86,7 +86,7 @@ function Convert-ImageToAsciiArt {
     $null = $sb.AppendLine() # Add a new line
   }
 
-  $image.Dispose() # Clean up before returning string
+  $imageFromFile.Dispose() # Clean up before returning string
   Return $sb.ToString()
 } 
 
@@ -128,14 +128,15 @@ function Resize-AsciiArt {
 
 function Get-Logo {
   Switch (Get-Date -Format MM) {
-    "06" { Get-LogoRainbowRGB }
-    "11" { Get-LogoTransRGB }
+    "06" { Get-LogoRGB $global:colorChart.rainbow }
+    "11" { Get-LogoRGB $global:colorChart.trans }
     default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
   }
   Get-RainbowSlimLine 
   Get-TransSlimLine -NoNewlineStart
   Write-Host
 }
+
 
 function Get-LogoRainbow {
   $outputString = Get-LogoAsString
@@ -151,24 +152,10 @@ function Get-LogoRainbow {
   }
 }
 
-function Get-LogoRainbowRGB {
+function Get-LogoRGB {
+  param( [Parameter(Mandatory)][HEX[]]$colors )
   $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
-  $colors = @( $HEXs.PrideRed, $HEXs.PrideOrange, $HEXs.PrideYellow, $HEXs.PrideGreen, $HEXs.PrideBlue, $HEXs.PridePurple )
-  $colorNumber = -1
-  $linesOfEachColor = [int]($lines.Count / $colors.Count)
-
-  for ($i = 0; $i -lt $lines.Count; $i++) {
-    If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
-    OUT $lines[$i], $colors[$colorNumber] -NoNewlineStart
-  }
-}
-
-function Get-LogoTransRGB {
-  $outputString = Get-LogoAsString
-  $lines = $outputString.Split("`n")
-  $colors = @( $HEXs.PrideCyan, $HEXs.PridePink, $HEXs.PrideWhite, $HEXs.PridePink, $HEXs.PrideCyan )
-
   $colorNumber = -1
   $linesOfEachColor = [int]($lines.Count / $colors.Count)
 

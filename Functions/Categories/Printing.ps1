@@ -100,6 +100,12 @@ $global:HEXs = @{
   PridePurple        = [HEX]@{ hex = "#730088" };
 }
 
+$global:colorChart = @{
+  rainbow = @( $HEXs.PrideRed, $HEXs.PrideOrange, $HEXs.PrideYellow, $HEXs.PrideGreen, $HEXs.PrideBlue, $HEXs.PridePurple )
+  trans   = @( $HEXs.PrideCyan, $HEXs.PridePink, $HEXs.PrideWhite, $HEXs.PridePink, $HEXs.PrideCyan )
+}
+
+
 
 function dad { 
   If ($PSVersionTable.PSVersion.Major -eq 7) { dad_PowerShell7 }
