@@ -124,11 +124,16 @@ function Resize-AsciiArt {
 
 
 function Get-Logo {
-  Switch (Get-Date -Format MM) {
-    "06" { Get-LogoRGB $global:colorChart.rainbow }
-    "11" { Get-LogoRGB $global:colorChart.trans }
-    default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
+  if ((Get-Date).Day -eq 31 -and (Get-Date).Month -eq 3) {
+    Get-LogoRGB $global:colorChart.trans
   }
+  else {
+    Switch (Get-Date -Format MM) {
+      "06" { Get-LogoRGB $global:colorChart.rainbow }
+      "11" { Get-LogoRGB $global:colorChart.trans }
+      default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
+    }
+  } 
   Get-RainbowSlimLine 
   Get-TransSlimLine -NoNewlineStart
   Write-Host
