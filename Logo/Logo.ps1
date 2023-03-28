@@ -124,7 +124,7 @@ function Resize-AsciiArt {
 
 
 function Get-Logo {
-  if ((Get-Date).Day -eq 31 -and (Get-Date).Month -eq 3) {
+  if ((Get-Date -Format "ddMM") -eq "3103") {
     Get-LogoRGB $global:colorChart.trans
   }
   else {
