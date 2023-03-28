@@ -103,21 +103,23 @@ function Resize-AsciiArt {
   $outputWidth = [Math]::Floor($inputImageWidth * $minOutputScale)
   $outputHeight = [Math]::Floor($inputImageHeight * $minOutputScale)
   
-  $outputImageArray = [string[]]::new($outputHeight)
+  [System.Text.StringBuilder]$sb = ""
+  $null = $sb.AppendLine()
   
   # Nearest-neighbor interpolation
   for ($y = 0; $y -lt $outputHeight; $y++) {
     $nearestY = [Math]::Floor($y / $minOutputScale)
     $line = $imageArrayFromFile[$nearestY]
-    
+  
     for ($x = 0; $x -lt $outputWidth; $x++) {
       $nearestX = [Math]::Floor($x / $minOutputScale)
       $pixel = $line.Substring($nearestX, 1)
-      $outputImageArray[$y] += $pixel
+      $null = $sb.Append($pixel)
     }
+    $null = $sb.AppendLine()
   }
 
-  Return $outputImageArray
+  Return $sb.ToString()
 } 
 
 
