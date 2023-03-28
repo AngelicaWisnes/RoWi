@@ -51,6 +51,15 @@ function Install-PowerShell7 {
 }
 
 
+function Install-RoWi {
+    Write-Host -ForegroundColor Cyan "Starting - Installing the RoWi-package to PowerShell..."
+    
+    Add-RowiToPowershell5Profile
+    Add-RowiToPowershell7Profile
+
+    Write-Host -ForegroundColor Cyan "  Finished - The RoWi-package is installed PowerShell..."
+}
+
 
 
 
