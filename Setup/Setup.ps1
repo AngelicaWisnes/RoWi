@@ -25,8 +25,8 @@ logTime "Constants"
 . $global:ROWI\Functions\Functions.ps1
 logTime "Functions"
 
-. $global:ROWI\Installer\Installer.ps1
-logTime "Installer"
+#. $global:ROWI\Installer\Installer.ps1
+#logTime "Installer"
 
 . $global:ROWI\Logo\Logo.ps1
 logTime "Logo"
