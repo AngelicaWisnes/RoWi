@@ -39,6 +39,11 @@ Set-Alias b GitCreateNewBranch
 addToList -name 'b' -value 'git checkout -b'
 
 
+function GitCommit { git commit }
+Set-Alias c GitCommit
+addToList -name 'c' -value 'git commit'
+
+
 function GitCommitWithMessage {
   OUT "Initiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: " -NoNewline
   
@@ -52,8 +57,8 @@ function GitCommitWithMessage {
   
   git commit -m $commitMessage
 }
-Set-Alias c GitCommitWithMessage
-addToList -name 'c' -value 'git commit -m'
+Set-Alias cm GitCommitWithMessage
+addToList -name 'cm' -value 'git commit -m'
 
 
 function GitCheckout { git checkout $args }
