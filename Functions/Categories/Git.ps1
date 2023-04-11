@@ -31,7 +31,7 @@ function GitCreateNewBranch {
   }
   finally { [console]::ResetColor() }
   
-  OUT "Trying: git checkout -b ", "'$branchName'`n", $global:HEXs.DarkCyan
+  OUT "Trying: git checkout -b ", "'$branchName'`n", $global:colors.DarkCyan
   
   git checkout -b $branchName
 }
@@ -53,7 +53,7 @@ function GitCommitWithMessage {
   }
   finally { [console]::ResetColor() }
   
-  OUT "Trying: git commit -m ", "'$commitMessage'`n", $global:HEXs.DarkCyan
+  OUT "Trying: git commit -m ", "'$commitMessage'`n", $global:colors.DarkCyan
   
   git commit -m $commitMessage
 }
@@ -287,5 +287,5 @@ function pullAllRepos {
   $needsManualWork = _pullAllRepos
   Set-Location $global:DEFAULT_START_PATH
   
-  OUT "The following repos need to be pulled manually:`n$needsManualWork", $HEXs.Red
+  OUT "The following repos need to be pulled manually:`n$needsManualWork", $colors.Red
 }

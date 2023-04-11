@@ -36,73 +36,73 @@ function addToList {
 #>
 
 class RGB { [int]$r; [int]$g; [int]$b; } 
-class HEX { [string]$hex; } 
-$global:HEXs = @{
+class COLOR { [string]$hex; [int]$r; [int]$g; [int]$b; } 
+$global:colors = [ordered]@{
   # Light colors
-  Red                = [HEX]@{ hex = "#FF0000" };
-  Orange             = [HEX]@{ hex = "#FF8000" };
-  Yellow             = [HEX]@{ hex = "#FFFF00" };
-  Chartreuse         = [HEX]@{ hex = "#80FF00" };
-  Lime               = [HEX]@{ hex = "#00FF00" };
-  SpringGreen        = [HEX]@{ hex = "#00FF80" };
-  Cyan               = [HEX]@{ hex = "#00FFFF" };
-  DarkCyan           = [HEX]@{ hex = "#3A96DD" };
-  DodgerBlue         = [HEX]@{ hex = "#0080FF" };
-  Blue               = [HEX]@{ hex = "#0000FF" };
-  ElectricIndigo     = [HEX]@{ hex = "#8000FF" };
-  Magenta            = [HEX]@{ hex = "#FF00FF" };
-  DeepPink           = [HEX]@{ hex = "#FF0080" };
-  MonaLisa           = [HEX]@{ hex = "#FF8080" };
-  MintGreen          = [HEX]@{ hex = "#80FF80" };
-  LightSlateBlue     = [HEX]@{ hex = "#8080FF" };
+  Red                = [COLOR]@{ hex = "#FF0000"; r = 255; g = 0; b = 0; };
+  Orange             = [COLOR]@{ hex = "#FF8000"; r = 255; g = 128; b = 0; };
+  Yellow             = [COLOR]@{ hex = "#FFFF00"; r = 255; g = 255; b = 0; };
+  Chartreuse         = [COLOR]@{ hex = "#80FF00"; r = 128; g = 255; b = 0; };
+  Lime               = [COLOR]@{ hex = "#00FF00"; r = 0; g = 255; b = 0; };
+  SpringGreen        = [COLOR]@{ hex = "#00FF80"; r = 0; g = 255; b = 128; };
+  Cyan               = [COLOR]@{ hex = "#00FFFF"; r = 0; g = 255; b = 255; };
+  DarkCyan           = [COLOR]@{ hex = "#3A96DD"; r = 58; g = 150; b = 221; };
+  DodgerBlue         = [COLOR]@{ hex = "#0080FF"; r = 0; g = 128; b = 255; };
+  Blue               = [COLOR]@{ hex = "#0000FF"; r = 0; g = 0; b = 255; };
+  ElectricIndigo     = [COLOR]@{ hex = "#8000FF"; r = 128; g = 0; b = 255; };
+  Magenta            = [COLOR]@{ hex = "#FF00FF"; r = 255; g = 0; b = 255; };
+  DeepPink           = [COLOR]@{ hex = "#FF0080"; r = 255; g = 0; b = 128; };
+  MonaLisa           = [COLOR]@{ hex = "#FF8080"; r = 255; g = 128; b = 128; };
+  MintGreen          = [COLOR]@{ hex = "#80FF80"; r = 128; g = 255; b = 128; };
+  LightSlateBlue     = [COLOR]@{ hex = "#8080FF"; r = 128; g = 128; b = 255; };
   # Dark colors
-  Maroon             = [HEX]@{ hex = "#800000" };
-  Olive              = [HEX]@{ hex = "#808000" };
-  Green              = [HEX]@{ hex = "#008000" };
-  Teal               = [HEX]@{ hex = "#008080" };
-  Navy               = [HEX]@{ hex = "#000080" };
-  Purple             = [HEX]@{ hex = "#800080" };
+  Maroon             = [COLOR]@{ hex = "#800000"; r = 128; g = 0; b = 0; };
+  Olive              = [COLOR]@{ hex = "#808000"; r = 128; g = 128; b = 0; };
+  Green              = [COLOR]@{ hex = "#008000"; r = 0; g = 128; b = 0; };
+  Teal               = [COLOR]@{ hex = "#008080"; r = 0; g = 128; b = 128; };
+  Navy               = [COLOR]@{ hex = "#000080"; r = 0; g = 0; b = 128; };
+  Purple             = [COLOR]@{ hex = "#800080"; r = 128; g = 0; b = 128; };
   # Contrasts
-  White              = [HEX]@{ hex = "#FFFFFF" };
-  Silver             = [HEX]@{ hex = "#C0C0C0" };
-  Gray               = [HEX]@{ hex = "#808080" };
-  Black              = [HEX]@{ hex = "#000000" };
+  White              = [COLOR]@{ hex = "#FFFFFF"; r = 255; g = 255; b = 255; };
+  Silver             = [COLOR]@{ hex = "#C0C0C0"; r = 192; g = 192; b = 192; };
+  Gray               = [COLOR]@{ hex = "#808080"; r = 128; g = 128; b = 128; };
+  Black              = [COLOR]@{ hex = "#000000"; r = 0; g = 0; b = 0; };
   # SystemColors   Get their RGB values by foreach ($color in [System.ConsoleColor].GetEnumValues()) {[System.Drawing.Color]::FromName($color)}
-  System_Black       = [HEX]@{ hex = "#000000" };
-  System_DarkBlue    = [HEX]@{ hex = "#00008B" };
-  System_DarkGreen   = [HEX]@{ hex = "#006400" };
-  System_DarkCyan    = [HEX]@{ hex = "#008B8B" };
-  System_DarkRed     = [HEX]@{ hex = "#8B0000" };
-  System_DarkMagenta = [HEX]@{ hex = "#8B008B" };
-  System_DarkYellow  = [HEX]@{ hex = "#000000" };
-  System_Gray        = [HEX]@{ hex = "#808080" };
-  System_DarkGray    = [HEX]@{ hex = "#A9A9A9" };
-  System_Blue        = [HEX]@{ hex = "#0000FF" };
-  System_Green       = [HEX]@{ hex = "#008000" };
-  System_Cyan        = [HEX]@{ hex = "#00FFFF" };
-  System_Red         = [HEX]@{ hex = "#FF0000" };
-  System_Magenta     = [HEX]@{ hex = "#FF00FF" };
-  System_Yellow      = [HEX]@{ hex = "#FFFF00" };
-  System_White       = [HEX]@{ hex = "#FFFFFF" };
+  System_Black       = [COLOR]@{ hex = "#000000"; r = 0; g = 0; b = 0; };
+  System_DarkBlue    = [COLOR]@{ hex = "#00008B"; r = 0; g = 0; b = 139; };
+  System_DarkGreen   = [COLOR]@{ hex = "#006400"; r = 0; g = 100; b = 0; };
+  System_DarkCyan    = [COLOR]@{ hex = "#008B8B"; r = 0; g = 139; b = 139; };
+  System_DarkRed     = [COLOR]@{ hex = "#8B0000"; r = 139; g = 0; b = 0; };
+  System_DarkMagenta = [COLOR]@{ hex = "#8B008B"; r = 139; g = 0; b = 139; };
+  System_DarkYellow  = [COLOR]@{ hex = "#000000"; r = 0; g = 0; b = 0; };
+  System_Gray        = [COLOR]@{ hex = "#808080"; r = 128; g = 128; b = 128; };
+  System_DarkGray    = [COLOR]@{ hex = "#A9A9A9"; r = 169; g = 169; b = 169; };
+  System_Blue        = [COLOR]@{ hex = "#0000FF"; r = 0; g = 0; b = 255; };
+  System_Green       = [COLOR]@{ hex = "#008000"; r = 0; g = 128; b = 0; };
+  System_Cyan        = [COLOR]@{ hex = "#00FFFF"; r = 0; g = 255; b = 255; };
+  System_Red         = [COLOR]@{ hex = "#FF0000"; r = 255; g = 0; b = 0; };
+  System_Magenta     = [COLOR]@{ hex = "#FF00FF"; r = 255; g = 0; b = 255; };
+  System_Yellow      = [COLOR]@{ hex = "#FFFF00"; r = 255; g = 255; b = 0; };
+  System_White       = [COLOR]@{ hex = "#FFFFFF"; r = 255; g = 255; b = 255; };
   # Colornames are taken from https://www.color-blindness.com/color-name-hue/
   # Hex-codes can visualize the corresponding color in VS-Code with this extention: https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
   # Pride-specific codes
-  PrideWhite         = [HEX]@{ hex = "#FFFFFF" };
-  PridePink          = [HEX]@{ hex = "#FFAFC7" };
-  PrideCyan          = [HEX]@{ hex = "#73D7EE" };
-  PrideBrown         = [HEX]@{ hex = "#613915" };
-  PrideBlack         = [HEX]@{ hex = "#000000" };
-  PrideRed           = [HEX]@{ hex = "#E50000" };
-  PrideOrange        = [HEX]@{ hex = "#FF8D00" };
-  PrideYellow        = [HEX]@{ hex = "#FFEE00" };
-  PrideGreen         = [HEX]@{ hex = "#028121" };
-  PrideBlue          = [HEX]@{ hex = "#004CFF" };
-  PridePurple        = [HEX]@{ hex = "#730088" };
+  PrideWhite         = [COLOR]@{ hex = "#FFFFFF"; r = 255; g = 255; b = 255; };
+  PridePink          = [COLOR]@{ hex = "#FFAFC7"; r = 255; g = 175; b = 199; };
+  PrideCyan          = [COLOR]@{ hex = "#73D7EE"; r = 115; g = 215; b = 238; };
+  PrideBrown         = [COLOR]@{ hex = "#613915"; r = 97; g = 57; b = 21; };
+  PrideBlack         = [COLOR]@{ hex = "#000000"; r = 0; g = 0; b = 0; };
+  PrideRed           = [COLOR]@{ hex = "#E50000"; r = 229; g = 0; b = 0; };
+  PrideOrange        = [COLOR]@{ hex = "#FF8D00"; r = 255; g = 141; b = 0; };
+  PrideYellow        = [COLOR]@{ hex = "#FFEE00"; r = 255; g = 238; b = 0; };
+  PrideGreen         = [COLOR]@{ hex = "#028121"; r = 2; g = 129; b = 33; };
+  PrideBlue          = [COLOR]@{ hex = "#004CFF"; r = 0; g = 76; b = 255; };
+  PridePurple        = [COLOR]@{ hex = "#730088"; r = 115; g = 0; b = 136; };
 }
 
 $global:colorChart = @{
-  rainbow = @( $HEXs.PrideRed, $HEXs.PrideOrange, $HEXs.PrideYellow, $HEXs.PrideGreen, $HEXs.PrideBlue, $HEXs.PridePurple )
-  trans   = @( $HEXs.PrideCyan, $HEXs.PridePink, $HEXs.PrideWhite, $HEXs.PridePink, $HEXs.PrideCyan )
+  rainbow = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple )
+  trans   = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan )
 }
 
 
@@ -117,7 +117,7 @@ addToList -name 'dad' -value 'Print random dad-joke'
 function dad_PowerShell5 { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  OUT "$dadJoke", $global:HEXs.Cyan
+  OUT "$dadJoke", $global:colors.Cyan
 }
 
 
@@ -204,12 +204,12 @@ addToList -name 'Get-AllRGBColors' -value 'See all available RGB-colors'
 function Get-ImplementedRGBColors {
   $sample = " " * 15
  
-  foreach ($hex in $HEXs.GetEnumerator()) {
-    $rgb = Convert-HexToRgb $hex.value
-    $colorName = "{0, 20} " -f $hex.Name
-    $rgbValue = " RGB: {0, 3} , {1, 3} , {2, 3}" -f $rgb.r, $rgb.g, $rgb.b
+  foreach ($color in $colors.GetEnumerator()) {
+    $rgb = Get-Rgb $color.value
+    $colorName = "{0, 20} " -f $color.Name
+    $hexAndRgbValue = " HEX: {0}   RGB: {1, 3}, {2, 3}, {3, 3}" -f $color.value.hex, $rgb.r, $rgb.g, $rgb.b
 
-    OUT $colorName, $sample, $rgb, $True, $rgbValue
+    OUT $colorName, $sample, $rgb, $True, $hexAndRgbValue
   }
 }
 addToList -name 'Get-ImplementedRGBColors' -value 'See implemented RGB-colors'
@@ -225,7 +225,7 @@ function Get-PrintableRGBs {
   foreach ($element in $printElements) {
     If ( $element.GetType() -eq [string] ) { $printables += [PrintElement]@{ text = $element } }
     If ( $element.GetType() -eq [RGB] ) { ($printables[-1]).color = $element }
-    If ( $element.GetType() -eq [HEX] ) { ($printables[-1]).color = Convert-HexToRgb $element }
+    If ( $element.GetType() -eq [COLOR] ) { ($printables[-1]).color = Get-Rgb $element }
     If ( $element.GetType() -eq [bool] ) { ($printables[-1]).background = $element }
   }
   Return $printables
@@ -266,9 +266,20 @@ function Get-RGBFormattedString {
 }
 
 
+function Get-Rgb {
+  param( [Parameter(Mandatory)][COLOR]$color )
+
+  if ($color.r -and $color.g -and $color.b) {
+    Return [RGB]@{ r = $color.r ; g = $color.g ; b = $color.b }
+  }
+
+  Return Convert-HexToRgb $color
+}
+
+
 function Convert-HexToRgb {
-  param( [Parameter(Mandatory)][HEX]$hexObject )
-  $hex = $hexObject.hex
+  param( [Parameter(Mandatory)][COLOR]$color )
+  $hex = $color.hex
   
   $red = [convert]::ToInt32($hex.Substring(1, 2), 16)
   $green = [convert]::ToInt32($hex.Substring(3, 2), 16)

@@ -17,12 +17,12 @@ function Get-RainbowLine {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
   $spaceLength = (" " * $windowWidth)
   
-  OUT $spaceLength, $HEXs.PrideRed, $True, "`n",
-  $spaceLength, $HEXs.PrideOrange, $True, "`n",
-  $spaceLength, $HEXs.PrideYellow, $True, "`n",
-  $spaceLength, $HEXs.PrideGreen, $True, "`n",
-  $spaceLength, $HEXs.PrideBlue, $True, "`n",
-  $spaceLength, $HEXs.PridePurple, $True
+  OUT $spaceLength, $colors.PrideRed, $True, "`n",
+  $spaceLength, $colors.PrideOrange, $True, "`n",
+  $spaceLength, $colors.PrideYellow, $True, "`n",
+  $spaceLength, $colors.PrideGreen, $True, "`n",
+  $spaceLength, $colors.PrideBlue, $True, "`n",
+  $spaceLength, $colors.PridePurple, $True
 }
 
 
@@ -30,11 +30,11 @@ function Get-TransLine {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
   $spaceLength = (" " * $windowWidth)
   
-  OUT $spaceLength, $HEXs.PrideCyan, $True, "`n",
-  $spaceLength, $HEXs.PridePink, $True, "`n",
-  $spaceLength, $HEXs.PrideWhite, $True, "`n",
-  $spaceLength, $HEXs.PridePink, $True, "`n",
-  $spaceLength, $HEXs.PrideCyan, $True
+  OUT $spaceLength, $colors.PrideCyan, $True, "`n",
+  $spaceLength, $colors.PridePink, $True, "`n",
+  $spaceLength, $colors.PrideWhite, $True, "`n",
+  $spaceLength, $colors.PridePink, $True, "`n",
+  $spaceLength, $colors.PrideCyan, $True
 }
 
 
@@ -47,13 +47,13 @@ function Get-RainbowSlimLine {
   $restSpaceLength = $windowWidth - ($spaceLength * 6)
   $restSpaces = " " * $restSpaceLength
 
-  OUT $spaces, $HEXs.PrideRed, $True,
-  $spaces, $HEXs.PrideOrange, $True,
-  $spaces, $HEXs.PrideYellow, $True,
-  $spaces, $HEXs.PrideGreen, $True,
-  $spaces, $HEXs.PrideBlue, $True,
-  $spaces, $HEXs.PridePurple, $True,
-  $restSpaces, $HEXs.PridePurple, $True -NoNewlineStart:$NoNewlineStart
+  OUT $spaces, $colors.PrideRed, $True,
+  $spaces, $colors.PrideOrange, $True,
+  $spaces, $colors.PrideYellow, $True,
+  $spaces, $colors.PrideGreen, $True,
+  $spaces, $colors.PrideBlue, $True,
+  $spaces, $colors.PridePurple, $True,
+  $restSpaces, $colors.PridePurple, $True -NoNewlineStart:$NoNewlineStart
 }
 
 
@@ -66,129 +66,129 @@ function Get-TransSlimLine {
   $restSpaceLength = $windowWidth - ($spaceLength * 5)
   $restSpaces = " " * $restSpaceLength
 
-  OUT $spaces, $HEXs.PrideCyan, $True,
-  $spaces, $HEXs.PridePink, $True,
-  $spaces, $HEXs.PrideWhite, $True,
-  $spaces, $HEXs.PridePink, $True,
-  $spaces, $HEXs.PrideCyan, $True,
-  $restSpaces, $HEXs.PrideCyan, $True -NoNewlineStart:$NoNewlineStart
+  OUT $spaces, $colors.PrideCyan, $True,
+  $spaces, $colors.PridePink, $True,
+  $spaces, $colors.PrideWhite, $True,
+  $spaces, $colors.PridePink, $True,
+  $spaces, $colors.PrideCyan, $True,
+  $restSpaces, $colors.PrideCyan, $True -NoNewlineStart:$NoNewlineStart
 }
 
 
 function Get-RainbowSlimShortLine {
   $spaceLength = "   "
-  OUT $spaceLength, $HEXs.PrideRed, $True,
-  $spaceLength, $HEXs.PrideOrange, $True,
-  $spaceLength, $HEXs.PrideYellow, $True,
-  $spaceLength, $HEXs.PrideGreen, $True,
-  $spaceLength, $HEXs.PrideBlue, $True,
-  $spaceLength, $HEXs.PridePurple, $True
+  OUT $spaceLength, $colors.PrideRed, $True,
+  $spaceLength, $colors.PrideOrange, $True,
+  $spaceLength, $colors.PrideYellow, $True,
+  $spaceLength, $colors.PrideGreen, $True,
+  $spaceLength, $colors.PrideBlue, $True,
+  $spaceLength, $colors.PridePurple, $True
 }
 
 
 function Get-PrideSmall {
-  OUT "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################", $HEXs.PrideRed, "`n",
-  "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###################################", $HEXs.PrideRed, "`n",
-  "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#################################", $HEXs.PrideOrange, "`n",
-  "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "################################", $HEXs.PrideOrange, "`n",
-  "#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##############################", $HEXs.PrideYellow, "`n",
-  "##", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################", $HEXs.PrideYellow, "`n",
-  "##", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################", $HEXs.PrideGreen, "`n",
-  "#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##############################", $HEXs.PrideGreen, "`n",
-  "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "################################", $HEXs.PrideBlue, "`n",
-  "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#################################", $HEXs.PrideBlue, "`n",
-  "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###################################", $HEXs.PridePurple, "`n",
-  "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################", $HEXs.PridePurple
+  OUT "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################", $colors.PrideRed, "`n",
+  "##", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###################################", $colors.PrideRed, "`n",
+  "#", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#################################", $colors.PrideOrange, "`n",
+  "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "################################", $colors.PrideOrange, "`n",
+  "#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##############################", $colors.PrideYellow, "`n",
+  "##", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#############################", $colors.PrideYellow, "`n",
+  "##", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#############################", $colors.PrideGreen, "`n",
+  "#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##############################", $colors.PrideGreen, "`n",
+  "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "################################", $colors.PrideBlue, "`n",
+  "#", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#################################", $colors.PrideBlue, "`n",
+  "##", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###################################", $colors.PridePurple, "`n",
+  "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################", $colors.PridePurple
 }
 
 
 function Get-PrideMedium { 
-  OUT <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "############################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###########################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite,#> "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#########################################################################", $HEXs.PrideOrange, "`n",
-  <#"", $HEXs.PrideWhite,#> "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################", $HEXs.PrideOrange, "`n",
-  <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#######################################################################", $HEXs.PrideOrange, "`n",
-  <##>"##", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################", $HEXs.PrideOrange, "`n",
-  <##>"###", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#####################################################################", $HEXs.PrideYellow, "`n",
-  <##>"####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################", $HEXs.PrideYellow, "`n",
-  <##>"#####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###################################################################", $HEXs.PrideYellow, "`n",
-  <##>"######", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################", $HEXs.PrideYellow, "`n",
-  <##>"######", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################", $HEXs.PrideGreen, "`n",
-  <##>"#####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###################################################################", $HEXs.PrideGreen, "`n",
-  <##>"####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################", $HEXs.PrideGreen, "`n",
-  <##>"###", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#####################################################################", $HEXs.PrideGreen, "`n",
-  <##>"##", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################", $HEXs.PrideBlue, "`n",
-  <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#######################################################################", $HEXs.PrideBlue, "`n",
-  <#"", $HEXs.PrideWhite,#> "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################", $HEXs.PrideBlue, "`n",
-  <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#########################################################################", $HEXs.PrideBlue, "`n",
-  <#"", $HEXs.PrideWhite,#> "#", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###########################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "##", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "############################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#############################################################################", $HEXs.PridePurple
+  OUT <#"", $colors.PrideWhite, "", $colors.PridePink,#> "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#############################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "##", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "############################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###########################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite,#> "#", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##########################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite,#> "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#########################################################################", $colors.PrideOrange, "`n",
+  <#"", $colors.PrideWhite,#> "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################", $colors.PrideOrange, "`n",
+  <##>"#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#######################################################################", $colors.PrideOrange, "`n",
+  <##>"##", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################", $colors.PrideOrange, "`n",
+  <##>"###", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#####################################################################", $colors.PrideYellow, "`n",
+  <##>"####", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################################################", $colors.PrideYellow, "`n",
+  <##>"#####", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###################################################################", $colors.PrideYellow, "`n",
+  <##>"######", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##################################################################", $colors.PrideYellow, "`n",
+  <##>"######", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##################################################################", $colors.PrideGreen, "`n",
+  <##>"#####", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###################################################################", $colors.PrideGreen, "`n",
+  <##>"####", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################################################", $colors.PrideGreen, "`n",
+  <##>"###", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#####################################################################", $colors.PrideGreen, "`n",
+  <##>"##", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################", $colors.PrideBlue, "`n",
+  <##>"#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#######################################################################", $colors.PrideBlue, "`n",
+  <#"", $colors.PrideWhite,#> "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################", $colors.PrideBlue, "`n",
+  <#"", $colors.PrideWhite,#> "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#########################################################################", $colors.PrideBlue, "`n",
+  <#"", $colors.PrideWhite,#> "#", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##########################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###########################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "##", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "############################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#############################################################################", $colors.PridePurple
 }
 
 
 function Get-PrideLarge { 
-  OUT <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################################", $HEXs.PrideRed, "`n",
-  <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################################", $HEXs.PrideRed, "`n",
-  <##>"###", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "################################################################################", $HEXs.PrideOrange, "`n",
-  <##>"#####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##############################################################################", $HEXs.PrideOrange, "`n",
-  <##>"#######", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "############################################################################", $HEXs.PrideOrange, "`n",
-  <##>"#########", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################", $HEXs.PrideOrange, "`n",
-  <##>"###########", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################", $HEXs.PrideYellow, "`n",
-  <##>"#############", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################", $HEXs.PrideYellow, "`n",
-  <##>"###############", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################", $HEXs.PrideYellow, "`n",
-  <##>"#################", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################", $HEXs.PrideYellow, "`n",
-  <##>"#################", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################", $HEXs.PrideGreen, "`n",
-  <##>"###############", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################", $HEXs.PrideGreen, "`n",
-  <##>"#############", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################", $HEXs.PrideGreen, "`n",
-  <##>"###########", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################", $HEXs.PrideGreen, "`n",
-  <##>"#########", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################", $HEXs.PrideBlue, "`n",
-  <##>"#######", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "############################################################################", $HEXs.PrideBlue, "`n",
-  <##>"#####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##############################################################################", $HEXs.PrideBlue, "`n",
-  <##>"###", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "################################################################################", $HEXs.PrideBlue, "`n",
-  <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "####################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################", $HEXs.PridePurple
+  OUT <#"", $colors.PrideWhite, "", $colors.PridePink,#> "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite,#> "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################################################################", $colors.PrideRed, "`n",
+  <##>"#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##################################################################################", $colors.PrideRed, "`n",
+  <##>"###", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "################################################################################", $colors.PrideOrange, "`n",
+  <##>"#####", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##############################################################################", $colors.PrideOrange, "`n",
+  <##>"#######", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "############################################################################", $colors.PrideOrange, "`n",
+  <##>"#########", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##########################################################################", $colors.PrideOrange, "`n",
+  <##>"###########", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################", $colors.PrideYellow, "`n",
+  <##>"#############", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################", $colors.PrideYellow, "`n",
+  <##>"###############", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################################################", $colors.PrideYellow, "`n",
+  <##>"#################", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##################################################################", $colors.PrideYellow, "`n",
+  <##>"#################", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##################################################################", $colors.PrideGreen, "`n",
+  <##>"###############", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################################################", $colors.PrideGreen, "`n",
+  <##>"#############", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################", $colors.PrideGreen, "`n",
+  <##>"###########", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################", $colors.PrideGreen, "`n",
+  <##>"#########", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##########################################################################", $colors.PrideBlue, "`n",
+  <##>"#######", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "############################################################################", $colors.PrideBlue, "`n",
+  <##>"#####", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##############################################################################", $colors.PrideBlue, "`n",
+  <##>"###", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "################################################################################", $colors.PrideBlue, "`n",
+  <##>"#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##################################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite,#> "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "####################################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################################", $colors.PridePurple
 }
 
 
 function Get-PrideLogo { 
-  OUT <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################################################", $HEXs.PrideRed, "`n",
-  <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################################################", $HEXs.PrideRed, "`n",
-  <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#########################################################################################################       ####", $HEXs.PrideRed, "`n",
-  <##>"###", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "#################################################################################################              ###", $HEXs.PrideRed, "`n",
-  <##>"#####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###########################################################################################          ###########", $HEXs.PrideOrange, "`n",
-  <##>"#######", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######                      ######             ####################    ##############         ################", $HEXs.PrideOrange, "`n",
-  <##>"#########", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "#  ", $HEXs.PrideBlack, "         #############               ###       ################      ###########        ####################", $HEXs.PrideOrange, "`n",
-  <##>"###########", $HEXs.PrideWhite, "###", $HEXs.PridePink, "## ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, "   ", $HEXs.PrideBlack, "  #####################       ###########      ############       ##########       #######################", $HEXs.PrideOrange, "`n",
-  <##>"#############", $HEXs.PrideWhite, "#  ", $HEXs.PridePink, "   ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##################            ##########      #########        #########      ##########################", $HEXs.PrideOrange, "`n",
-  <##>"###########    ", $HEXs.PrideWhite, "   ", $HEXs.PridePink, " ##", $HEXs.PrideCyan, "## ", $HEXs.PrideBrown, "   ", $HEXs.PrideBlack, "      #########      ##      #########      #######        ########       ############################", $HEXs.PrideYellow, "`n",
-  <##>"#########       #", $HEXs.PrideWhite, "###", $HEXs.PridePink, "   ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, "   ", $HEXs.PrideBlack, "     ######      ####      #########       ####          ######       ##############################", $HEXs.PrideYellow, "`n",
-  <##>"########      ###  ", $HEXs.PrideWhite, "   ", $HEXs.PridePink, "   ", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "## ", $HEXs.PrideBlack, "    ####      #####      #########       ###          #####       ################################", $HEXs.PrideYellow, "`n",
-  <##>"#######     ####     ", $HEXs.PrideWhite, " ##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "   ", $HEXs.PrideBlack, "  ###     ######       ########        #            ####      ##################################", $HEXs.PrideYellow, "`n",
-  <##>"######     ###      ###", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, "  #", $HEXs.PrideBlack, "#      #####        #########       #            ###      ####################################", $HEXs.PrideYellow, "`n",
-  <##>"######    ####     ####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "## ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, " ##", $HEXs.PrideBlack, "                 ###########                    ##      ######################################", $HEXs.PrideGreen, "`n",
-  <##>"######     ####      ", $HEXs.PrideWhite, "###", $HEXs.PridePink, "## ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, " ##", $HEXs.PrideBlack, "#             ###############                    ##      #######################################", $HEXs.PrideGreen, "`n",
-  <##>"#######    ########", $HEXs.PrideWhite, "###", $HEXs.PridePink, "## ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, " ##", $HEXs.PrideBlack, "#       ##      ##############            #              #########################################", $HEXs.PrideGreen, "`n",
-  <##>"########     ####", $HEXs.PrideWhite, "###", $HEXs.PridePink, "   ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, " ##", $HEXs.PrideBlack, "#        ###      #############            #             ###########################################", $HEXs.PrideGreen, "`n",
-  <##>"##########     ", $HEXs.PrideWhite, "   ", $HEXs.PridePink, "   ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##        ###       ############           ##             ############################################", $HEXs.PrideGreen, "`n",
-  <##>"#############", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##         ####       ###########          ####           ##############################################", $HEXs.PrideBlue, "`n",
-  <##>"####     ##", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##         #####        ##########          ####          ################################################", $HEXs.PrideBlue, "`n",
-  <##>"####     ", $HEXs.PrideWhite, " ##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##         #######       ##########         #####         ##################################################", $HEXs.PrideBlue, "`n",
-  <##>"####   ", $HEXs.PrideWhite, "  #", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##         ##########     ##########        ######         ###################################################", $HEXs.PrideBlue, "`n",
-  <##>"#####", $HEXs.PrideWhite, "   ", $HEXs.PridePink, "   ", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "## ", $HEXs.PrideBlack, "          #############     ##  ####        #######        #####################################################", $HEXs.PrideBlue, "`n",
-  <##>"###", $HEXs.PrideWhite, "###", $HEXs.PridePink, "#  ", $HEXs.PrideCyan, "   ", $HEXs.PrideBrown, "   ", $HEXs.PrideBlack, "       ####################        ##       ########      ########################################################", $HEXs.PridePurple, "`n",
-  <##>"#", $HEXs.PrideWhite, "###", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "###############################    ###     #########      ##########################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite,#> "##", $HEXs.PridePink, "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "######################################################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "###", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "########################################################################################################################", $HEXs.PridePurple, "`n",
-  <#"", $HEXs.PrideWhite, "", $HEXs.PridePink,#> "#", $HEXs.PrideCyan, "###", $HEXs.PrideBrown, "###", $HEXs.PrideBlack, "##########################################################################################################################", $HEXs.PridePurple
+  OUT <#"", $colors.PrideWhite, "", $colors.PridePink,#> "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##########################################################################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################################################################", $colors.PrideRed, "`n",
+  <#"", $colors.PrideWhite,#> "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################################################################", $colors.PrideRed, "`n",
+  <##>"#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#########################################################################################################       ####", $colors.PrideRed, "`n",
+  <##>"###", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "#################################################################################################              ###", $colors.PrideRed, "`n",
+  <##>"#####", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###########################################################################################          ###########", $colors.PrideOrange, "`n",
+  <##>"#######", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######                      ######             ####################    ##############         ################", $colors.PrideOrange, "`n",
+  <##>"#########", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "#  ", $colors.PrideBlack, "         #############               ###       ################      ###########        ####################", $colors.PrideOrange, "`n",
+  <##>"###########", $colors.PrideWhite, "###", $colors.PridePink, "## ", $colors.PrideCyan, "   ", $colors.PrideBrown, "   ", $colors.PrideBlack, "  #####################       ###########      ############       ##########       #######################", $colors.PrideOrange, "`n",
+  <##>"#############", $colors.PrideWhite, "#  ", $colors.PridePink, "   ", $colors.PrideCyan, "   ", $colors.PrideBrown, "###", $colors.PrideBlack, "##################            ##########      #########        #########      ##########################", $colors.PrideOrange, "`n",
+  <##>"###########    ", $colors.PrideWhite, "   ", $colors.PridePink, " ##", $colors.PrideCyan, "## ", $colors.PrideBrown, "   ", $colors.PrideBlack, "      #########      ##      #########      #######        ########       ############################", $colors.PrideYellow, "`n",
+  <##>"#########       #", $colors.PrideWhite, "###", $colors.PridePink, "   ", $colors.PrideCyan, "   ", $colors.PrideBrown, "   ", $colors.PrideBlack, "     ######      ####      #########       ####          ######       ##############################", $colors.PrideYellow, "`n",
+  <##>"########      ###  ", $colors.PrideWhite, "   ", $colors.PridePink, "   ", $colors.PrideCyan, "###", $colors.PrideBrown, "## ", $colors.PrideBlack, "    ####      #####      #########       ###          #####       ################################", $colors.PrideYellow, "`n",
+  <##>"#######     ####     ", $colors.PrideWhite, " ##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "   ", $colors.PrideBlack, "  ###     ######       ########        #            ####      ##################################", $colors.PrideYellow, "`n",
+  <##>"######     ###      ###", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "   ", $colors.PrideBrown, "  #", $colors.PrideBlack, "#      #####        #########       #            ###      ####################################", $colors.PrideYellow, "`n",
+  <##>"######    ####     ####", $colors.PrideWhite, "###", $colors.PridePink, "## ", $colors.PrideCyan, "   ", $colors.PrideBrown, " ##", $colors.PrideBlack, "                 ###########                    ##      ######################################", $colors.PrideGreen, "`n",
+  <##>"######     ####      ", $colors.PrideWhite, "###", $colors.PridePink, "## ", $colors.PrideCyan, "   ", $colors.PrideBrown, " ##", $colors.PrideBlack, "#             ###############                    ##      #######################################", $colors.PrideGreen, "`n",
+  <##>"#######    ########", $colors.PrideWhite, "###", $colors.PridePink, "## ", $colors.PrideCyan, "   ", $colors.PrideBrown, " ##", $colors.PrideBlack, "#       ##      ##############            #              #########################################", $colors.PrideGreen, "`n",
+  <##>"########     ####", $colors.PrideWhite, "###", $colors.PridePink, "   ", $colors.PrideCyan, "   ", $colors.PrideBrown, " ##", $colors.PrideBlack, "#        ###      #############            #             ###########################################", $colors.PrideGreen, "`n",
+  <##>"##########     ", $colors.PrideWhite, "   ", $colors.PridePink, "   ", $colors.PrideCyan, "   ", $colors.PrideBrown, "###", $colors.PrideBlack, "##        ###       ############           ##             ############################################", $colors.PrideGreen, "`n",
+  <##>"#############", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##         ####       ###########          ####           ##############################################", $colors.PrideBlue, "`n",
+  <##>"####     ##", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##         #####        ##########          ####          ################################################", $colors.PrideBlue, "`n",
+  <##>"####     ", $colors.PrideWhite, " ##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##         #######       ##########         #####         ##################################################", $colors.PrideBlue, "`n",
+  <##>"####   ", $colors.PrideWhite, "  #", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##         ##########     ##########        ######         ###################################################", $colors.PrideBlue, "`n",
+  <##>"#####", $colors.PrideWhite, "   ", $colors.PridePink, "   ", $colors.PrideCyan, "###", $colors.PrideBrown, "## ", $colors.PrideBlack, "          #############     ##  ####        #######        #####################################################", $colors.PrideBlue, "`n",
+  <##>"###", $colors.PrideWhite, "###", $colors.PridePink, "#  ", $colors.PrideCyan, "   ", $colors.PrideBrown, "   ", $colors.PrideBlack, "       ####################        ##       ########      ########################################################", $colors.PridePurple, "`n",
+  <##>"#", $colors.PrideWhite, "###", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "###############################    ###     #########      ##########################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite,#> "##", $colors.PridePink, "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "######################################################################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "###", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "########################################################################################################################", $colors.PridePurple, "`n",
+  <#"", $colors.PrideWhite, "", $colors.PridePink,#> "#", $colors.PrideCyan, "###", $colors.PrideBrown, "###", $colors.PrideBlack, "##########################################################################################################################", $colors.PridePurple
 }
 
 

@@ -58,7 +58,7 @@ addToList -name 'rowi' -value 'Push-Location $ROWI'
 
 function ReloadRowi { 
   $startPath = Get-Location
-  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:HEXs.Cyan
+  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:colors.Cyan
   . $global:ROWI\RoWi.ps1
 }
 Set-Alias rr ReloadRowi
@@ -67,7 +67,7 @@ addToList -name '. rr' -value 'Reload RoWi'
 
 function ReloadPsProfile { 
   $startPath = Get-Location
-  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:HEXs.Cyan
+  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:colors.Cyan
   . $profile
 }
 Set-Alias rrp ReloadPsProfile
@@ -90,7 +90,7 @@ function Get-FunctionNameFromCommandName {
   $commandType = $command.CommandType
   If ( $commandType -eq "Function" ) { Return $commandName }
   If ( $commandType -eq "Alias" ) { Return $command.Definition }
-  Else { OUT "`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in Get-FunctionNameFromCommandName`n", $global:HEXs.Red }
+  Else { OUT "`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in Get-FunctionNameFromCommandName`n", $global:colors.Red }
 }
 
 
@@ -122,8 +122,8 @@ $subDirUtils = @{
 
 # TODO: Check if this function is completed - If not: Complete it
 function _openAllSubDirs_continue {
-  If ( $subDirUtils.dirCount -eq 0 ) { Return OUT "No subdirectories found", $global:HEXs.Red }
-  If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return OUT "Finished", $global:HEXs.Red }
+  If ( $subDirUtils.dirCount -eq 0 ) { Return OUT "No subdirectories found", $global:colors.Red }
+  If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return OUT "Finished", $global:colors.Red }
 
   $currentDir = $subDirUtils.directories[$subDirUtils.current]
   Write-Host -ForegroundColor Cyan "Current directory: $($subDirUtils.current+1)/$($subDirUtils.dirCount) `n  $currentDir `n"

@@ -155,7 +155,7 @@ function Get-LogoRainbow {
 }
 
 function Get-LogoRGB {
-  param( [Parameter(Mandatory)][HEX[]]$colors )
+  param( [Parameter(Mandatory)][COLOR[]]$colors )
   $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
   $colorNumber = -1
