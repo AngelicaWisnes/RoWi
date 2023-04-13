@@ -174,7 +174,8 @@ function Get-AllAnsiColors {
     If ( ($_ - 15) % 36 -eq 0 ) { Write-Host "" }
   }
 }
-addToList -name 'Get-AllAnsiColors' -value 'See all available ansi-colors'
+Set-Alias allAnsi Get-AllAnsiColors
+addToList -name 'allAnsi' -value 'See all available ansi-colors'
 
 
 function Get-AllRGBColors {
@@ -198,7 +199,8 @@ function Get-AllRGBColors {
     }
   }
 }
-addToList -name 'Get-AllRGBColors' -value 'See all available RGB-colors'
+Set-Alias allRgb Get-AllRGBColors
+addToList -name 'allRgb' -value 'See all available RGB-colors'
 
 
 function Get-ImplementedRGBColors {
@@ -212,7 +214,8 @@ function Get-ImplementedRGBColors {
     OUT $colorName, $sample, $rgb, $True, $hexAndRgbValue
   }
 }
-addToList -name 'Get-ImplementedRGBColors' -value 'See implemented RGB-colors'
+Set-Alias implColors Get-ImplementedRGBColors
+addToList -name 'implColors' -value 'See implemented RGB-colors'
 
 
 
