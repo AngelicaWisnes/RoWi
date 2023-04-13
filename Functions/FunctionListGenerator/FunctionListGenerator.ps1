@@ -6,27 +6,20 @@
 # Define helper-functions for function-list-generation #
 ########################################################
 
-function FormatString([string]$str, [int]$length, [string]$padding = " ") { Return $padding + $str + ($padding * ($length - (($padding + $str).Length))) + $padding }
-function FormatElement([FunctionListElement]$element) {
-  $padding = $(If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " })
-  
-  $sb = new-object -TypeName System.Text.StringBuilder
-  $sb.AppendFormat("|{0}|{1}|{2}|"
-    , (FormatString $element.category $categoryWidth $padding)
-    , (FormatString $element.name $nameWidth $padding)
-    , (FormatString $element.value $valueWidth $padding)) > $null
-  Return $sb.ToString()
+function FormatString([string]$str, [int]$length, [string]$padding = " ", [switch]$NoPadding) { 
+  if ($NoPadding) { $x = 0 } else { $x = 1 }
+  Return ($padding * $x) + $str + ($padding * ($length - ((($padding * $x) + $str).Length))) + ($padding * $x) 
 }
 
-function FormatStringWithoutPadding([string]$str, [int]$length, [string]$padding = " ") { Return $str + ($padding * ($length - $str.Length)) }
-function FormatElementWithoutPadding([FunctionListElement]$element) {
+function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
   $padding = $(If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " })
-  
+  if ($NoPadding) { $x = 1 } else { $x = 0 }
+
   $sb = new-object -TypeName System.Text.StringBuilder
   $sb.AppendFormat("|{0}|{1}|{2}|"
-    , (FormatStringWithoutPadding $element.category ($categoryWidth - 1) $padding)
-    , (FormatStringWithoutPadding $element.name ($nameWidth - 1) $padding)
-    , (FormatStringWithoutPadding $element.value ($valueWidth - 1) $padding)) > $null
+    , (FormatString $element.category ($categoryWidth - $x) $padding -NoPadding:$NoPadding)
+    , (FormatString $element.name ($nameWidth - $x) $padding -NoPadding:$NoPadding)
+    , (FormatString $element.value ($valueWidth - $x) $padding -NoPadding:$NoPadding)) > $null
   Return $sb.ToString()
 }
 
@@ -40,22 +33,18 @@ function fillDualLists {
   $global:FunctionList_Dual_Col2.Add( $FunctionSubList_End ) 
 }
 
-function _print_functions_and_aliases_single {
+function _print_functions_and_aliases_single([switch]$NoPadding) {
   $sb = new-object -TypeName System.Text.StringBuilder
-  $sb.AppendFormat("RoWi-defined functions and aliases:$newLine") > $null
-  $sb.AppendFormat(" {0}$newLine", (FormatString "" $fullWidth "_")) > $null
+  $sb.AppendFormat("RoWi-defined functions and aliases:") > $null
 
-  $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_)) > $null }
-
-  Return $sb.ToString()
-}
-
-function _print_functions_and_aliases_single_no_padding {
-  $sb = new-object -TypeName System.Text.StringBuilder
-  $sb.AppendFormat("RoWi-defined functions and aliases:`n") > $null
-  $sb.AppendFormat(" {0}`n", (FormatStringWithoutPadding "" ($fullWidth - 5) "_")) > $null
-
-  $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}`n", (FormatElementWithoutPadding $_)) > $null }
+  if ($NoPadding) {
+    $sb.AppendFormat("`n {0}`n", (FormatString "" ($fullWidth - 5) "_" -NoPadding)) > $null
+    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}`n", (FormatElement $_ -NoPadding:$NoPadding)) > $null }
+  }
+  else { 
+    $sb.AppendFormat("$newline {0}$newLine", (FormatString "" $fullWidth "_")) > $null
+    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_)) > $null }
+  }
 
   Return $sb.ToString()
 }
@@ -141,7 +130,7 @@ function print_functions_and_aliases {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width
   If ($total_width_dual -lt ($windowWidth - 2)) { $functionList = _print_functions_and_aliases_single_dual }
   elseif ($total_width_sisngle -lt ($windowWidth - 2)) { $functionList = _print_functions_and_aliases_single }
-  Else { $functionList = _print_functions_and_aliases_single_no_padding }
+  Else { $functionList = $(_print_functions_and_aliases_single -NoPadding) }
 
   Write-Host -ForegroundColor Red $functionList
 }
