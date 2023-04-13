@@ -85,6 +85,28 @@ Set-Alias gmb Get-MasterBranch
 addToList -name 'gmb' -value 'Get git master branch'
 
 
+function GitCombinePreviousCommits {
+  OUT "Initiating 'git reset --soft <hash>' to combine all commits done after given hash
+  `tPlease provide the commit-hash belonging to the last commit
+  `tdone BEFORE the first commit you want to include in this process, according to git log
+  `tCommit-Hash: " -NoNewline
+  
+  try { 
+    [console]::ForegroundColor = 'DarkCyan'
+    $commitHash = Read-Host 
+  }
+  finally { [console]::ResetColor() }
+  
+  OUT "Trying: git reset --soft ", "'$commitHash'`n", $global:colors.DarkCyan
+  
+  git reset --soft $commitHash
+
+  OUT "Next steps in the process: `n`t- Create the new commit(s) `n`t- Use the command GitPushForce (alias pf)"
+}
+Set-Alias gcpc GitCombinePreviousCommits
+addToList -name 'gcpc' -value 'Combine previous commits'
+
+
 function GitDeleteCurrentBranch { 
   $currentGitBranch = Get-CurrentGitBranch
   $title = "$(Get-FunctionDefinitionAsString GitCheckoutMaster)  git branch -d $currentGitBranch `n  git push origin --delete $currentGitBranch"
@@ -194,6 +216,11 @@ addToList -name 'gbu' -value 'Get url for current git-branch'
 function GitPush { git push }
 Set-Alias p GitPush
 addToList -name 'p' -value 'git push'
+
+
+function GitPushForce { git push --force-with-lease }
+Set-Alias pf GitPush
+addToList -name 'pf' -value 'git push --force-with-lease'
 
 
 function GitPushAndOpenBranchInBrowser { 
