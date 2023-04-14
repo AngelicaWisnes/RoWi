@@ -6,20 +6,20 @@
 # Define helper-functions for function-list-generation #
 ########################################################
 
-function FormatString([string]$str, [int]$length, [string]$padding = " ", [switch]$NoPadding) { 
-  if ($NoPadding) { $x = 0 } else { $x = 1 }
-  Return ($padding * $x) + $str + ($padding * ($length - ((($padding * $x) + $str).Length))) + ($padding * $x) 
+function FormatString([string]$str, [int]$length, [string]$paddingChar = " ", [switch]$NoPadding) { 
+  $extraPadding = If ($NoPadding) { "" } Else { $paddingChar }
+  Return $extraPadding + $str + ($paddingChar * ($length - (($extraPadding + $str).Length))) + $extraPadding 
 }
 
 function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
-  $padding = $(If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " })
-  if ($NoPadding) { $x = 1 } else { $x = 0 }
+  $paddingChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
+  $x = If ($NoPadding) { 1 } Else { 0 }
 
   $sb = new-object -TypeName System.Text.StringBuilder
   $sb.AppendFormat("|{0}|{1}|{2}|"
-    , (FormatString $element.category ($categoryWidth - $x) $padding -NoPadding:$NoPadding)
-    , (FormatString $element.name ($nameWidth - $x) $padding -NoPadding:$NoPadding)
-    , (FormatString $element.value ($valueWidth - $x) $padding -NoPadding:$NoPadding)) > $null
+    , (FormatString $element.category ($global:categoryWidth - $x) $paddingChar -NoPadding:$NoPadding)
+    , (FormatString $element.name ($global:nameWidth - $x) $paddingChar -NoPadding:$NoPadding)
+    , (FormatString $element.value ($global:valueWidth - $x) $paddingChar -NoPadding:$NoPadding)) > $null
   Return $sb.ToString()
 }
 
@@ -32,40 +32,6 @@ function fillDualLists {
   $global:FunctionList_Dual_Col1.Add( $FunctionSubList_End ) 
   $global:FunctionList_Dual_Col2.Add( $FunctionSubList_End ) 
 }
-
-function _print_functions_and_aliases_single([switch]$NoPadding) {
-  $sb = new-object -TypeName System.Text.StringBuilder
-  $sb.AppendFormat("RoWi-defined functions and aliases:") > $null
-
-  if ($NoPadding) {
-    $sb.AppendFormat("`n {0}`n", (FormatString "" ($fullWidth - 5) "_" -NoPadding)) > $null
-    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}`n", (FormatElement $_ -NoPadding:$NoPadding)) > $null }
-  }
-  else { 
-    $sb.AppendFormat("$newline {0}$newLine", (FormatString "" $fullWidth "_")) > $null
-    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_)) > $null }
-  }
-
-  Return $sb.ToString()
-}
-
-function _print_functions_and_aliases_single_dual {
-  $sb = new-object -TypeName System.Text.StringBuilder
-  $sb.AppendFormat("RoWi-defined functions and aliases:$newLine") > $null
-  $sb.AppendFormat(" {0}", (FormatString "" $fullWidth "_")) > $null
-  $sb.AppendFormat("   {0}$newLine", (FormatString "" $fullWidth "_")) > $null
-
-  $length = ($FunctionList_Dual_Col1.Count, $FunctionList_Dual_Col2.Count | Measure-Object -Max).Maximum 
-  for ($i = 0; $i -lt $length; $i++) { 
-    $col1_str = $(If ($null -eq $FunctionList_Dual_Col1[$i]) { "  " + (FormatString "" $fullWidth " ") } Else { FormatElement $FunctionList_Dual_Col1[$i] })
-    $col2_str = $(If ($null -eq $FunctionList_Dual_Col2[$i]) { " " } Else { FormatElement $FunctionList_Dual_Col2[$i] })
-
-    $sb.AppendFormat("{0} {1}$newLine", ($col1_str), ($col2_str)) > $null 
-  }
-
-  Return $sb.ToString()
-}
-
 
 
 ########################
@@ -113,10 +79,6 @@ function INITIALIZE_FUNCTION_LIST_GENERATOR {
   $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property Length).Maximum + 1
   $global:nameWidth = (($FunctionList_single.name) | Measure-Object -Maximum -Property Length).Maximum + 1
   $global:valueWidth = (($FunctionList_single.value) | Measure-Object -Maximum -Property Length).Maximum + 1
-  $global:fullWidth = $categoryWidth + $nameWidth + $valueWidth + 4
-  $global:newLine = "`n  "
-  $global:total_width_sisngle = ($fullWidth) + 4
-  $global:total_width_dual = $total_width_sisngle * 2
 
   # Invoke Filling-function
   fillDualLists
@@ -126,16 +88,41 @@ function INITIALIZE_FUNCTION_LIST_GENERATOR {
 ####################
 # Calling-function #
 ####################
-function print_functions_and_aliases {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width
-  If ($total_width_dual -lt ($windowWidth - 2)) { $functionList = _print_functions_and_aliases_single_dual }
-  elseif ($total_width_sisngle -lt ($windowWidth - 2)) { $functionList = _print_functions_and_aliases_single }
-  Else { $functionList = $(_print_functions_and_aliases_single -NoPadding) }
+function print_functions_and_aliases() {
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 2
+  $fullWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + 5
+  $total_width_single = $fullWidth + 3
+  $total_width_dual = $total_width_single * 2
 
-  Write-Host -ForegroundColor Red $functionList
+  $isDual = $total_width_dual -lt $windowWidth
+  $isSingleWithPadding = $total_width_single -lt $windowWidth
+  $isSingleNoPadding = (-not $isDual) -and (-not $isSingleWithPadding)
+
+  $sb = [System.Text.StringBuilder]::new("RoWi-defined functions and aliases:")
+  $newLine = If ($isSingleNoPadding) { "`n" } Else { "`n  " }
+
+  If ($isDual) { 
+    $sb.AppendFormat("$newLine {0}   {0}$newLine", ("_" * ($fullWidth))) > $null
+    for ($i = 0; $i -lt $FunctionList_Dual_Col1.Count; $i++) { 
+      $sb.AppendFormat("{0} {1}$newLine", (FormatElement $FunctionList_Dual_Col1[$i]), (FormatElement $FunctionList_Dual_Col2[$i])) > $null 
+    }
+  }
+  elseif ($isSingleWithPadding) { 
+    $sb.AppendFormat("$newline {0}$newLine", ("_" * ($fullWidth))) > $null
+    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_)) > $null }
+  }
+  Else { 
+    $sb.AppendFormat("$newLine {0}$newLine", ("_" * ($fullWidth - 6))) > $null
+    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_ -NoPadding)) > $null }
+  }
+
+  Write-Host -ForegroundColor Red $sb.ToString()
 }
 Set-Alias l print_functions_and_aliases
 
 function PRINT_FUNCTION_LIST_GENERATOR_INFO {
   Write-Host -ForegroundColor Red "Enter 'l' to list all profile-defined functions and aliases "
 }
+
+
+
