@@ -79,6 +79,9 @@ function INITIALIZE_FUNCTION_LIST_GENERATOR {
   $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property Length).Maximum + 1
   $global:nameWidth = (($FunctionList_single.name) | Measure-Object -Maximum -Property Length).Maximum + 1
   $global:valueWidth = (($FunctionList_single.value) | Measure-Object -Maximum -Property Length).Maximum + 1
+  $global:fullWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + 5
+  $global:total_width_single = $global:fullWidth + 3
+  $global:total_width_dual = $global:total_width_single * 2
 
   # Invoke Filling-function
   fillDualLists
@@ -90,30 +93,23 @@ function INITIALIZE_FUNCTION_LIST_GENERATOR {
 ####################
 function print_functions_and_aliases() {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 2
-  $fullWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + 5
-  $total_width_single = $fullWidth + 3
-  $total_width_dual = $total_width_single * 2
-
-  $isDual = $total_width_dual -lt $windowWidth
-  $isSingleWithPadding = $total_width_single -lt $windowWidth
+  $isDual = $global:total_width_dual -lt $windowWidth
+  $isSingleWithPadding = $global:total_width_single -lt $windowWidth
   $isSingleNoPadding = (-not $isDual) -and (-not $isSingleWithPadding)
+  $widthAdjustment = If ($isSingleNoPadding) { 6 } Else { 0 }
 
   $sb = [System.Text.StringBuilder]::new("RoWi-defined functions and aliases:")
   $newLine = If ($isSingleNoPadding) { "`n" } Else { "`n  " }
 
   If ($isDual) { 
-    $sb.AppendFormat("$newLine {0}   {0}$newLine", ("_" * ($fullWidth))) > $null
+    $sb.AppendFormat("$newLine {0}   {0}$newLine", ("_" * ($global:fullWidth))) > $null
     for ($i = 0; $i -lt $FunctionList_Dual_Col1.Count; $i++) { 
       $sb.AppendFormat("{0} {1}$newLine", (FormatElement $FunctionList_Dual_Col1[$i]), (FormatElement $FunctionList_Dual_Col2[$i])) > $null 
     }
   }
-  elseif ($isSingleWithPadding) { 
-    $sb.AppendFormat("$newline {0}$newLine", ("_" * ($fullWidth))) > $null
-    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_)) > $null }
-  }
   Else { 
-    $sb.AppendFormat("$newLine {0}$newLine", ("_" * ($fullWidth - 6))) > $null
-    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_ -NoPadding)) > $null }
+    $sb.AppendFormat("$newLine {0}$newLine", ("_" * ($global:fullWidth - $widthAdjustment))) > $null
+    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_ -NoPadding:$isSingleNoPadding)) > $null }
   }
 
   Write-Host -ForegroundColor Red $sb.ToString()
