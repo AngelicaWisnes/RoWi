@@ -30,6 +30,29 @@ function Add-RowiToPowershell7Profile {
     Write-Host -ForegroundColor Cyan "  Finished - Adding RoWi to PowerShell 7 profile"
 }
 
+function Add-RowiToPowershell7Profile_NOT_FINISHED {
+    Write-Host -ForegroundColor Cyan "Starting - Adding RoWi to PowerShell 7 profile: "
+    if (Install-Powershell7 -and Confirm-Action) { 
+        $ps7Command = "Add-Content -Path `$PROFILE.CurrentUserCurrentHost -Value '$RoWi_import_statement' -Encoding utf8"
+        $ps7ScriptBlock = [scriptblock]::Create($ps7Command)
+        $ps7Process = Start-Process pwsh -ArgumentList "-NoExit", "-Command", $ps7ScriptBlock -PassThru
+        $ps7Process.WaitForExit()
+    }
+    Write-Host -ForegroundColor Cyan "  Finished - Adding RoWi to PowerShell 7 profile"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 function Install-PowerShell7 {
     Write-Host -ForegroundColor Cyan "Checking if PowerShell 7 is installed..."
     
