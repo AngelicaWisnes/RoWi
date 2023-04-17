@@ -47,3 +47,11 @@ addToList -name 'yys' -value 'yarn && yarn start'
 function yu { yarn test -u }
 addToList -name 'yu' -value 'yarn test -u (Test w/upd snapshots)'
 
+
+
+function ycra { 
+  [Parameter(Mandatory)][String]$name
+  yarn create react-app $name --template typescript
+}
+addToList -name 'yu' -value 'yarn test -u (Test w/upd snapshots)'
+
