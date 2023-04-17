@@ -29,5 +29,5 @@ dad
 ############################
 
 function t {
-  OUT "This is a function-name available for testing scripts in the profile. It is not currently in use.", $global:HEXs.Red
+  OUT "This is a function-name available for testing scripts in the profile. It is not currently in use.", $global:colors.Red
 }

@@ -31,12 +31,17 @@ function GitCreateNewBranch {
   }
   finally { [console]::ResetColor() }
   
-  OUT "Trying: git checkout -b ", "'$branchName'`n", $global:HEXs.DarkCyan
+  OUT "Trying: git checkout -b ", "'$branchName'`n", $global:colors.DarkCyan
   
   git checkout -b $branchName
 }
 Set-Alias b GitCreateNewBranch
 addToList -name 'b' -value 'git checkout -b'
+
+
+function GitCommit { git commit }
+Set-Alias c GitCommit
+addToList -name 'c' -value 'git commit'
 
 
 function GitCommitWithMessage {
@@ -48,12 +53,12 @@ function GitCommitWithMessage {
   }
   finally { [console]::ResetColor() }
   
-  OUT "Trying: git commit -m ", "'$commitMessage'`n", $global:HEXs.DarkCyan
+  OUT "Trying: git commit -m ", "'$commitMessage'`n", $global:colors.DarkCyan
   
   git commit -m $commitMessage
 }
-Set-Alias c GitCommitWithMessage
-addToList -name 'c' -value 'git commit -m'
+Set-Alias cm GitCommitWithMessage
+addToList -name 'cm' -value 'git commit -m'
 
 
 function GitCheckout { git checkout $args }
@@ -78,6 +83,28 @@ addToList -name 'gb' -value 'Get current git branch'
 function Get-MasterBranch { basename $(git symbolic-ref --short refs/remotes/origin/HEAD) }
 Set-Alias gmb Get-MasterBranch
 addToList -name 'gmb' -value 'Get git master branch'
+
+
+function GitCombinePreviousCommits {
+  OUT "Initiating 'git reset --soft <hash>' to combine all commits done after given hash
+  `tPlease provide the commit-hash belonging to the last commit
+  `tdone BEFORE the first commit you want to include in this process, according to git log
+  `tCommit-Hash: " -NoNewline
+  
+  try { 
+    [console]::ForegroundColor = 'DarkCyan'
+    $commitHash = Read-Host 
+  }
+  finally { [console]::ResetColor() }
+  
+  OUT "Trying: git reset --soft ", "'$commitHash'`n", $global:colors.DarkCyan
+  
+  git reset --soft $commitHash
+
+  OUT "Next steps in the process: `n`t- Create the new commit(s) `n`t- Use the command GitPushForce (alias pf)"
+}
+Set-Alias gcpc GitCombinePreviousCommits
+addToList -name 'gcpc' -value 'Combine previous commits'
 
 
 function GitDeleteCurrentBranch { 
@@ -191,6 +218,11 @@ Set-Alias p GitPush
 addToList -name 'p' -value 'git push'
 
 
+function GitPushForce { git push --force-with-lease }
+Set-Alias pf GitPush
+addToList -name 'pf' -value 'git push --force-with-lease'
+
+
 function GitPushAndOpenBranchInBrowser { 
   GitPush
   GitOpenBranchInBrowser
@@ -282,5 +314,5 @@ function pullAllRepos {
   $needsManualWork = _pullAllRepos
   Set-Location $global:DEFAULT_START_PATH
   
-  OUT "The following repos need to be pulled manually:`n$needsManualWork", $HEXs.Red
+  OUT "The following repos need to be pulled manually:`n$needsManualWork", $colors.Red
 }
