@@ -6,20 +6,20 @@
 # Define helper-functions for function-list-generation #
 ########################################################
 
-function FormatString([string]$str, [int]$length, [string]$paddingChar = " ", [switch]$NoPadding) { 
-  $extraPadding = If ($NoPadding) { "" } Else { $paddingChar }
-  Return $extraPadding + $str + ($paddingChar * ($length - (($extraPadding + $str).Length))) + $extraPadding 
+function FormatString([string]$str, [int]$length, [string]$fillerChar, [switch]$NoPadding) { 
+  $extraPadding = If ($NoPadding) { "" } Else { $fillerChar }
+  Return $extraPadding + $str + ($fillerChar * ($length - (($extraPadding + $str).Length))) + $extraPadding 
 }
 
 function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
-  $paddingChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
+  $fillerChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
   $x = If ($NoPadding) { 1 } Else { 0 }
 
   $sb = new-object -TypeName System.Text.StringBuilder
   $sb.AppendFormat("|{0}|{1}|{2}|"
-    , (FormatString $element.category ($global:categoryWidth - $x) $paddingChar -NoPadding:$NoPadding)
-    , (FormatString $element.name ($global:nameWidth - $x) $paddingChar -NoPadding:$NoPadding)
-    , (FormatString $element.value ($global:valueWidth - $x) $paddingChar -NoPadding:$NoPadding)) > $null
+    , (FormatString $element.category ($global:categoryWidth - $x) $fillerChar -NoPadding:$NoPadding)
+    , (FormatString $element.name ($global:nameWidth - $x) $fillerChar -NoPadding:$NoPadding)
+    , (FormatString $element.value ($global:valueWidth - $x) $fillerChar -NoPadding:$NoPadding)) > $null
   Return $sb.ToString()
 }
 
