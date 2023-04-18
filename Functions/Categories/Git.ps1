@@ -66,6 +66,11 @@ Set-Alias co GitCheckout
 addToList -name 'co' -value 'git checkout args'
 
 
+function GitCheckoutPrevious { git checkout - }
+Set-Alias co- GitCheckoutPrevious
+addToList -name 'co-' -value 'git checkout -'
+
+
 function GitCheckoutDevelop { git checkout develop }
 Set-Alias d GitCheckoutDevelop
 addToList -name 'd' -value 'git checkout develop'
