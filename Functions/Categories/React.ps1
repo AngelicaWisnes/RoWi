@@ -53,5 +53,5 @@ function ycra {
   [Parameter(Mandatory)][String]$name
   yarn create react-app $name --template typescript
 }
-addToList -name 'yu' -value 'yarn test -u (Test w/upd snapshots)'
+addToList -name 'ycra' -value 'yarn create react-TS-app'
 
