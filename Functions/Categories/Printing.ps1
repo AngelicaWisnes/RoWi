@@ -98,11 +98,21 @@ $global:colors = [ordered]@{
   PrideGreen         = [COLOR]@{ hex = "#028121"; r = 2; g = 129; b = 33; };
   PrideBlue          = [COLOR]@{ hex = "#004CFF"; r = 0; g = 76; b = 255; };
   PridePurple        = [COLOR]@{ hex = "#730088"; r = 115; g = 0; b = 136; };
+  PrideBiPink        = [COLOR]@{ hex = "#B00B69"; r = 176; g = 11; b = 105; };
+  PrideBiPurple      = [COLOR]@{ hex = "#A55EA7"; r = 165; g = 94; b = 167; };
+  PrideBiBlue        = [COLOR]@{ hex = "#1D1CC9"; r = 29; g = 28; b = 201; };
 }
 
+
+
+
+
+
 $global:colorChart = @{
-  rainbow = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple )
-  trans   = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan )
+  rainbow  = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple );
+  trans    = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan );
+  bisexual = @( $colors.PrideBiPink, $colors.PrideBiPurple, $colors.PrideBiBlue );
+  norway   = @( $colors.Red, $colors.White, $colors.Blue, $colors.White, $colors.Red );
 }
 
 

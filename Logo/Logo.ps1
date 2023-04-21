@@ -124,21 +124,19 @@ function Resize-AsciiArt {
 
 
 function Get-Logo {
-  if ((Get-Date -Format "ddMM") -eq "3103") {
-    Get-LogoRGB $global:colorChart.trans
+  switch -Regex (Get-Date -Format "^(dd.MM|MM)") {
+    "31.03" { Get-LogoRGB $global:colorChart.trans } # International Transgender Day Of Visibility
+    "05" { Get-LogoRGB $global:colorChart.norway }   # Norwegian National Day (May 17th)
+    "06" { Get-LogoRGB $global:colorChart.rainbow }  # Pride Month
+    "09" { Get-LogoRGB $global:colorChart.bisexual } # Bisexual Awareness Week (approx. 16th-23rd)
+    "11" { Get-LogoRGB $global:colorChart.trans }    # Trans Awareness Month
+    default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
   }
-  else {
-    Switch (Get-Date -Format MM) {
-      "06" { Get-LogoRGB $global:colorChart.rainbow }
-      "11" { Get-LogoRGB $global:colorChart.trans }
-      default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
-    }
-  } 
+
   Get-RainbowSlimLine 
   Get-TransSlimLine -NoNewlineStart
   Write-Host
 }
-
 
 function Get-LogoRainbow {
   $outputString = Get-LogoAsString
