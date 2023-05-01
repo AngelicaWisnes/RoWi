@@ -14,11 +14,6 @@ function addToSystemList {
   $global:FunctionSubList_SYSTEM.Add(( [FunctionListElement]@{ category = "System"; name = $name; value = $value } ))
 }
 
-. $global:SYSTEM_FUNCTIONS_PATH
-
-
-
-
 
 
 ###########################
@@ -60,4 +55,3 @@ $global:allProjects = [PROJECT]@{
   nestedProjects = @()
 };
 
-. $global:SYSTEM_PROJECTS_PATH

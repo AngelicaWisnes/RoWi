@@ -14,7 +14,7 @@ $global:ROWI = $PSScriptRoot
 # Set start-path for PS-profile-reload. For a different start path, set the `$startPath variable in function 'rr'. 
 # It is recommended to set $startPath to 'Get-Location'.
 If ($startPath) { Push-Location $startPath }
-Else { Push-Location $global:DEFAULT_START_PATH }
+Else { Push-Location $global:DEFAULT_START_PATH -ErrorAction SilentlyContinue }
 
 
 ############################

@@ -34,6 +34,9 @@ logTime "Logo"
 . $global:ROWI\Upgrader.ps1
 logTime "Upgrader"
 
+. $global:ROWI\SystemDependent\SystemDependentSetup.ps1
+logTime "SystemDependent"
+
 # Import modules
 if (!(Get-Module -ListAvailable -Name posh-git)) {
   Install-Module -Name posh-git
