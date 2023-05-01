@@ -21,7 +21,7 @@
 
  - See the [Installer-README](./Installer/README.md) for how to add to your PowerShell profile
 
- - Every time a PowerShell session running the RoWi-package is started, there will be a quick check in the [SystemDependentSetup](./SystemDependent/SystemDepententSetup.ps1) if your system-dependent files are created.
+ - Every time a PowerShell session running the RoWi-package is started, there will be a quick check in the [SystemDependentSetup](./SystemDependent/SystemDependentSetup.ps1) if your system-dependent files are created.
 
    - If the files are not created, these will automatically be created based on the Template-folder
 
