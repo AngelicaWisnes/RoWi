@@ -97,17 +97,17 @@ if (-not (Test-Path $sysDepRoot)) { Copy-TemplateDirectory }
 # Specify all relevant SystemDependentPaths:
 class SDP { [string]$variable ; [string]$name ; [string]$value ; [bool]$muted } 
 $SystemDependentPaths = @(
-    [SDP]@{variable = $global:SYSTEM_CONSTANTS_PATH    ; name = "`$global:SYSTEM_CONSTANTS_PATH = "   ; value = "$global:SYSTEM_CONSTANTS_PATH" ; muted = $false};
-    [SDP]@{variable = $global:SYSTEM_PROJECTS_PATH     ; name = "`$global:SYSTEM_PROJECTS_PATH = "    ; value = "$global:SYSTEM_PROJECTS_PATH"  ; muted = $false};
-    [SDP]@{variable = $global:SYSTEM_FUNCTIONS_PATH    ; name = "`$global:SYSTEM_FUNCTIONS_PATH = "   ; value = "$global:SYSTEM_FUNCTIONS_PATH" ; muted = $false};
+    [SDP]@{variable = $global:SYSTEM_CONSTANTS_PATH    ; name = "`$global:SYSTEM_CONSTANTS_PATH = "   ; value = "$global:SYSTEM_CONSTANTS_PATH" ; muted = $false };
+    [SDP]@{variable = $global:SYSTEM_PROJECTS_PATH     ; name = "`$global:SYSTEM_PROJECTS_PATH = "    ; value = "$global:SYSTEM_PROJECTS_PATH"  ; muted = $false };
+    [SDP]@{variable = $global:SYSTEM_FUNCTIONS_PATH    ; name = "`$global:SYSTEM_FUNCTIONS_PATH = "   ; value = "$global:SYSTEM_FUNCTIONS_PATH" ; muted = $false };
 
-    [SDP]@{variable = $global:MY_POWERSHELL_5          ; name = "`$global:MY_POWERSHELL_5 = "         ; value = "$global:MY_POWERSHELL_5"       ; muted = $false};
-    [SDP]@{variable = $global:MY_POWERSHELL_7          ; name = "`$global:MY_POWERSHELL_7 = "         ; value = "$global:MY_POWERSHELL_7"       ; muted = $false};
-    [SDP]@{variable = $global:MY_POWERSHELL            ; name = "`$global:MY_POWERSHELL = "           ; value = "$global:MY_POWERSHELL"         ; muted = $true};
-    [SDP]@{variable = $global:MY_BROWSER               ; name = "`$global:MY_BROWSER = "              ; value = "$global:MY_BROWSER"            ; muted = $false};
-    [SDP]@{variable = $global:MY_DOTNET_IDE            ; name = "`$global:MY_DOTNET_IDE = "           ; value = "$global:MY_DOTNET_IDE"         ; muted = $false};
-    [SDP]@{variable = $global:MY_JS_IDE                ; name = "`$global:MY_JS_IDE = "               ; value = "$global:MY_JS_IDE"             ; muted = $false};
-    [SDP]@{variable = $global:DEFAULT_START_PATH       ; name = "`$global:DEFAULT_START_PATH = "      ; value = "$global:DEFAULT_START_PATH"    ; muted = $false};
+    [SDP]@{variable = $global:MY_POWERSHELL_5          ; name = "`$global:MY_POWERSHELL_5 = "         ; value = "$global:MY_POWERSHELL_5"       ; muted = $false };
+    [SDP]@{variable = $global:MY_POWERSHELL_7          ; name = "`$global:MY_POWERSHELL_7 = "         ; value = "$global:MY_POWERSHELL_7"       ; muted = $false };
+    [SDP]@{variable = $global:MY_POWERSHELL            ; name = "`$global:MY_POWERSHELL = "           ; value = "$global:MY_POWERSHELL"         ; muted = $true };
+    [SDP]@{variable = $global:MY_BROWSER               ; name = "`$global:MY_BROWSER = "              ; value = "$global:MY_BROWSER"            ; muted = $false };
+    [SDP]@{variable = $global:MY_DOTNET_IDE            ; name = "`$global:MY_DOTNET_IDE = "           ; value = "$global:MY_DOTNET_IDE"         ; muted = $false };
+    [SDP]@{variable = $global:MY_JS_IDE                ; name = "`$global:MY_JS_IDE = "               ; value = "$global:MY_JS_IDE"             ; muted = $false };
+    [SDP]@{variable = $global:DEFAULT_START_PATH       ; name = "`$global:DEFAULT_START_PATH = "      ; value = "$global:DEFAULT_START_PATH"    ; muted = $false };
 )
 
 # Check paths' validity
@@ -116,7 +116,7 @@ function Test-PathVariables {
 
     Foreach ($path in $SystemDependentPaths) {
         If ( ("" -eq $path.variable) -or (-not (Test-Path $path.variable)) ) {
-            Write-Host -ForegroundColor red "Missing or broken path: `"$($path.name) $($path.value)`""
+            Write-Host -ForegroundColor red "Missing or broken path: `n`"$($path.name) $($path.value)`"`n"
             $writeWarning = $true
         }
     } 
@@ -130,7 +130,7 @@ function Test-PathVariables {
             Write-Host -ForegroundColor Cyan "Proceeding..."
             Foreach ($path in $SystemDependentPaths) {
                 If ( (("" -eq $path.variable) -or (-not (Test-Path $path.variable))) -and (-not $path.muted) ) {
-                    Write-Host -ForegroundColor red "Missing or broken path: `"$($path.name) $($path.value)`""1
+                    Write-Host -ForegroundColor red "Missing or broken path: `n`"$($path.name) $($path.value)`"`n"
                     If (-not $path.muted) { Set-PathVariable $path.name }
                 }
             }
