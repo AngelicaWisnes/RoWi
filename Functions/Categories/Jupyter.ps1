@@ -15,6 +15,7 @@ function addToList {
 function Open-JupyterNotebook { jupyter notebook }
 Set-Alias jn Open-JupyterNotebook
 addToList -name 'jn' -value 'Open_Jupyter_Notebook'
+addTonewList -category "Jupyter" -name 'jn' -value 'Open_Jupyter_Notebook'
 
 
 function Get-JupyterOutputSizeCode {
@@ -25,4 +26,5 @@ function Get-JupyterOutputSizeCode {
 }
 Set-Alias jns Get-JupyterOutputSizeCode
 addToList -name 'jns' -value 'Get jupiter output-size-code'
+addTonewList -category "Jupyter" -name 'jns' -value 'Get jupiter output-size-code'
 

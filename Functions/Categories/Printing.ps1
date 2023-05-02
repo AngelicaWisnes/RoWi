@@ -41,6 +41,7 @@ function dad {
   Else { dad_PowerShell5 }
 }
 addToList -name 'dad' -value 'Print random dad-joke'
+addTonewList -category "Printing" -name 'dad' -value 'Print random dad-joke'
 
 
 function dad_PowerShell5 { 
@@ -87,6 +88,7 @@ function dance {
   }
 }
 addToList -name 'dance' -value 'See the PowerShell DanceSquad'
+addTonewList -category "Printing" -name 'dance' -value 'See the PowerShell DanceSquad'
 
 
 function Get-AllAnsiColors {
@@ -105,6 +107,7 @@ function Get-AllAnsiColors {
 }
 Set-Alias allAnsi Get-AllAnsiColors
 addToList -name 'allAnsi' -value 'See all available ansi-colors'
+addTonewList -category "Printing" -name 'allAnsi' -value 'See all available ansi-colors'
 
 
 function Get-AllRGBColors {
@@ -130,6 +133,7 @@ function Get-AllRGBColors {
 }
 Set-Alias allRgb Get-AllRGBColors
 addToList -name 'allRgb' -value 'See all available RGB-colors'
+addTonewList -category "Printing" -name 'allRgb' -value 'See all available RGB-colors'
 
 
 function Get-ImplementedRGBColors {
@@ -145,6 +149,7 @@ function Get-ImplementedRGBColors {
 }
 Set-Alias implColors Get-ImplementedRGBColors
 addToList -name 'implColors' -value 'See implemented RGB-colors'
+addTonewList -category "Printing" -name 'implColors' -value 'See implemented RGB-colors'
 
 
 

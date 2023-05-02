@@ -115,6 +115,7 @@ function print_functions_and_aliases() {
   Write-Host -ForegroundColor Red $sb.ToString()
 }
 Set-Alias l print_functions_and_aliases
+addTonewList -category 'Other' -name 'l' -value 'Print alias list'
 
 function PRINT_FUNCTION_LIST_GENERATOR_INFO {
   Write-Host -ForegroundColor Red "Enter 'l' to list all profile-defined functions and aliases "

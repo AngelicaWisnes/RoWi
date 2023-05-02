@@ -29,21 +29,25 @@ function ide_autoChoose {
 function ide_dotNet { _startIDE $global:MY_DOTNET_IDE }
 Set-Alias dn ide_dotNet
 addToList -name 'dn' -value 'Open the dotNET-IDE'
+addTonewList -category "Program" -name 'dn' -value 'Open the dotNET-IDE'
 
 
 function ide_javaScript { _startIDE $global:MY_JS_IDE }
 Set-Alias js ide_javaScript
 addToList -name 'js' -value 'Open the JavaScript-IDE'
+addTonewList -category "Program" -name 'js' -value 'Open the JavaScript-IDE'
 
 
 function ide_vsCode { code . }
 Set-Alias c. ide_vsCode
 addToList -name 'c.' -value 'Open VS Code in current dir'
+addTonewList -category "Program" -name 'c.' -value 'Open VS Code in current dir'
 
 
 function ide_vsCode_NewFile { code -n NewFile }
 Set-Alias cn ide_vsCode_NewFile
 addToList -name 'cn' -value 'Open new file in VS Code'
+addTonewList -category "Program" -name 'cn' -value 'Open new file in VS Code'
 
 
 function o { 
@@ -51,11 +55,14 @@ function o {
   Else { Invoke-Item $args }
 }
 addToList -name 'o' -value 'Open current directory'
+addTonewList -category "Program" -name 'o' -value 'Open current directory'
 addToList -name 'o args' -value 'Open args'
+addTonewList -category "Program" -name 'o args' -value 'Open args'
 
 
 Set-Alias open Invoke-Item
 addToList -name 'open' -value 'Invoke-Item'
+addTonewList -category "Program" -name 'open' -value 'Invoke-Item'
 
 
 function startNewBrowser {
@@ -64,6 +71,7 @@ function startNewBrowser {
 }
 Set-Alias snb startNewBrowser
 addToList -name 'snb' -value 'Start new browser'
+addTonewList -category "Program" -name 'snb' -value 'Start new browser'
 
 
 function _startIDE {

@@ -16,11 +16,13 @@ function addToList {
 function Set-LocationOneBack { Set-Location .. }
 Set-Alias cd. Set-LocationOneBack
 addToList -name 'cd.' -value 'cd ..'
+addTonewList -category "PowerShell" -name 'cd.' -value 'cd ..'
 
 
 function Edit-RowiProfile { code $global:ROWI }
 Set-Alias ep Edit-RowiProfile
 addToList -name 'ep' -value 'Edit RoWi'
+addTonewList -category "PowerShell" -name 'ep' -value 'Edit RoWi'
 
 
 function Edit-RowiAndPsProfile { 
@@ -29,31 +31,38 @@ function Edit-RowiAndPsProfile {
 }
 Set-Alias epp Edit-RowiAndPsProfile
 addToList -name 'epp' -value 'Edit RoWi and PS-profile'
+addTonewList -category "PowerShell" -name 'epp' -value 'Edit RoWi and PS-profile'
 
 function Get-FullPath { (Resolve-Path .\).Path }
 Set-Alias pa Get-FullPath
 addToList -name 'pa' -value 'Get current path'
+addTonewList -category "PowerShell" -name 'pa' -value 'Get current path'
 
 
 function Get-CurrentRepo { Split-Path -Leaf (Get-FullPath) }
 Set-Alias re Get-CurrentRepo
 addToList -name 're' -value 'Get current repo'
+addTonewList -category "PowerShell" -name 're' -value 'Get current repo'
 
 
 function Push-LocationHome { Push-Location $global:DEFAULT_START_PATH }
 Set-Alias home Push-LocationHome
 addToList -name 'home' -value 'Push-Location default-start-path'
+addTonewList -category "PowerShell" -name 'home' -value 'Push-Location default-start-path'
 
 Set-Alias i Invoke-History
 addToList -name 'i' -value 'Invoke-History'
+addTonewList -category "PowerShell" -name 'i' -value 'Invoke-History'
 
 function Reset-Color { [console]::ResetColor() }
 Set-Alias rc Reset-Color
 addToList -name 'rc' -value 'Reset color scheme'
+addTonewList -category "PowerShell" -name 'rc' -value 'Reset color scheme'
 
 function Push-LocationRowi { Push-Location $global:ROWI }
 Set-Alias rowi Push-LocationRowi
 addToList -name 'rowi' -value 'Push-Location $ROWI'
+addTonewList -category "PowerShell" -name 'rowi' -value 'Push-Location $ROWI'
 
 
 function ReloadRowi { 
@@ -63,6 +72,7 @@ function ReloadRowi {
 }
 Set-Alias rr ReloadRowi
 addToList -name '. rr' -value 'Reload RoWi'
+addTonewList -category "PowerShell" -name '. rr' -value 'Reload RoWi'
 
 
 function ReloadPsProfile { 
@@ -72,6 +82,7 @@ function ReloadPsProfile {
 }
 Set-Alias rrp ReloadPsProfile
 addToList -name '. rrp' -value 'Reload PS-profile'
+addTonewList -category "PowerShell" -name '. rrp' -value 'Reload PS-profile'
 
 
 function Get-FunctionDefinition {
@@ -82,6 +93,7 @@ function Get-FunctionDefinition {
 }
 Set-Alias see Get-FunctionDefinition
 addToList -name 'see' -value 'See the code-block of function'
+addTonewList -category "PowerShell" -name 'see' -value 'See the code-block of function'
 
 
 function Get-FunctionNameFromCommandName {
@@ -108,6 +120,7 @@ function Start-NewPowershell {
 }
 Set-Alias snp Start-NewPowershell
 addToList -name 'snp' -value 'Start new powershell'
+addTonewList -category "PowerShell" -name 'snp' -value 'Start new powershell'
 
 
 
