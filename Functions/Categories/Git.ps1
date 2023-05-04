@@ -94,7 +94,12 @@ addToList -name 'gb' -value 'Get current git branch'
 addTonewList -category "Git" -name 'gb' -value 'Get current git branch'
 
 
-function Get-MasterBranch { basename $(git symbolic-ref --short refs/remotes/origin/HEAD) }
+function Get-MasterBranch { 
+  $command = 'git symbolic-ref --short refs/remotes/origin/HEAD'
+  $output = & cmd /c $command | ForEach-Object { $_.Trim() }
+
+  return [System.IO.Path]::GetFileName($output) 
+}
 Set-Alias gmb Get-MasterBranch
 addToList -name 'gmb' -value 'Get git master branch'
 addTonewList -category "Git" -name 'gmb' -value 'Get git master branch'
