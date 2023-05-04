@@ -115,7 +115,7 @@ function Test-PathVariables {
     $writeWarning = $false
 
     Foreach ($path in $SystemDependentPaths) {
-        If ( ("" -eq $path.variable) -or (-not (Test-Path $path.variable)) ) {
+        If ( (("" -eq $path.variable) -or (-not (Test-Path $path.variable))) -and (-not $path.muted) ) {
             Write-Host -ForegroundColor red "Missing or broken path: `"$($path.name) $($path.value)`""
             $writeWarning = $true
         }
