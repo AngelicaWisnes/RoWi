@@ -104,6 +104,6 @@ function print_functions_and_aliases() {
 Set-Alias l print_functions_and_aliases
 addToList -category 'Other' -name 'l' -value 'Print alias list'
 
-function PRINT_FUNCTION_LIST_GENERATOR_INFO {
+function Get-FunctionListGeneratorCommandInfo {
   Write-Host -ForegroundColor Red "Enter 'l' to list all profile-defined functions and aliases "
 }
