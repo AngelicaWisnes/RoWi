@@ -41,40 +41,27 @@ $FunctionSubList_Empty = [FunctionListElement]@{ category = ''; name = ''; value
 $FunctionSubList_Labels = [FunctionListElement]@{ category = 'CATEGORY'; name = 'NAME'; value = 'VALUE' }
 $FunctionSubList_End = [FunctionListElement]@{ category = '_'; name = '_'; value = '_' }
 
-$FunctionSubList_Other = new-object System.Collections.Generic.List[FunctionListElement]
-$FunctionSubList_Other.Add( $FunctionSubList_BREAK )
-$FunctionSubList_Other.Add(( [FunctionListElement]@{ category = 'Other'       ; name = 'l'         ; value = 'Print alias list' } ))
-
-
-function INITIALIZE_FUNCTION_LIST_GENERATOR {
+function Initialize-FunctionListGenerator {
   $global:FunctionList_single = new-object System.Collections.Generic.List[FunctionListElement]
-  $global:FunctionList_single.Add( $FunctionSubList_Labels )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_PROGRAM )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_POWERSHELL )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_GIT )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_JUPYTER )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_REACT )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_SYSTEM )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_PROJECT )
-  $global:FunctionList_single.AddRange( $global:FunctionSubList_PRINTING )
-  $global:FunctionList_single.AddRange( $FunctionSubList_Other )
-  $global:FunctionList_single.Add( $FunctionSubList_End )
-
   $global:FunctionList_Dual_Col1 = new-object System.Collections.Generic.List[FunctionListElement]
-  $global:FunctionList_Dual_Col1.Add( $FunctionSubList_Labels )
-  $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_PROGRAM )
-  $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_POWERSHELL )
-  $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_JUPYTER )
-  $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_SYSTEM )
-  $global:FunctionList_Dual_Col1.AddRange( $global:FunctionSubList_PRINTING )
-  $global:FunctionList_Dual_Col1.AddRange( $FunctionSubList_Other )
-  
   $global:FunctionList_Dual_Col2 = new-object System.Collections.Generic.List[FunctionListElement]
+  $global:FunctionList_single.Add( $FunctionSubList_Labels )
+  $global:FunctionList_Dual_Col1.Add( $FunctionSubList_Labels )
   $global:FunctionList_Dual_Col2.Add( $FunctionSubList_Labels )
-  $global:FunctionList_Dual_Col2.AddRange( $global:FunctionSubList_GIT )
-  $global:FunctionList_Dual_Col2.AddRange( $global:FunctionSubList_REACT )
-  $global:FunctionList_Dual_Col2.AddRange( $global:FunctionSubList_PROJECT )
+  
+  $global:FunctionLists = $global:FunctionLists.GetEnumerator() `
+  | Sort-Object { -($_.Value.quantity) } `
+  | ForEach-Object { @{ $_.Key = $_.Value } }
 
+  foreach ($listObject in $global:FunctionLists.Values) { 
+    $global:FunctionList_single.AddRange( $listObject.list )
+    
+    $diff = $global:FunctionList_Dual_Col1.Count - $global:FunctionList_Dual_Col2.Count
+    if ($diff -le 0) { $global:FunctionList_Dual_Col1.AddRange( $listObject.list ) }
+    else { $global:FunctionList_Dual_Col2.AddRange( $listObject.list ) }
+  }
+  $global:FunctionList_single.Add( $FunctionSubList_End )
+  
   # Define helper-variables for function-list-generation
   $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property Length).Maximum + 1
   $global:nameWidth = (($FunctionList_single.name) | Measure-Object -Maximum -Property Length).Maximum + 1
@@ -115,11 +102,8 @@ function print_functions_and_aliases() {
   Write-Host -ForegroundColor Red $sb.ToString()
 }
 Set-Alias l print_functions_and_aliases
-addTonewList -category 'Other' -name 'l' -value 'Print alias list'
+addToList -category 'Other' -name 'l' -value 'Print alias list'
 
 function PRINT_FUNCTION_LIST_GENERATOR_INFO {
   Write-Host -ForegroundColor Red "Enter 'l' to list all profile-defined functions and aliases "
 }
-
-
-

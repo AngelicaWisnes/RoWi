@@ -2,15 +2,6 @@
 ##############################
 # Printing-related functions #
 ##############################
-$global:FunctionSubList_PRINTING = new-object System.Collections.Generic.List[FunctionListElement]
-$global:FunctionSubList_PRINTING.Add( $FunctionSubList_BREAK )
-function addToList {
-  param(
-    [Parameter(Mandatory)][String]$name,
-    [Parameter(Mandatory)][String]$value
-  )
-  $global:FunctionSubList_PRINTING.Add(( [FunctionListElement]@{ category = "Printing"; name = $name; value = $value } ))
-}
 
 <#
   Example formatting for ansi- and rgb-colors:
@@ -40,8 +31,7 @@ function dad {
   If ($PSVersionTable.PSVersion.Major -eq 7) { dad_PowerShell7 }
   Else { dad_PowerShell5 }
 }
-addToList -name 'dad' -value 'Print random dad-joke'
-addTonewList -category "Printing" -name 'dad' -value 'Print random dad-joke'
+addToList -category "Printing" -name 'dad' -value 'Print random dad-joke'
 
 
 function dad_PowerShell5 { 
@@ -87,8 +77,7 @@ function dance {
     Write-Host
   }
 }
-addToList -name 'dance' -value 'See the PowerShell DanceSquad'
-addTonewList -category "Printing" -name 'dance' -value 'See the PowerShell DanceSquad'
+addToList -category "Printing" -name 'dance' -value 'See the PowerShell DanceSquad'
 
 
 function Get-AllAnsiColors {
@@ -106,8 +95,7 @@ function Get-AllAnsiColors {
   }
 }
 Set-Alias allAnsi Get-AllAnsiColors
-addToList -name 'allAnsi' -value 'See all available ansi-colors'
-addTonewList -category "Printing" -name 'allAnsi' -value 'See all available ansi-colors'
+addToList -category "Printing" -name 'allAnsi' -value 'See all available ansi-colors'
 
 
 function Get-AllRGBColors {
@@ -132,8 +120,7 @@ function Get-AllRGBColors {
   }
 }
 Set-Alias allRgb Get-AllRGBColors
-addToList -name 'allRgb' -value 'See all available RGB-colors'
-addTonewList -category "Printing" -name 'allRgb' -value 'See all available RGB-colors'
+addToList -category "Printing" -name 'allRgb' -value 'See all available RGB-colors'
 
 
 function Get-ImplementedRGBColors {
@@ -148,8 +135,7 @@ function Get-ImplementedRGBColors {
   }
 }
 Set-Alias implColors Get-ImplementedRGBColors
-addToList -name 'implColors' -value 'See implemented RGB-colors'
-addTonewList -category "Printing" -name 'implColors' -value 'See implemented RGB-colors'
+addToList -category "Printing" -name 'implColors' -value 'See implemented RGB-colors'
 
 
 

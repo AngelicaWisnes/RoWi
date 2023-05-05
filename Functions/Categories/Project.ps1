@@ -2,19 +2,6 @@
 #############################
 # Project-related functions #
 #############################
-$global:FunctionSubList_PROJECT = new-object System.Collections.Generic.List[FunctionListElement]
-$global:FunctionSubList_PROJECT.Add( $FunctionSubList_BREAK )
-function addToList {
-  param(
-    [Parameter(Mandatory)][String]$name,
-    [Parameter(Mandatory)][String]$value
-  )
-  $global:FunctionSubList_PROJECT.Add(( [FunctionListElement]@{ category = "Project"; name = $name; value = $value } ))
-}
-
-
-
-
 function pro {
   param( 
     [array]$projects = $SYSTEM_PROJECTS,
@@ -35,8 +22,7 @@ function pro {
   If ($null -ne $chosen.customScript) { Invoke-Command -ScriptBlock $chosen.customScript }  
   If ($chosen.nestedProjects) { pro -projects $chosen.nestedProjects }  
 }
-addToList -name 'pro' -value 'Quick-launch current projects'
-addTonewList -category "Project" -name 'pro' -value 'Quick-launch current projects'
+addToList -category "Project" -name 'pro' -value 'Quick-launch current projects'
 
 
 function proClean {
@@ -61,8 +47,7 @@ function proClean {
 
   Write-Host -ForegroundColor Red "`n`tNOTE: If the bitbucket pages show '404', `n`tthen that should mean the branch is deleted correctly."
 }
-addToList -name 'proClean' -value 'Cleanup quick-launch projects'
-addTonewList -category "Project" -name 'proClean' -value 'Cleanup quick-launch projects'
+addToList -category "Project" -name 'proClean' -value 'Cleanup quick-launch projects'
 
 
 function _pro_getWebs {

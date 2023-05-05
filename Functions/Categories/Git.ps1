@@ -2,25 +2,13 @@
 #########################
 # Git-realted functions #
 #########################
-$global:FunctionSubList_GIT = new-object System.Collections.Generic.List[FunctionListElement]
-$global:FunctionSubList_GIT.Add( $FunctionSubList_BREAK )
-function addToList {
-  param(
-    [Parameter(Mandatory)][String]$name,
-    [Parameter(Mandatory)][String]$value
-  )
-  $global:FunctionSubList_GIT.Add(( [FunctionListElement]@{ category = "Git"; name = $name; value = $value } ))
-}
-
-
 function GitAddAllOrArg { 
   If ($args.Length -eq 0) { git add . }
   Else { git add $args }
   Get-GitStatusStandard
 }
 Set-Alias a GitAddAllOrArg
-addToList -name 'a' -value 'git add args'
-addTonewList -category "Git" -name 'a' -value 'git add args'
+addToList -category "Git" -name 'a' -value 'git add args'
 
 
 function GitCreateNewBranch {
@@ -37,14 +25,12 @@ function GitCreateNewBranch {
   git checkout -b $branchName
 }
 Set-Alias b GitCreateNewBranch
-addToList -name 'b' -value 'git checkout -b'
-addTonewList -category "Git" -name 'b' -value 'git checkout -b'
+addToList -category "Git" -name 'b' -value 'git checkout -b'
 
 
 function GitCommit { git commit }
 Set-Alias c GitCommit
-addToList -name 'c' -value 'git commit'
-addTonewList -category "Git" -name 'c' -value 'git commit'
+addToList -category "Git" -name 'c' -value 'git commit'
 
 
 function GitCommitWithMessage {
@@ -61,37 +47,31 @@ function GitCommitWithMessage {
   git commit -m $commitMessage
 }
 Set-Alias cm GitCommitWithMessage
-addToList -name 'cm' -value 'git commit -m'
-addTonewList -category "Git" -name 'cm' -value 'git commit -m'
+addToList -category "Git" -name 'cm' -value 'git commit -m'
 
 
 function GitCheckout { git checkout $args }
 Set-Alias co GitCheckout
-addToList -name 'co' -value 'git checkout args'
-addTonewList -category "Git" -name 'co' -value 'git checkout args'
+addToList -category "Git" -name 'co' -value 'git checkout args'
 
 
 function GitCheckoutPrevious { git checkout - }
 Set-Alias co- GitCheckoutPrevious
-addToList -name 'co-' -value 'git checkout -'
-addTonewList -category "Git" -name 'co-' -value 'git checkout -'
+addToList -category "Git" -name 'co-' -value 'git checkout -'
 
 
 function GitCheckoutDevelop { git checkout develop }
 Set-Alias d GitCheckoutDevelop
-addToList -name 'd' -value 'git checkout develop'
-addTonewList -category "Git" -name 'd' -value 'git checkout develop'
+addToList -category "Git" -name 'd' -value 'git checkout develop'
 
 
 Set-Alias g git
-addToList -name 'g' -value 'git'
-addTonewList -category "Git" -name 'g' -value 'git'
+addToList -category "Git" -name 'g' -value 'git'
 
 
 function Get-CurrentGitBranch { git rev-parse --abbrev-ref HEAD }
 Set-Alias gb Get-CurrentGitBranch
-addToList -name 'gb' -value 'Get current git branch'
-addTonewList -category "Git" -name 'gb' -value 'Get current git branch'
+addToList -category "Git" -name 'gb' -value 'Get current git branch'
 
 
 function Get-MasterBranch { 
@@ -101,8 +81,7 @@ function Get-MasterBranch {
   return [System.IO.Path]::GetFileName($output) 
 }
 Set-Alias gmb Get-MasterBranch
-addToList -name 'gmb' -value 'Get git master branch'
-addTonewList -category "Git" -name 'gmb' -value 'Get git master branch'
+addToList -category "Git" -name 'gmb' -value 'Get git master branch'
 
 
 function GitCombinePreviousCommits {
@@ -124,8 +103,7 @@ function GitCombinePreviousCommits {
   OUT "Next steps in the process: `n`t- Create the new commit(s) `n`t- Use the command GitPushForce (alias pf)"
 }
 Set-Alias gcpc GitCombinePreviousCommits
-addToList -name 'gcpc' -value 'Combine previous commits'
-addTonewList -category "Git" -name 'gcpc' -value 'Combine previous commits'
+addToList -category "Git" -name 'gcpc' -value 'Combine previous commits'
 
 
 function GitDeleteCurrentBranch { 
@@ -146,14 +124,12 @@ function GitDeleteCurrentBranch {
   Else { OUT "Cancelled" }
 }
 Set-Alias gd GitDeleteCurrentBranch
-addToList -name 'gd' -value 'Delete current branch (local&remote)'
-addTonewList -category "Git" -name 'gd' -value 'Delete current branch (local&remote)'
+addToList -category "Git" -name 'gd' -value 'Delete current branch (local&remote)'
 
 
 function GitMergeArgs { git merge $args }
 Set-Alias gme GitMergeArgs
-addToList -name 'gme' -value 'git merge args'
-addTonewList -category "Git" -name 'gme' -value 'git merge args'
+addToList -category "Git" -name 'gme' -value 'git merge args'
 
 
 function GitMergeMaster { 
@@ -161,14 +137,12 @@ function GitMergeMaster {
   git merge $masterBranch 
 }
 Set-Alias gmm GitMergeMaster
-addToList -name 'gmm' -value 'git merge master'
-addTonewList -category "Git" -name 'gmm' -value 'git merge master'
+addToList -category "Git" -name 'gmm' -value 'git merge master'
 
 
 function GitPull { git pull }
 Set-Alias gpl GitPull
-addToList -name 'gpl' -value 'git pull'
-addTonewList -category "Git" -name 'gpl' -value 'git pull'
+addToList -category "Git" -name 'gpl' -value 'git pull'
 
 
 function GitPruneAndPull { 
@@ -176,14 +150,12 @@ function GitPruneAndPull {
   GitPull
 }
 Set-Alias gppl GitPruneAndPull
-addToList -name 'gppl' -value 'git gc --prune=now && git pull'
-addTonewList -category "Git" -name 'gppl' -value 'git gc --prune=now && git pull'
+addToList -category "Git" -name 'gppl' -value 'git gc --prune=now && git pull'
 
 
 function GitHardReset { git reset --hard }
 Set-Alias gr GitHardReset
-addToList -name 'gr' -value 'git reset --hard'
-addTonewList -category "Git" -name 'gr' -value 'git reset --hard'
+addToList -category "Git" -name 'gr' -value 'git reset --hard'
 
 
 function GitRenameBranch { 
@@ -206,8 +178,7 @@ function GitRenameBranch {
   git push origin -u $newBranchName
 }
 Set-Alias grb GitRenameBranch
-addToList -name 'grb' -value 'Rename git branch'
-addTonewList -category "Git" -name 'grb' -value 'Rename git branch'
+addToList -category "Git" -name 'grb' -value 'Rename git branch'
 
 
 function GitCheckoutMaster { 
@@ -215,8 +186,7 @@ function GitCheckoutMaster {
   git checkout $masterBranch 
 }
 Set-Alias m GitCheckoutMaster
-addToList -name 'm' -value 'git checkout master/main'
-addTonewList -category "Git" -name 'm' -value 'git checkout master/main'
+addToList -category "Git" -name 'm' -value 'git checkout master/main'
 
 
 function GitOpenBranchInBrowser {
@@ -227,8 +197,7 @@ function GitOpenBranchInBrowser {
   Start-Process $global:MY_BROWSER -ArgumentList $(Get-GitBranchUrl -repo $repo -branch $currentGitBranch)
 }
 Set-Alias ob GitOpenBranchInBrowser
-addToList -name 'ob' -value 'Open git-branch in browser'
-addTonewList -category "Git" -name 'ob' -value 'Open git-branch in browser'
+addToList -category "Git" -name 'ob' -value 'Open git-branch in browser'
 
 
 function Get-GitBranchUrl {
@@ -240,20 +209,17 @@ function Get-GitBranchUrl {
   Else { Return $global:GIT_BRANCH_URL -f $repo }
 }
 Set-Alias gbu Get-GitBranchUrl
-addToList -name 'gbu' -value 'Get url for current git-branch'
-addTonewList -category "Git" -name 'gbu' -value 'Get url for current git-branch'
+addToList -category "Git" -name 'gbu' -value 'Get url for current git-branch'
 
 
 function GitPush { git push }
 Set-Alias p GitPush
-addToList -name 'p' -value 'git push'
-addTonewList -category "Git" -name 'p' -value 'git push'
+addToList -category "Git" -name 'p' -value 'git push'
 
 
 function GitPushForce { git push --force-with-lease }
 Set-Alias pf GitPush
-addToList -name 'pf' -value 'git push --force-with-lease'
-addTonewList -category "Git" -name 'pf' -value 'git push --force-with-lease'
+addToList -category "Git" -name 'pf' -value 'git push --force-with-lease'
 
 
 function GitPushAndOpenBranchInBrowser { 
@@ -261,8 +227,7 @@ function GitPushAndOpenBranchInBrowser {
   GitOpenBranchInBrowser
 }
 Set-Alias po GitPushAndOpenBranchInBrowser
-addToList -name 'po' -value 'git push && Open git-branch i browser'
-addTonewList -category "Git" -name 'po' -value 'git push && Open git-branch i browser'
+addToList -category "Git" -name 'po' -value 'git push && Open git-branch i browser'
 
 
 function GitSetUpstreamAndPush { 
@@ -281,14 +246,12 @@ function GitSetUpstreamAndPush {
   Else { OUT "Cancelled" }
 }
 Set-Alias pu GitSetUpstreamAndPush
-addToList -name 'pu' -value 'git push --set-upstream origin'
-addTonewList -category "Git" -name 'pu' -value 'git push --set-upstream origin'
+addToList -category "Git" -name 'pu' -value 'git push --set-upstream origin'
 
 
 function GitPrune { git gc --prune=now }
 Set-Alias gpr GitPrune
-addToList -name 'gpr' -value 'git gc --prune=now'
-addTonewList -category "Git" -name 'gpr' -value 'git gc --prune=now'
+addToList -category "Git" -name 'gpr' -value 'git gc --prune=now'
 
 
 function GitQuickCommitAll { 
@@ -296,14 +259,12 @@ function GitQuickCommitAll {
   git commit -m "Various small changes"
 }
 Set-Alias qca GitQuickCommitAll
-addToList -name 'qca' -value 'Quick-Commit all'
-addTonewList -category "Git" -name 'qca' -value 'Quick-Commit all'
+addToList -category "Git" -name 'qca' -value 'Quick-Commit all'
 
 
 function Get-GitStatusStandard { git status }
 Set-Alias s Get-GitStatusStandard
-addToList -name 's' -value 'git status'
-addTonewList -category "Git" -name 's' -value 'git status'
+addToList -category "Git" -name 's' -value 'git status'
 
 
 

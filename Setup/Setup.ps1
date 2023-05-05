@@ -14,6 +14,43 @@ function logTime {
 }
 
 
+###################################
+###      Pre-Initialization     ###
+###################################
+
+# Define elements for FunctionListGenerator
+class FunctionListElement { [string]$category ; [string]$name ; [string]$value } 
+class FunctionListObject {
+  [System.Collections.Generic.List[FunctionListElement]]$list
+  [int]$quantity
+}$FunctionSubList_BREAK = [FunctionListElement]@{ category = '-'; name = '-'; value = '-' }
+
+$global:FunctionLists = @{
+  Program    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  PowerShell = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Git        = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Jupyter    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  React      = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  System     = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Project    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Printing   = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Other      = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+}
+
+foreach ($list in $global:FunctionLists.Values) { $list.list.Add( $FunctionSubList_BREAK ) }
+
+function addToList {
+    param(
+        [Parameter(Mandatory)][String]$category,
+        [Parameter(Mandatory)][String]$name,
+        [Parameter(Mandatory)][String]$value
+    )
+    $global:FunctionLists[$category].list.Add(( [FunctionListElement]@{ category = $category; name = $name; value = $value } ))
+    $global:FunctionLists[$category].quantity++
+}
+
+
+
 ##################################################
 ###      Import relevant files and modules     ###
 ##################################################
@@ -47,6 +84,13 @@ logTime "Posh" -restart $false
 
 # To show time-log: Uncomment the following line
 # Write-Host -ForegroundColor Cyan $log.ToString()
+
+
+####################################
+###      Post-Initialization     ###
+####################################
+
+Initialize-FunctionListGenerator
 
 
 
