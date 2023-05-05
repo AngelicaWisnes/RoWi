@@ -65,7 +65,7 @@ Get-DadJoke
 logTime "Get DadJoke" -restart $false
 
 # To show time-log: Uncomment the following line
- Write-Host -ForegroundColor Cyan $log.ToString()
+# Write-Host -ForegroundColor Cyan $log.ToString()
 
 
 #######################################
