@@ -20,10 +20,9 @@ Else { Push-Location $global:DEFAULT_START_PATH -ErrorAction SilentlyContinue }
 ###      AFTER SETUP     ###
 ############################
 
-Get-Logo
-Get-FunctionListGeneratorCommandInfo
+
 #PRINT_UPGRADER_INFO
-dad
+
 
 ############################
 

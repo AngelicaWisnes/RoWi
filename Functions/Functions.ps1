@@ -10,6 +10,3 @@ $functionsRoot = $PSScriptRoot
 . $functionsRoot\Categories\Project.ps1
 . $functionsRoot\Categories\React.ps1
 . $functionsRoot\Categories\System.ps1
-
-# Import and nitialize FunctionListGenerator
-. $functionsRoot\FunctionListGenerator\FunctionListGenerator.ps1

@@ -22,7 +22,7 @@ function pro {
   If ($null -ne $chosen.customScript) { Invoke-Command -ScriptBlock $chosen.customScript }  
   If ($chosen.nestedProjects) { pro -projects $chosen.nestedProjects }  
 }
-addToList -category "Project" -name 'pro' -value 'Quick-launch current projects'
+Add-ToFunctionList -category "Project" -name 'pro' -value 'Quick-launch current projects'
 
 
 function proClean {
@@ -47,7 +47,7 @@ function proClean {
 
   Write-Host -ForegroundColor Red "`n`tNOTE: If the bitbucket pages show '404', `n`tthen that should mean the branch is deleted correctly."
 }
-addToList -category "Project" -name 'proClean' -value 'Cleanup quick-launch projects'
+Add-ToFunctionList -category "Project" -name 'proClean' -value 'Cleanup quick-launch projects'
 
 
 function _pro_getWebs {

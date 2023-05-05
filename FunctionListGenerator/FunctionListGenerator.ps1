@@ -23,44 +23,65 @@ function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
   Return $sb.ToString()
 }
 
-function fillDualLists {
+function Add-BlankLinesToDualLists {
   $col1_Len = $FunctionList_Dual_Col2.Count - $FunctionList_Dual_Col1.Count
   $col2_Len = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
   
-  For ($i = 0; $i -lt $col1_Len; $i++) { $global:FunctionList_Dual_Col1.Add( $FunctionSubList_Empty ) }
-  For ($i = 0; $i -lt $col2_Len; $i++) { $global:FunctionList_Dual_Col2.Add( $FunctionSubList_Empty ) }
-  $global:FunctionList_Dual_Col1.Add( $FunctionSubList_End ) 
-  $global:FunctionList_Dual_Col2.Add( $FunctionSubList_End ) 
+  For ($i = 0; $i -lt $col1_Len; $i++) { $FunctionList_Dual_Col1.Add( $FunctionSubList_Empty ) }
+  For ($i = 0; $i -lt $col2_Len; $i++) { $FunctionList_Dual_Col2.Add( $FunctionSubList_Empty ) }
 }
 
 
 ########################
 # Define function-list #
 ########################
+class FunctionListElement { [string]$category ; [string]$name ; [string]$value } 
+class FunctionListObject { [System.Collections.Generic.List[FunctionListElement]]$list ; [int]$quantity }
+
+$FunctionSubList_BREAK = [FunctionListElement]@{ category = '-'; name = '-'; value = '-' }
 $FunctionSubList_Empty = [FunctionListElement]@{ category = ''; name = ''; value = '' }
 $FunctionSubList_Labels = [FunctionListElement]@{ category = 'CATEGORY'; name = 'NAME'; value = 'VALUE' }
 $FunctionSubList_End = [FunctionListElement]@{ category = '_'; name = '_'; value = '_' }
 
+$global:FunctionLists = @{
+  Program    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  PowerShell = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Git        = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Jupyter    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  React      = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  System     = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Project    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Printing   = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Other      = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+}
+
+foreach ($list in $global:FunctionLists.Values) { $list.list.Add( $FunctionSubList_BREAK ) }
+
+$FunctionList_single = new-object System.Collections.Generic.List[FunctionListElement]
+$FunctionList_Dual_Col1 = new-object System.Collections.Generic.List[FunctionListElement]
+$FunctionList_Dual_Col2 = new-object System.Collections.Generic.List[FunctionListElement]
+
 function Initialize-FunctionListGenerator {
-  $global:FunctionList_single = new-object System.Collections.Generic.List[FunctionListElement]
-  $global:FunctionList_Dual_Col1 = new-object System.Collections.Generic.List[FunctionListElement]
-  $global:FunctionList_Dual_Col2 = new-object System.Collections.Generic.List[FunctionListElement]
-  $global:FunctionList_single.Add( $FunctionSubList_Labels )
-  $global:FunctionList_Dual_Col1.Add( $FunctionSubList_Labels )
-  $global:FunctionList_Dual_Col2.Add( $FunctionSubList_Labels )
+  $FunctionList_single.Add( $FunctionSubList_Labels )
+  $FunctionList_Dual_Col1.Add( $FunctionSubList_Labels )
+  $FunctionList_Dual_Col2.Add( $FunctionSubList_Labels )
   
   $global:FunctionLists = $global:FunctionLists.GetEnumerator() `
   | Sort-Object { -($_.Value.quantity) } `
   | ForEach-Object { @{ $_.Key = $_.Value } }
-
+  
   foreach ($listObject in $global:FunctionLists.Values) { 
-    $global:FunctionList_single.AddRange( $listObject.list )
+    $FunctionList_single.AddRange( $listObject.list )
     
-    $diff = $global:FunctionList_Dual_Col1.Count - $global:FunctionList_Dual_Col2.Count
-    if ($diff -le 0) { $global:FunctionList_Dual_Col1.AddRange( $listObject.list ) }
-    else { $global:FunctionList_Dual_Col2.AddRange( $listObject.list ) }
+    $diff = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
+    if ($diff -le 0) { $FunctionList_Dual_Col1.AddRange( $listObject.list ) }
+    else { $FunctionList_Dual_Col2.AddRange( $listObject.list ) }
   }
-  $global:FunctionList_single.Add( $FunctionSubList_End )
+  
+  Add-BlankLinesToDualLists
+  $FunctionList_single.Add( $FunctionSubList_End )
+  $FunctionList_Dual_Col1.Add( $FunctionSubList_End ) 
+  $FunctionList_Dual_Col2.Add( $FunctionSubList_End ) 
   
   # Define helper-variables for function-list-generation
   $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property Length).Maximum + 1
@@ -69,16 +90,23 @@ function Initialize-FunctionListGenerator {
   $global:fullWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + 5
   $global:total_width_single = $global:fullWidth + 3
   $global:total_width_dual = $global:total_width_single * 2
-
-  # Invoke Filling-function
-  fillDualLists
 }
 
 
 ####################
 # Calling-function #
 ####################
-function print_functions_and_aliases() {
+function Add-ToFunctionList {
+  param(
+        [Parameter(Mandatory)][String]$category,
+        [Parameter(Mandatory)][String]$name,
+        [Parameter(Mandatory)][String]$value
+    )
+  $global:FunctionLists[$category].list.Add(( [FunctionListElement]@{ category = $category; name = $name; value = $value } ))
+  $global:FunctionLists[$category].quantity++
+}
+
+function Get-ListOfFunctionsAndAliases {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 2
   $isDual = $global:total_width_dual -lt $windowWidth
   $isSingleWithPadding = $global:total_width_single -lt $windowWidth
@@ -101,9 +129,9 @@ function print_functions_and_aliases() {
 
   Write-Host -ForegroundColor Red $sb.ToString()
 }
-Set-Alias l print_functions_and_aliases
-addToList -category 'Other' -name 'l' -value 'Print alias list'
+Set-Alias l Get-ListOfFunctionsAndAliases
+Add-ToFunctionList -category 'Other' -name 'l' -value 'Get list of functions and aliases'
 
-function Get-FunctionListGeneratorCommandInfo {
-  Write-Host -ForegroundColor Red "Enter 'l' to list all profile-defined functions and aliases "
+function Get-FunctionListInfo {
+  Write-Host -ForegroundColor Red "Enter 'l' to list all RoWi-defined functions and aliases "
 }

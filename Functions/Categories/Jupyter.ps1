@@ -4,7 +4,7 @@
 #############################
 function Open-JupyterNotebook { jupyter notebook }
 Set-Alias jn Open-JupyterNotebook
-addToList -category "Jupyter" -name 'jn' -value 'Open_Jupyter_Notebook'
+Add-ToFunctionList -category "Jupyter" -name 'jn' -value 'Open_Jupyter_Notebook'
 
 
 function Get-JupyterOutputSizeCode {
@@ -14,5 +14,5 @@ function Get-JupyterOutputSizeCode {
   display(HTML('<style>div.output_scroll {    height: 80em;       width: 80em;   }</style>'))" 
 }
 Set-Alias jns Get-JupyterOutputSizeCode
-addToList -category "Jupyter" -name 'jns' -value 'Get jupiter output-size-code'
+Add-ToFunctionList -category "Jupyter" -name 'jns' -value 'Get jupiter output-size-code'
 
