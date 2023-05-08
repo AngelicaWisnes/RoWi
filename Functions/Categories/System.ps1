@@ -1,21 +1,5 @@
 
 
-############################
-# System-related functions #
-############################
-
-$global:FunctionSubList_SYSTEM = new-object System.Collections.Generic.List[FunctionListElement]
-$global:FunctionSubList_SYSTEM.Add( $FunctionSubList_BREAK )
-function addToSystemList {
-  param(
-    [Parameter(Mandatory)][String]$name,
-    [Parameter(Mandatory)][String]$value
-  )
-  $global:FunctionSubList_SYSTEM.Add(( [FunctionListElement]@{ category = "System"; name = $name; value = $value } ))
-}
-
-
-
 ###########################
 # System-related projects #
 ###########################

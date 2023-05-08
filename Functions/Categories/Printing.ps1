@@ -2,15 +2,6 @@
 ##############################
 # Printing-related functions #
 ##############################
-$global:FunctionSubList_PRINTING = new-object System.Collections.Generic.List[FunctionListElement]
-$global:FunctionSubList_PRINTING.Add( $FunctionSubList_BREAK )
-function addToList {
-  param(
-    [Parameter(Mandatory)][String]$name,
-    [Parameter(Mandatory)][String]$value
-  )
-  $global:FunctionSubList_PRINTING.Add(( [FunctionListElement]@{ category = "Printing"; name = $name; value = $value } ))
-}
 
 <#
   Example formatting for ansi- and rgb-colors:
@@ -36,21 +27,22 @@ function addToList {
 #>
 
 
-function dad { 
-  If ($PSVersionTable.PSVersion.Major -eq 7) { dad_PowerShell7 }
-  Else { dad_PowerShell5 }
+function Get-DadJoke { 
+  If ($PSVersionTable.PSVersion.Major -eq 7) { Get-DadJoke_PowerShell7 }
+  Else { Get-DadJoke_PowerShell5 }
 }
-addToList -name 'dad' -value 'Print random dad-joke'
+Set-Alias dad Get-DadJoke
+Add-ToFunctionList -category "Printing" -name 'dad' -value 'Print random dad-joke'
 
 
-function dad_PowerShell5 { 
+function Get-DadJoke_PowerShell5 { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
   OUT "$dadJoke", $global:colors.Cyan
 }
 
 
-function dad_PowerShell7 { 
+function Get-DadJoke_PowerShell7 { 
   [console]::ForegroundColor = 'Cyan'
   Write-Host
   curl https://icanhazdadjoke.com/
@@ -86,7 +78,7 @@ function dance {
     Write-Host
   }
 }
-addToList -name 'dance' -value 'See the PowerShell DanceSquad'
+Add-ToFunctionList -category "Printing" -name 'dance' -value 'See the PowerShell DanceSquad'
 
 
 function Get-AllAnsiColors {
@@ -104,7 +96,7 @@ function Get-AllAnsiColors {
   }
 }
 Set-Alias allAnsi Get-AllAnsiColors
-addToList -name 'allAnsi' -value 'See all available ansi-colors'
+Add-ToFunctionList -category "Printing" -name 'allAnsi' -value 'See all available ansi-colors'
 
 
 function Get-AllRGBColors {
@@ -129,7 +121,7 @@ function Get-AllRGBColors {
   }
 }
 Set-Alias allRgb Get-AllRGBColors
-addToList -name 'allRgb' -value 'See all available RGB-colors'
+Add-ToFunctionList -category "Printing" -name 'allRgb' -value 'See all available RGB-colors'
 
 
 function Get-ImplementedRGBColors {
@@ -144,7 +136,7 @@ function Get-ImplementedRGBColors {
   }
 }
 Set-Alias implColors Get-ImplementedRGBColors
-addToList -name 'implColors' -value 'See implemented RGB-colors'
+Add-ToFunctionList -category "Printing" -name 'implColors' -value 'See implemented RGB-colors'
 
 
 

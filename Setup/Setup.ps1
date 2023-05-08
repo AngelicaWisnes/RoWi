@@ -8,46 +8,64 @@ function logTime {
     [bool]$restart = $true 
   )
   $sw.Stop()
-  $log.AppendFormat("{0}: {1}s`n", $timed, $($sw.ElapsedMilliseconds / 1000)) > $null
+  $log.AppendFormat(" {1:0.000}s - {0}`n", $timed, $($sw.ElapsedMilliseconds / 1000)) > $null
   $sw.Reset()
   If ($restart) { $sw.Start() }
 }
 
 
-##################################################
-###      Import relevant files and modules     ###
-##################################################
+#################################################
+###     Import relevant files and modules     ###
+#################################################
 
 $sw.Start()
+. $global:ROWI\FunctionListGenerator\FunctionListGenerator.ps1
+logTime "Import FunctionListGenerator"
+
 . $global:ROWI\Constants\Constants.ps1
-logTime "Constants"
+logTime "Import Constants"
 
 . $global:ROWI\Functions\Functions.ps1
-logTime "Functions"
+logTime "Import Functions"
 
 #. $global:ROWI\Installer\Installer.ps1
-#logTime "Installer"
+#logTime "Import Installer"
 
 . $global:ROWI\Logo\Logo.ps1
-logTime "Logo"
+logTime "Import Logo"
 
 . $global:ROWI\Upgrader.ps1
-logTime "Upgrader"
+logTime "Import Upgrader"
 
 . $global:ROWI\SystemDependent\SystemDependentSetup.ps1
-logTime "SystemDependent"
+logTime "Import SystemDependent"
 
 # Import modules
 if (!(Get-Module -ListAvailable -Name posh-git)) {
   Install-Module -Name posh-git
 }
 Import-Module -Name posh-git -ArgumentList @($false, $false, $true) # Arguments: [bool]$ForcePoshGitPrompt, [bool]$UseLegacyTabExpansion, [bool]$EnableProxyFunctionExpansion
-logTime "Posh" -restart $false
+logTime "Import Posh"
 
+
+###############################
+###      Initialization     ###
+###############################
+
+Initialize-FunctionListGenerator
+logTime "Initialize ListGenerator"
+
+Get-Logo
+logTime "Get Logo"
+
+Get-FunctionListInfo
+logTime "Get FunctionListCommand"
+
+Get-DadJoke
+logTime "Get DadJoke" -restart $false
 
 # To show time-log: Uncomment the following line
 # Write-Host -ForegroundColor Cyan $log.ToString()
-
 
 
 #######################################

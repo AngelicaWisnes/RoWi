@@ -11,8 +11,7 @@ Clear-Host
 $global:ROWI = $PSScriptRoot
 . $global:ROWI\Setup\Setup.ps1
 
-# Set start-path for PS-profile-reload. For a different start path, set the `$startPath variable in function 'rr'. 
-# It is recommended to set $startPath to 'Get-Location'.
+# Set start-path for PS-profile-reload. For a different start path, set the `$startPath variable in function 'ReloadPsProfile' and 'ReloadRowi'. 
 If ($startPath) { Push-Location $startPath }
 Else { Push-Location $global:DEFAULT_START_PATH -ErrorAction SilentlyContinue }
 
@@ -21,10 +20,9 @@ Else { Push-Location $global:DEFAULT_START_PATH -ErrorAction SilentlyContinue }
 ###      AFTER SETUP     ###
 ############################
 
-Get-Logo
-PRINT_FUNCTION_LIST_GENERATOR_INFO
-PRINT_UPGRADER_INFO
-dad
+
+#PRINT_UPGRADER_INFO
+
 
 ############################
 

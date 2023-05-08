@@ -2,25 +2,14 @@
 ################################
 # PowerShell-related functions #
 ################################
-$global:FunctionSubList_POWERSHELL = new-object System.Collections.Generic.List[FunctionListElement]
-$global:FunctionSubList_POWERSHELL.Add( $FunctionSubList_BREAK )
-function addToList {
-  param(
-    [Parameter(Mandatory)][String]$name,
-    [Parameter(Mandatory)][String]$value
-  )
-  $global:FunctionSubList_POWERSHELL.Add(( [FunctionListElement]@{ category = "PowerShell"; name = $name; value = $value } ))
-}
-
-
 function Set-LocationOneBack { Set-Location .. }
 Set-Alias cd. Set-LocationOneBack
-addToList -name 'cd.' -value 'cd ..'
+Add-ToFunctionList -category "PowerShell" -name 'cd.' -value 'cd ..'
 
 
 function Edit-RowiProfile { code $global:ROWI }
 Set-Alias ep Edit-RowiProfile
-addToList -name 'ep' -value 'Edit RoWi'
+Add-ToFunctionList -category "PowerShell" -name 'ep' -value 'Edit RoWi'
 
 
 function Edit-RowiAndPsProfile { 
@@ -28,32 +17,32 @@ function Edit-RowiAndPsProfile {
   code $profile 
 }
 Set-Alias epp Edit-RowiAndPsProfile
-addToList -name 'epp' -value 'Edit RoWi and PS-profile'
+Add-ToFunctionList -category "PowerShell" -name 'epp' -value 'Edit RoWi and PS-profile'
 
 function Get-FullPath { (Resolve-Path .\).Path }
 Set-Alias pa Get-FullPath
-addToList -name 'pa' -value 'Get current path'
+Add-ToFunctionList -category "PowerShell" -name 'pa' -value 'Get current path'
 
 
 function Get-CurrentRepo { Split-Path -Leaf (Get-FullPath) }
 Set-Alias re Get-CurrentRepo
-addToList -name 're' -value 'Get current repo'
+Add-ToFunctionList -category "PowerShell" -name 're' -value 'Get current repo'
 
 
 function Push-LocationHome { Push-Location $global:DEFAULT_START_PATH }
 Set-Alias home Push-LocationHome
-addToList -name 'home' -value 'Push-Location default-start-path'
+Add-ToFunctionList -category "PowerShell" -name 'home' -value 'Push-Location default-start-path'
 
 Set-Alias i Invoke-History
-addToList -name 'i' -value 'Invoke-History'
+Add-ToFunctionList -category "PowerShell" -name 'i' -value 'Invoke-History'
 
 function Reset-Color { [console]::ResetColor() }
 Set-Alias rc Reset-Color
-addToList -name 'rc' -value 'Reset color scheme'
+Add-ToFunctionList -category "PowerShell" -name 'rc' -value 'Reset color scheme'
 
 function Push-LocationRowi { Push-Location $global:ROWI }
 Set-Alias rowi Push-LocationRowi
-addToList -name 'rowi' -value 'Push-Location $ROWI'
+Add-ToFunctionList -category "PowerShell" -name 'rowi' -value 'Push-Location $ROWI'
 
 
 function ReloadRowi { 
@@ -62,7 +51,7 @@ function ReloadRowi {
   . $global:ROWI\RoWi.ps1
 }
 Set-Alias rr ReloadRowi
-addToList -name '. rr' -value 'Reload RoWi'
+Add-ToFunctionList -category "PowerShell" -name '. rr' -value 'Reload RoWi'
 
 
 function ReloadPsProfile { 
@@ -71,7 +60,7 @@ function ReloadPsProfile {
   . $profile
 }
 Set-Alias rrp ReloadPsProfile
-addToList -name '. rrp' -value 'Reload PS-profile'
+Add-ToFunctionList -category "PowerShell" -name '. rrp' -value 'Reload PS-profile'
 
 
 function Get-FunctionDefinition {
@@ -81,7 +70,7 @@ function Get-FunctionDefinition {
   Write-Host -ForegroundColor White "$codeBlock"
 }
 Set-Alias see Get-FunctionDefinition
-addToList -name 'see' -value 'See the code-block of function'
+Add-ToFunctionList -category "PowerShell" -name 'see' -value 'See the code-block of function'
 
 
 function Get-FunctionNameFromCommandName {
@@ -107,7 +96,7 @@ function Start-NewPowershell {
     "-NoExit -Command & { $($script -replace '"', '\"') } $params"
 }
 Set-Alias snp Start-NewPowershell
-addToList -name 'snp' -value 'Start new powershell'
+Add-ToFunctionList -category "PowerShell" -name 'snp' -value 'Start new powershell'
 
 
 

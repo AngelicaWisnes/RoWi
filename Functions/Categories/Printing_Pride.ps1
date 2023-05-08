@@ -2,17 +2,6 @@
 ###########################
 # Pride-related functions #
 ###########################
-$global:FunctionSubList_PRINTING_PRIDE = new-object System.Collections.Generic.List[FunctionListElement]
-$global:FunctionSubList_PRINTING_PRIDE.Add( $FunctionSubList_BREAK )
-function addToList {
-  param(
-    [Parameter(Mandatory)][String]$name,
-    [Parameter(Mandatory)][String]$value
-  )
-  $global:FunctionSubList_PRINTING_PRIDE.Add(( [FunctionListElement]@{ category = "Pride"; name = $name; value = $value } ))
-}
-
-
 function Get-RainbowLine {
   $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
   $spaceLength = (" " * $windowWidth)
