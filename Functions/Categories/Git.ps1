@@ -219,7 +219,6 @@ Add-ToFunctionList -category "Git" -name 'p' -value 'git push'
 
 function GitPushForce { git push --force-with-lease }
 Set-Alias pf GitPushForce
-addToList -name 'pf' -value 'git push --force-with-lease'
 Add-ToFunctionList -category "Git" -name 'pf' -value 'git push --force-with-lease'
 
 
