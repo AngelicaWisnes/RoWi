@@ -125,13 +125,13 @@ function Resize-AsciiArt {
 
 function Get-Logo {
   switch -Regex (Get-Date -Format "^(dd.MM|MM)") {
-    "31.03" { Get-LogoRGB $global:colorChart.trans }  # International Transgender Day Of Visibility
-    "05" { Get-LogoRGB $global:colorChart.norway }    # Norwegian National Day (May 17th)
-    "06" { Get-LogoRGB $global:colorChart.rainbow }   # Pride Month
-    "07" { Get-LogoRGB $global:colorChart.nonbinary } # Nonbinary Awareness Week (approx. 14th)
-    "09" { Get-LogoRGB $global:colorChart.bisexual }  # Bisexual Awareness Week (approx. 16th-23rd)
-    "11" { Get-LogoRGB $global:colorChart.trans }     # Trans Awareness Month
-    default { Write-Host -ForegroundColor Red $(Get-LogoAsString) }
+    "31.03" { Get-LogoRGB -colorChartString "trans"; Break }  # International Transgender Day Of Visibility
+    "05" { Get-LogoRGB -colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
+    "06" { Get-LogoRGB -colorChartString "rainbow"; Break }   # Pride Month
+    "07" { Get-LogoRGB -colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
+    "09" { Get-LogoRGB -colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
+    "11" { Get-LogoRGB -colorChartString "trans"; Break }     # Trans Awareness Month
+    default { Write-Host -ForegroundColor Red $(Get-LogoAsString); Break }
   }
   Get-RainbowSlimLine
   Get-TransSlimLine -NoNewlineStart
@@ -153,10 +153,11 @@ function Get-LogoRainbow {
 }
 
 function Get-LogoRGB {
-  param( [Parameter(Mandatory)][COLOR[]]$colors )
+  param( [Parameter(Mandatory)][string]$colorChartString )
   $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
   $colorNumber = -1
+  $colors = $global:colorChart[$colorChartString]
   $linesOfEachColor = [int]($lines.Count / $colors.Count)
 
   for ($i = 0; $i -lt $lines.Count; $i++) {
