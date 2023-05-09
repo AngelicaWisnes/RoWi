@@ -140,6 +140,7 @@ function Get-Logo {
   Get-TransSlimLine -NoNewlineStart
   Write-Host
 }
+Add-ToFunctionList -category "Other" -name 'Get-Logo' -value 'Get RW-Logo'
 
 function Get-LogoRainbow {
   $outputString = Get-LogoAsString
@@ -180,6 +181,8 @@ function Get-Selfie {
   Else { $image = "Could not print RW, as the image is missing" }
   Write-Host -ForegroundColor Red $image
 }
+Add-ToFunctionList -category "Other" -name 'Get-Selfie' -value 'Get selfie'
+
 
 function Get-LogoAsString {
   $logoImageExists = Test-Path -Path $rw_logo -PathType Leaf
