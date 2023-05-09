@@ -124,13 +124,13 @@ function Resize-AsciiArt {
 
 
 function Get-Logo {
-  switch -Regex (Get-Date -Format "^(dd.MM|MM)") {
+  switch -Regex (Get-Date -Format "dd.MM") {
     "31.03" { Get-LogoRGB -colorChartString "trans"; Break }  # International Transgender Day Of Visibility
-    "05" { Get-LogoRGB -colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
-    "06" { Get-LogoRGB -colorChartString "rainbow"; Break }   # Pride Month
-    "07" { Get-LogoRGB -colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
-    "09" { Get-LogoRGB -colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
-    "11" { Get-LogoRGB -colorChartString "trans"; Break }     # Trans Awareness Month
+    ".*.06" { Get-LogoRGB -colorChartString "rainbow"; Break }   # Pride Month
+    ".*.05" { Get-LogoRGB -colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
+    ".*.07" { Get-LogoRGB -colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
+    ".*.09" { Get-LogoRGB -colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
+    ".*.11" { Get-LogoRGB -colorChartString "trans"; Break }     # Trans Awareness Month
     default { Write-Host -ForegroundColor Red $(Get-LogoAsString); Break }
   }
   Get-RainbowSlimLine
