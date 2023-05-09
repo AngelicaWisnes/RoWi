@@ -140,6 +140,22 @@ Add-ToFunctionList -category "Printing" -name 'implColors' -value 'See implement
 
 
 
+function Get-ColorCharts {
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $spaceLength = (" " * $windowWidth)
+
+  foreach ($chart in $global:colorChart.Values) {
+    foreach ($color in $chart) {
+      OUT $spaceLength, $color, $True -NoNewlineStart
+    }
+    Write-Host "`n`n"
+  }
+}
+Set-Alias implCharts Get-ColorCharts
+Add-ToFunctionList -category "Printing" -name 'implCharts' -value 'See implemented color-charts'
+
+
+
 class RGB { [int]$r; [int]$g; [int]$b; } 
 
 class PrintElement { [string]$text; [RGB]$color; [switch]$background; } 
