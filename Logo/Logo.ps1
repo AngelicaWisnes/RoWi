@@ -1,42 +1,9 @@
 
 $logoRoot = $PSScriptRoot
-$rw_logo = "$logoRoot\Images\RW_LOGO.png" | Resolve-Path
-$rw_logo_text = "$logoRoot\Images\RW_LOGO_TEXT.txt" | Resolve-Path
-$rw_image = "$logoRoot\Images\RW_IMAGE.png" | Resolve-Path
-$rw_image_text = "$logoRoot\Images\RW_IMAGE_TEXT.txt" | Resolve-Path
-$rw_logo_150 = "
-                                                                                                                                         ############
-                                                                                                                                    #################
-                                                                                                                                 ##########          
-                           #########################          #############                           ##                     #########               
-                      ##################################  ###################                       #####                 ########                   
-                   ###########                     ############          ######                   ######                #######                      
-               ##########                           #########              #####                #######              #######                         
-             ########                             ############              #####              #######             ######                            
-           ########      ##########             #####    ######             ######           ########            ######                              
-         #######     ################         ######      #####             ######         #########           ######                                
-       ########    #########      ####      ######        #####             #######       #########          ######                                  
-      #######    ########          ###     ######        ######             #######     ##########         ######                                    
-     ######    #######            ####   #######        #######             ######     ###########        #####                                      
-    ######    ######              ###   ######        ########             #######   ############       #####                                        
-    #####    ######              ####  #####################              #######   ############      #####                                          
-   #####     ####              #####  ####################               ######## #####  #######    ######                                           
-   #####     ###             #####  ######## #######                     ####### #####  #######    #####                                             
-   #####     ####          ######  ########    #####                    ############   ########  #####                                               
-    ####     ######      ######   #######      #####                   ############    ####### ######                                                
-     #####    ####    #######   ########       #####                  ###########     ####### #####                                                  
-       ######       ########   ########       ######                 ###########     #############                                                   
-  #####   ##############     #########        ######                ##########      ############                                                     
- #######   #########       ##########        ######               ##########       ###########                                                       
- ########                ##########          ######              #########         #########                                                         
- #######               ##########            #####              #########         ########                                                           
- #####             ###########                ####            #########          ########                                                            
-  ########### #############                   ####     ##    #######            #######                                                              
-     ################                          ##########  #######            ######                                                                 
-                                                 ######  #######            ######                                                                   
-                                                         ####               ####                                                                     
-" 
-
+$logo = "$logoRoot\Images\AW_LOGO.png" | Resolve-Path
+$logo_text = "$logoRoot\Images\AW_LOGO_TEXT.txt" | Resolve-Path
+$image = "$logoRoot\Images\W_IMAGE.png" | Resolve-Path
+$image_text = "$logoRoot\Images\W_IMAGE_TEXT.txt" | Resolve-Path
 
 function Convert-ImageToAsciiArt {
   param(
@@ -171,13 +138,13 @@ function Get-LogoRGB {
 }
 
 function Get-Selfie {
-  $imageExists = Test-Path -Path $rw_image -PathType Leaf
-  $imageTextExists = Test-Path -Path $rw_image_text -PathType Leaf
+  $imageExists = Test-Path -Path $image -PathType Leaf
+  $imageTextExists = Test-Path -Path $image_text -PathType Leaf
 
   If ($global:SYSTEM_OS.Contains('Windows') -AND $imageExists) { 
-    $image = Convert-ImageToAsciiArt -Path $rw_image 
+    $image = Convert-ImageToAsciiArt -Path $image 
   }
-  Elseif ($imageTextExists) { Return Resize-AsciiArt -Path $rw_image_text }
+  Elseif ($imageTextExists) { Return Resize-AsciiArt -Path $image_text }
   Else { $image = "Could not print RW, as the image is missing" }
   Write-Host -ForegroundColor Red $image
 }
@@ -185,12 +152,12 @@ Add-ToFunctionList -category "Other" -name 'Get-Selfie' -value 'Get selfie'
 
 
 function Get-LogoAsString {
-  $logoImageExists = Test-Path -Path $rw_logo -PathType Leaf
-  $logoTextExists = Test-Path -Path $rw_logo_text -PathType Leaf
+  $logoImageExists = Test-Path -Path $logo -PathType Leaf
+  $logoTextExists = Test-Path -Path $logo_text -PathType Leaf
 
   If ($global:SYSTEM_OS.Contains('Windows') -AND $logoImageExists) { 
-    Return Convert-ImageToAsciiArt -Path $rw_logo -BinaryPixelated $true
+    Return Convert-ImageToAsciiArt -Path $logo -BinaryPixelated $true
   }
-  Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $rw_logo_text }
-  Else { Return $rw_logo_150 }  
+  Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $logo_text }
+  Else { Return '' }  
 }
