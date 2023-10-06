@@ -53,7 +53,7 @@ Add-ToFunctionList -category "Project" -name 'proClean' -value 'Cleanup quick-la
 function _pro_getWebs {
   param( [Parameter(Mandatory)][array]$projects )
   
-  $sb = new-object -TypeName System.Text.StringBuilder
+  $sb = [System.Text.StringBuilder]::new()
   
   Foreach ($project in $projects) {
     $sb.AppendFormat("{0} ", $project.webs) > $null

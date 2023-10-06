@@ -181,7 +181,7 @@ function OUT {
   )
 
   $printables = Get-PrintableRGBs $printElements
-  $sb = new-object -TypeName System.Text.StringBuilder
+  $sb = [System.Text.StringBuilder]::new()
   If (-Not $NoNewlineStart) { $sb.Append("`n") > $null }
   
   Foreach ($element in $printables) {

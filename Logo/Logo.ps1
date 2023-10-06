@@ -15,23 +15,16 @@ function Convert-ImageToAsciiArt {
   $imageFromFile = [Drawing.Image]::FromFile($path) 
   $characters = (& { If ($BinaryPixelated) { '# ' } Else { '$#H&@*+;:-,. ' } }).ToCharArray() # Characters from dark to light  
   $charCount = $characters.count 
-    
-  $inputImageWidth = $imageFromFile.Width
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  $minScaleWidth = $windowWidth / $inputImageWidth
   
-  $charHeightWidthRatio = 2 # A pixel has a H/W-ratio of 1/1, while a char has a H/W-ratio of 2/1
-  $inputImageHeight = $imageFromFile.Height / $charHeightWidthRatio
-  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 10
-  $minScaleHeight = $windowHeight / $inputImageHeight
-
-  $minOutputScale = [Math]::Min($minScaleWidth, $minScaleHeight)
-  $outputWidth = [Math]::Floor($inputImageWidth * $minOutputScale)
-  $outputHeight = [Math]::Floor($inputImageHeight * $minOutputScale)
+  $charHeightWidthRatio = 2 # A pixel has a H/W-ratio of 1/1, while a char has a H/W-ratio of 2/1  
+  $inputWidth = $imageFromFile.Width
+  $inputHeight = $imageFromFile.Height / $charHeightWidthRatio
+  
+  $_, $outputWidth, $outputHeight = Get-OutputSizes @($inputWidth, $inputHeight)
 
   $bitmap = new-object Drawing.Bitmap($imageFromFile , $outputWidth, $outputHeight) 
   
-  [System.Text.StringBuilder]$sb = ""
+  $sb = [System.Text.StringBuilder]::new()
   $null = $sb.AppendLine() 
 
   for ($y = 0; $y -lt $outputHeight; $y++) {
@@ -52,34 +45,26 @@ function Convert-ImageToAsciiArt {
   Return $sb.ToString()
 } 
 
-
 function Resize-AsciiArt {
   param([Parameter(Mandatory)][String] $Path)
 
   [string[]]$imageArrayFromFile = Get-Content -Path $Path
   
-  $inputImageWidth = $imageArrayFromFile[0].Length
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
-  $minScaleWidth = $windowWidth / $inputImageWidth
-
-  $inputImageHeight = $imageArrayFromFile.Length 
-  $windowHeight = $Host.UI.RawUI.WindowSize.Height - 10
-  $minScaleHeight = $windowHeight / $inputImageHeight
-
-  $minOutputScale = [Math]::Min($minScaleWidth, $minScaleHeight)
-  $outputWidth = [Math]::Floor($inputImageWidth * $minOutputScale)
-  $outputHeight = [Math]::Floor($inputImageHeight * $minOutputScale)
+  $inputWidth = $imageArrayFromFile[0].Length
+  $inputHeight = $imageArrayFromFile.Length 
   
-  [System.Text.StringBuilder]$sb = ""
+  $outputScale, $outputWidth, $outputHeight = Get-OutputSizes @($inputWidth, $inputHeight)
+  
+  $sb = [System.Text.StringBuilder]::new()
   $null = $sb.AppendLine()
   
   # Nearest-neighbor interpolation
   for ($y = 0; $y -lt $outputHeight; $y++) {
-    $nearestY = [Math]::Floor($y / $minOutputScale)
+    $nearestY = [Math]::Floor($y / $outputScale)
     $line = $imageArrayFromFile[$nearestY]
   
     for ($x = 0; $x -lt $outputWidth; $x++) {
-      $nearestX = [Math]::Floor($x / $minOutputScale)
+      $nearestX = [Math]::Floor($x / $outputScale)
       $pixel = $line.Substring($nearestX, 1)
       $null = $sb.Append($pixel)
     }
@@ -89,6 +74,24 @@ function Resize-AsciiArt {
   Return $sb.ToString()
 } 
 
+function Get-OutputSizes {
+  param([Parameter(Mandatory)][int[]] $inputDimensions) 
+  $inputWidth, $inputHeight = $inputDimensions
+
+  $windowHeightPadding = 10
+  $windowWidthPadding = 1
+
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - $windowWidthPadding
+  $windowHeight = $Host.UI.RawUI.WindowSize.Height - $windowHeightPadding
+  $minScaleWidth = $windowWidth / $inputWidth
+  $minScaleHeight = $windowHeight / $inputHeight
+
+  $outputScale = [Math]::Min($minScaleWidth, $minScaleHeight)
+  $outputWidth = [Math]::Floor($inputWidth * $outputScale)
+  $outputHeight = [Math]::Floor($inputHeight * $outputScale)
+
+  Return @($outputScale, $outputWidth, $outputHeight)
+}
 
 function Get-Logo {
   switch -Regex (Get-Date -Format "dd.MM") {
@@ -164,7 +167,6 @@ function Get-SelfieAsString {
   Elseif ($selfieTextExists) { Return Resize-AsciiArt -Path $selfie_text }
   Else { Return "Could not print selfie, as the file is missing" }
 }
-
 
 function Get-LogoAsString {
   $logoImageExists = Test-Path -Path $logo -PathType Leaf

@@ -15,7 +15,7 @@ function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
   $fillerChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
   $x = If ($NoPadding) { 1 } Else { 0 }
 
-  $sb = new-object -TypeName System.Text.StringBuilder
+  $sb = [System.Text.StringBuilder]::new()
   $sb.AppendFormat("|{0}|{1}|{2}|"
     , (FormatString $element.category ($global:categoryWidth - $x) $fillerChar -NoPadding:$NoPadding)
     , (FormatString $element.name ($global:nameWidth - $x) $fillerChar -NoPadding:$NoPadding)
@@ -36,7 +36,6 @@ function Add-BlankLinesToDualLists {
 # Define function-list #
 ########################
 class FunctionListElement { [string]$category ; [string]$name ; [string]$value } 
-class FunctionListObject { [System.Collections.Generic.List[FunctionListElement]]$list ; [int]$quantity }
 
 $FunctionSubList_BREAK = [FunctionListElement]@{ category = '-'; name = '-'; value = '-' }
 $FunctionSubList_Empty = [FunctionListElement]@{ category = ''; name = ''; value = '' }
@@ -44,22 +43,22 @@ $FunctionSubList_Labels = [FunctionListElement]@{ category = 'CATEGORY'; name = 
 $FunctionSubList_End = [FunctionListElement]@{ category = '_'; name = '_'; value = '_' }
 
 $global:FunctionLists = @{
-  Program    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  PowerShell = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  Git        = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  Jupyter    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  React      = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  System     = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  Project    = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  Printing   = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
-  Other      = [FunctionListObject]@{ list = new-object System.Collections.Generic.List[FunctionListElement] ; quantity = 1 };
+  Program    = [System.Collections.Generic.List[FunctionListElement]]::new();
+  PowerShell = [System.Collections.Generic.List[FunctionListElement]]::new();
+  Git        = [System.Collections.Generic.List[FunctionListElement]]::new();
+  Jupyter    = [System.Collections.Generic.List[FunctionListElement]]::new();
+  React      = [System.Collections.Generic.List[FunctionListElement]]::new();
+  System     = [System.Collections.Generic.List[FunctionListElement]]::new();
+  Project    = [System.Collections.Generic.List[FunctionListElement]]::new();
+  Printing   = [System.Collections.Generic.List[FunctionListElement]]::new();
+  Other      = [System.Collections.Generic.List[FunctionListElement]]::new();
 }
 
-foreach ($list in $global:FunctionLists.Values) { $list.list.Add( $FunctionSubList_BREAK ) }
+foreach ($list in $global:FunctionLists.Values) { $list.Add( $FunctionSubList_BREAK ) }
 
-$FunctionList_single = new-object System.Collections.Generic.List[FunctionListElement]
-$FunctionList_Dual_Col1 = new-object System.Collections.Generic.List[FunctionListElement]
-$FunctionList_Dual_Col2 = new-object System.Collections.Generic.List[FunctionListElement]
+$FunctionList_single = [System.Collections.Generic.List[FunctionListElement]]::new()
+$FunctionList_Dual_Col1 = [System.Collections.Generic.List[FunctionListElement]]::new()
+$FunctionList_Dual_Col2 = [System.Collections.Generic.List[FunctionListElement]]::new()
 
 function Initialize-FunctionListGenerator {
   $FunctionList_single.Add( $FunctionSubList_Labels )
@@ -67,15 +66,15 @@ function Initialize-FunctionListGenerator {
   $FunctionList_Dual_Col2.Add( $FunctionSubList_Labels )
   
   $global:FunctionLists = $global:FunctionLists.GetEnumerator() `
-  | Sort-Object { -($_.Value.quantity) } `
+  | Sort-Object { - ($_.Value.Count) } `
   | ForEach-Object { @{ $_.Key = $_.Value } }
   
   foreach ($listObject in $global:FunctionLists.Values) { 
-    $FunctionList_single.AddRange( $listObject.list )
+    $FunctionList_single.AddRange( $listObject )
     
     $diff = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
-    if ($diff -le 0) { $FunctionList_Dual_Col1.AddRange( $listObject.list ) }
-    else { $FunctionList_Dual_Col2.AddRange( $listObject.list ) }
+    if ($diff -le 0) { $FunctionList_Dual_Col1.AddRange( $listObject ) }
+    else { $FunctionList_Dual_Col2.AddRange( $listObject ) }
   }
   
   Add-BlankLinesToDualLists
@@ -98,12 +97,11 @@ function Initialize-FunctionListGenerator {
 ####################
 function Add-ToFunctionList {
   param(
-        [Parameter(Mandatory)][String]$category,
-        [Parameter(Mandatory)][String]$name,
-        [Parameter(Mandatory)][String]$value
-    )
-  $global:FunctionLists[$category].list.Add(( [FunctionListElement]@{ category = $category; name = $name; value = $value } ))
-  $global:FunctionLists[$category].quantity++
+    [Parameter(Mandatory)][String]$category,
+    [Parameter(Mandatory)][String]$name,
+    [Parameter(Mandatory)][String]$value
+  )
+  $global:FunctionLists[$category].Add(( [FunctionListElement]@{ category = $category; name = $name; value = $value } ))
 }
 
 function Get-ListOfFunctionsAndAliases {

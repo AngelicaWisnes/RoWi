@@ -276,7 +276,7 @@ function _pullAllRepos {
   
   If ( $directories.Count -eq 0 ) { Return }
 
-  $needsManualWork = new-object -TypeName System.Text.StringBuilder
+  $needsManualWork = [System.Text.StringBuilder]::new()
 
   Foreach ($dir in $directories) {
     Set-Location $root\$dir
