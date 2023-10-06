@@ -15,7 +15,7 @@ function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
   $fillerChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
   $x = If ($NoPadding) { 1 } Else { 0 }
 
-  $sb = new-object -TypeName System.Text.StringBuilder
+  $sb = [System.Text.StringBuilder]::new()
   $sb.AppendFormat("|{0}|{1}|{2}|"
     , (FormatString $element.category ($global:categoryWidth - $x) $fillerChar -NoPadding:$NoPadding)
     , (FormatString $element.name ($global:nameWidth - $x) $fillerChar -NoPadding:$NoPadding)
@@ -67,7 +67,7 @@ function Initialize-FunctionListGenerator {
   $FunctionList_Dual_Col2.Add( $FunctionSubList_Labels )
   
   $global:FunctionLists = $global:FunctionLists.GetEnumerator() `
-  | Sort-Object { -($_.Value.quantity) } `
+  | Sort-Object { - ($_.Value.quantity) } `
   | ForEach-Object { @{ $_.Key = $_.Value } }
   
   foreach ($listObject in $global:FunctionLists.Values) { 
@@ -98,10 +98,10 @@ function Initialize-FunctionListGenerator {
 ####################
 function Add-ToFunctionList {
   param(
-        [Parameter(Mandatory)][String]$category,
-        [Parameter(Mandatory)][String]$name,
-        [Parameter(Mandatory)][String]$value
-    )
+    [Parameter(Mandatory)][String]$category,
+    [Parameter(Mandatory)][String]$name,
+    [Parameter(Mandatory)][String]$value
+  )
   $global:FunctionLists[$category].list.Add(( [FunctionListElement]@{ category = $category; name = $name; value = $value } ))
   $global:FunctionLists[$category].quantity++
 }

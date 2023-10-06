@@ -1,7 +1,7 @@
 
 # Timer-function for logging the time used for measuring execution-times
 $sw = [Diagnostics.Stopwatch]::new()
-$log = new-object -TypeName System.Text.StringBuilder
+$log = [System.Text.StringBuilder]::new()
 function logTime {
   param( 
     [Parameter(Mandatory)][String]$timed,
