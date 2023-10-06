@@ -267,6 +267,12 @@ Set-Alias s Get-GitStatusStandard
 Add-ToFunctionList -category "Git" -name 's' -value 'git status'
 
 
+function Set-TokenizedRemoteURL { 
+  Write-Host "Go to GitHub -> Profile -> Settings -> Developer Settings -> Personal access token, and generate a token."
+  $token = Read-Host "Enter token"
+
+  git remote set-url origin "https://$token@github.com/AngelicaWisnes/RoWi"
+}
 
 
 # TODO: Check if this function is completed - If not: Complete it
