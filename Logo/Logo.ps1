@@ -1,9 +1,9 @@
 
 $logoRoot = $PSScriptRoot
-$logo = "$logoRoot\Images\AW_LOGO.png" | Resolve-Path
+$logo = "$logoRoot\Images\AW_LOGO_IMAGE.png" | Resolve-Path
 $logo_text = "$logoRoot\Images\AW_LOGO_TEXT.txt" | Resolve-Path
-$image = "$logoRoot\Images\W_IMAGE.png" | Resolve-Path
-$image_text = "$logoRoot\Images\W_IMAGE_TEXT.txt" | Resolve-Path
+$selfie_image = "$logoRoot\Images\W_SELFIE_IMAGE.png" | Resolve-Path
+$selfie_text = "$logoRoot\Images\W_SELFIE_TEXT.txt" | Resolve-Path
 
 function Convert-ImageToAsciiArt {
   param(
@@ -107,7 +107,18 @@ function Get-Logo {
   Get-TransSlimLine -NoNewlineStart
   Write-Host
 }
-Add-ToFunctionList -category "Other" -name 'Get-Logo' -value 'Get RW-Logo'
+Add-ToFunctionList -category 'Other' -name 'Get-Logo' -value 'Get Logo'
+
+function Get-AllLogoColors {
+  Get-LogoRGB -colorChartString "norway"
+  Get-LogoRGB -colorChartString "rainbow"
+  Get-LogoRGB -colorChartString "nonbinary"
+  Get-LogoRGB -colorChartString "bisexual"
+  Get-LogoRGB -colorChartString "trans"
+  Write-Host -ForegroundColor Red $(Get-LogoAsString)
+  Write-Host
+}
+Add-ToFunctionList -category 'Other' -name 'Get-AllLogoColors' -value 'Get all Logo colors'
 
 function Get-LogoRainbow {
   $outputString = Get-LogoAsString
@@ -138,17 +149,21 @@ function Get-LogoRGB {
 }
 
 function Get-Selfie {
-  $imageExists = Test-Path -Path $image -PathType Leaf
-  $imageTextExists = Test-Path -Path $image_text -PathType Leaf
-
-  If ($global:SYSTEM_OS.Contains('Windows') -AND $imageExists) { 
-    $image = Convert-ImageToAsciiArt -Path $image 
-  }
-  Elseif ($imageTextExists) { Return Resize-AsciiArt -Path $image_text }
-  Else { $image = "Could not print RW, as the image is missing" }
-  Write-Host -ForegroundColor Red $image
+  $selfieOutput = Get-SelfieAsString
+  Write-Host -ForegroundColor Red $selfieOutput
 }
-Add-ToFunctionList -category "Other" -name 'Get-Selfie' -value 'Get selfie'
+Add-ToFunctionList -category 'Other' -name 'Get-Selfie' -value 'Get selfie'
+
+function Get-SelfieAsString {
+  $selfieImageExists = Test-Path -Path $selfie_image -PathType Leaf
+  $selfieTextExists = Test-Path -Path $selfie_text -PathType Leaf
+
+  If ($global:SYSTEM_OS.Contains('Windows') -AND $selfieImageExists) { 
+    Return Convert-ImageToAsciiArt -Path $selfie_image 
+  }
+  Elseif ($selfieTextExists) { Return Resize-AsciiArt -Path $selfie_text }
+  Else { Return "Could not print selfie, as the file is missing" }
+}
 
 
 function Get-LogoAsString {
@@ -159,5 +174,5 @@ function Get-LogoAsString {
     Return Convert-ImageToAsciiArt -Path $logo -BinaryPixelated $true
   }
   Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $logo_text }
-  Else { Return '' }  
+  Else { Return "Could not print logo, as the file is missing" }
 }
