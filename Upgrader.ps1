@@ -58,11 +58,6 @@ function getChocoUpgradeLists {
   Return choco outdated -r | ConvertFrom-Csv -Delimiter '|' -Header 'Name', 'Version', 'AvailableVersion', 'Pinned?' | Format-Table
 }
 
-function getUpgradeLists {
-  getWingetUpgradeList
-  getChocoUpgradeLists
-}
-
 $upgraderJob_winget = Start-Job -ScriptBlock {
   Return getWingetUpgradeList
 }
@@ -112,9 +107,14 @@ function print_upgrader {
   Receive-Job -Job $upgraderJob_winget
   Receive-Job -Job $upgraderJob_choco
 }
-Set-Alias u print_upgrader
+
+function Get-UpgradeLists {
+  getWingetUpgradeList
+  getChocoUpgradeLists
+}
+Set-Alias u Get-UpgradeLists
   
-function PRINT_UPGRADER_INFO {
+function Get-UpgradeListsInfo {
   Write-Host -ForegroundColor Red "Enter 'u' to list all available 'winget'- and 'choco'-upgrades "
 }
 

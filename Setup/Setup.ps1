@@ -61,6 +61,9 @@ logTime "Get Logo"
 Get-FunctionListInfo
 logTime "Get FunctionListCommand"
 
+Get-UpgradeListsInfo
+logTime "Get UpgradeListCommand"
+
 Get-DadJoke
 logTime "Get DadJoke" -restart $false
 
@@ -79,7 +82,7 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 Set-PSReadLineKeyHandler -Chord Ctrl+1 -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
-  [Microsoft.PowerShell.PSConsoleReadLine]::Insert('. rr')
+  [Microsoft.PowerShell.PSConsoleReadLine]::Insert('. ra')
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
