@@ -273,7 +273,8 @@ function Set-TokenizedRemoteURL {
 
   git remote set-url origin "https://$token@github.com/AngelicaWisnes/RoWi"
 }
-
+Set-Alias stru Set-TokenizedRemoteURL
+Add-ToFunctionList -category "Git" -name 'stru' -value 'Set Remote URL w/personal access token'
 
 # TODO: Check if this function is completed - If not: Complete it
 function _pullAllRepos {

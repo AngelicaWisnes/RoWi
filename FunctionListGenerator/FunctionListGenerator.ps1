@@ -70,6 +70,7 @@ function Initialize-FunctionListGenerator {
   | ForEach-Object { @{ $_.Key = $_.Value } }
   
   foreach ($listObject in $global:FunctionLists.Values) { 
+    $listObject = [System.Collections.Generic.List[FunctionListElement]]($listObject | Sort-Object -Property value)
     $FunctionList_single.AddRange( $listObject )
     
     $diff = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
