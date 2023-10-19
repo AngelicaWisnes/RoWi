@@ -112,7 +112,7 @@ function Get-ListOfFunctionsAndAliases {
   $isSingleNoPadding = (-not $isDual) -and (-not $isSingleWithPadding)
   $widthAdjustment = If ($isSingleNoPadding) { 6 } Else { 0 }
 
-  $sb = [System.Text.StringBuilder]::new("RoWi-defined functions and aliases:")
+  $sb = [System.Text.StringBuilder]::new("AWI-defined functions and aliases:")
   $newLine = If ($isSingleNoPadding) { "`n" } Else { "`n  " }
 
   If ($isDual) { 
@@ -132,5 +132,5 @@ Set-Alias l Get-ListOfFunctionsAndAliases
 Add-ToFunctionList -category 'Other' -name 'l' -value 'Get list of functions and aliases'
 
 function Get-FunctionListInfo {
-  Write-Host -ForegroundColor Red "Enter 'l' to list all RoWi-defined functions and aliases "
+  Write-Host -ForegroundColor Red "Enter 'l' to list all AWI-defined functions and aliases "
 }

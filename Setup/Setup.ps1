@@ -19,25 +19,25 @@ function logTime {
 #################################################
 
 $sw.Start()
-. $global:ROWI\FunctionListGenerator\FunctionListGenerator.ps1
+. $global:AWI\FunctionListGenerator\FunctionListGenerator.ps1
 logTime "Import FunctionListGenerator"
 
-. $global:ROWI\Constants\Constants.ps1
+. $global:AWI\Constants\Constants.ps1
 logTime "Import Constants"
 
-. $global:ROWI\Functions\Functions.ps1
+. $global:AWI\Functions\Functions.ps1
 logTime "Import Functions"
 
-#. $global:ROWI\Installer\Installer.ps1
+#. $global:AWI\Installer\Installer.ps1
 #logTime "Import Installer"
 
-. $global:ROWI\Logo\Logo.ps1
+. $global:AWI\Logo\Logo.ps1
 logTime "Import Logo"
 
-. $global:ROWI\Upgrader.ps1
+. $global:AWI\Upgrader.ps1
 logTime "Import Upgrader"
 
-. $global:ROWI\SystemDependent\SystemDependentSetup.ps1
+. $global:AWI\SystemDependent\SystemDependentSetup.ps1
 logTime "Import SystemDependent"
 
 # Import modules

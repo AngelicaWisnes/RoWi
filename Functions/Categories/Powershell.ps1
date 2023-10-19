@@ -7,17 +7,17 @@ Set-Alias cd. Set-LocationOneBack
 Add-ToFunctionList -category "PowerShell" -name 'cd.' -value 'cd ..'
 
 
-function Edit-RowiProfile { code $global:ROWI }
-Set-Alias ep Edit-RowiProfile
-Add-ToFunctionList -category "PowerShell" -name 'ep' -value 'Edit RoWi'
+function Edit-AWIProfile { code $global:AWI }
+Set-Alias ep Edit-AWIProfile
+Add-ToFunctionList -category "PowerShell" -name 'ep' -value 'Edit AWI'
 
 
-function Edit-RowiAndPsProfile { 
-  Edit-RowiProfile
+function Edit-AWIAndPsProfile { 
+  Edit-AWIProfile
   code $profile 
 }
-Set-Alias epp Edit-RowiAndPsProfile
-Add-ToFunctionList -category "PowerShell" -name 'epp' -value 'Edit RoWi and PS-profile'
+Set-Alias epp Edit-AWIAndPsProfile
+Add-ToFunctionList -category "PowerShell" -name 'epp' -value 'Edit AWI and PS-profile'
 
 function Get-FullPath { (Resolve-Path .\).Path }
 Set-Alias pa Get-FullPath
@@ -40,18 +40,18 @@ function Reset-Color { [console]::ResetColor() }
 Set-Alias rc Reset-Color
 Add-ToFunctionList -category "PowerShell" -name 'rc' -value 'Reset color scheme'
 
-function Push-LocationRowi { Push-Location $global:ROWI }
-Set-Alias rowi Push-LocationRowi
-Add-ToFunctionList -category "PowerShell" -name 'rowi' -value 'Push-Location $ROWI'
+function Push-LocationAWI { Push-Location $global:AWI }
+Set-Alias awi Push-LocationAWI
+Add-ToFunctionList -category "PowerShell" -name 'awi' -value 'Push-Location $AWI'
 
 
-function ReloadRowi { 
+function ReloadAWI { 
   $startPath = Get-Location
   OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:colors.Cyan
-  . $global:ROWI\RoWi.ps1
+  . $global:AWI\AWI.ps1
 }
-Set-Alias rr ReloadRowi
-Add-ToFunctionList -category "PowerShell" -name '. rr' -value 'Reload RoWi'
+Set-Alias ra ReloadAWI
+Add-ToFunctionList -category "PowerShell" -name '. ra' -value 'Reload AWI'
 
 
 function ReloadPsProfile { 
@@ -59,8 +59,8 @@ function ReloadPsProfile {
   OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:colors.Cyan
   . $profile
 }
-Set-Alias rrp ReloadPsProfile
-Add-ToFunctionList -category "PowerShell" -name '. rrp' -value 'Reload PS-profile'
+Set-Alias rap ReloadPsProfile
+Add-ToFunctionList -category "PowerShell" -name '. rap' -value 'Reload PS-profile'
 
 
 function Get-FunctionDefinition {

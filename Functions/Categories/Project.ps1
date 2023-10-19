@@ -40,7 +40,7 @@ function proClean {
   Write-Host -ForegroundColor Cyan "`nLaunching cleanup on `'$($chosen.name)`'...`n" 
     
   # Open 'SystemProjects.ps1' to facilitate changes
-  code $global:ROWI
+  code $global:AWI
   code $global:SYSTEM_PROJECTS_PATH
 
   startNewBrowser (_pro_getWebs -projects @($chosen))

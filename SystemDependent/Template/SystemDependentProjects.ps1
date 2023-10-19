@@ -15,7 +15,7 @@ THE FOLLOWING IS FOR TESTING PURPOSES
 $SYSTEM_PROJECTS_TEST = @( 
   [PROJECT]@{
     type           = [ProjectType]::STANDARD
-    name           = 'RoWi - Personal PowerShell-tool'
+    name           = 'AWI - Personal PowerShell-tool'
     repo           = 'RoWi'
     branch         = 'main'
     useDotNetIde   = 0

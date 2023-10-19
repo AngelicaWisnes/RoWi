@@ -4,7 +4,7 @@ Get-ChildItem D:\ "RoWi" -Recurse -Directory
 Get-ChildItem -Exclude node* -Recurse "RoWi" -Directory -ErrorAction SilentlyContinue -Path "D:\"
 
 Get-ChildItem -Path "D:\" -Recurse | Where-Object { $_.Name -match 'RoWi' } | Select-Object -First 1 Fullname
-Get-ChildItem -Path "D:\" -Recurse -Exclude "*node*" -ErrorAction 'silentlycontinue'  | Where-Object { $_.Name -eq "RoWi.ps1" } | Select-Object -First 1
+Get-ChildItem -Path "D:\" -Recurse -Exclude "*node*" -ErrorAction 'silentlycontinue'  | Where-Object { $_.Name -eq "AWI.ps1" } | Select-Object -First 1
 
 
 [string[]]$Paths = @('D:\')

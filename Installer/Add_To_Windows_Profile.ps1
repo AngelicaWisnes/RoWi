@@ -1,7 +1,7 @@
 
-$RoWi_profile = (Resolve-Path "$PSScriptRoot\..\RoWi.ps1").Path
-$RoWi_import_statement = "`n# Import RoWi package`n. $RoWi_profile`n"
-$psCommand = "Add-Content -Path `$PROFILE.CurrentUserCurrentHost -Value '$RoWi_import_statement' -Encoding utf8"
+$AWI_profile = (Resolve-Path "$PSScriptRoot\..\AWI.ps1").Path
+$AWI_import_statement = "`n# Import AWI package`n. $AWI_profile`n"
+$psCommand = "Add-Content -Path `$PROFILE.CurrentUserCurrentHost -Value '$AWI_import_statement' -Encoding utf8"
 $psScriptBlock = [scriptblock]::Create($psCommand)
 
 function Confirm-Action {
@@ -18,24 +18,24 @@ function Confirm-Action {
     }
 }
 
-function Add-RowiToPowershell5Profile {
-    Write-Host -ForegroundColor Cyan "Starting - Adding RoWi to PowerShell 5 profile: "
+function Add-AWIToPowershell5Profile {
+    Write-Host -ForegroundColor Cyan "Starting - Adding AWI to PowerShell 5 profile: "
     if ($(Confirm-Action -Prompt "Adding to PowerShell 5")) { 
         $ps5Process = Start-Process powershell -ArgumentList "-NoProfile", "-Command", $psScriptBlock -PassThru
         $ps5Process.WaitForExit()
     }
-    else { return Write-Host -ForegroundColor Red "Failed - Adding RoWi to PowerShell 5 profile" }
-    Write-Host -ForegroundColor Green "Finished - Adding RoWi to PowerShell 5 profile"
+    else { return Write-Host -ForegroundColor Red "Failed - Adding AWI to PowerShell 5 profile" }
+    Write-Host -ForegroundColor Green "Finished - Adding AWI to PowerShell 5 profile"
 }
 
-function Add-RowiToPowershell7Profile {
-    Write-Host -ForegroundColor Cyan "Starting - Adding RoWi to PowerShell 7 profile: "
+function Add-AWIToPowershell7Profile {
+    Write-Host -ForegroundColor Cyan "Starting - Adding AWI to PowerShell 7 profile: "
     if ($(Confirm-Action -Prompt "Adding to PowerShell 7") -and $(Install-PowerShell7)) { 
         $ps7Process = Start-Process pwsh -ArgumentList "-NoProfile", "-Command", $psScriptBlock -PassThru
         $ps7Process.WaitForExit()
     }
-    else { return Write-Host -ForegroundColor Red "Failed - Adding RoWi to PowerShell 7 profile" }
-    Write-Host -ForegroundColor Green "Finished - Adding RoWi to PowerShell 7 profile"
+    else { return Write-Host -ForegroundColor Red "Failed - Adding AWI to PowerShell 7 profile" }
+    Write-Host -ForegroundColor Green "Finished - Adding AWI to PowerShell 7 profile"
 }
 
 function Install-PowerShell7 {
@@ -62,27 +62,27 @@ function Confirm-Directory {
     Write-Host -ForegroundColor Cyan "Checking directory..."
     $currentDir = (Resolve-Path "$PSScriptRoot\..\..").Path
     Write-Host -ForegroundColor Cyan "Current directory for installation is `n`t$currentDir"
-    return $(Confirm-Action -Prompt "Installing RoWi-package here")
+    return $(Confirm-Action -Prompt "Installing AWI-package here")
     
 }
 
-function Install-RoWi {
-    Write-Host -ForegroundColor Cyan "Starting - Installing the RoWi-package to PowerShell..."
+function Install-AWI {
+    Write-Host -ForegroundColor Cyan "Starting - Installing the AWI-package to PowerShell..."
     
     if ($(Confirm-Directory)) {
-        Add-RowiToPowershell5Profile
-        Add-RowiToPowershell7Profile
-        Write-Host -ForegroundColor Green "Finished - The RoWi-package is installed in PowerShell"
+        Add-AWIToPowershell5Profile
+        Add-AWIToPowershell7Profile
+        Write-Host -ForegroundColor Green "Finished - The AWI-package is installed in PowerShell"
     }
     else {
-        Write-Host -ForegroundColor Red "Installation cancelled. Place the RoWi-package in the desired directory, and start again" 
+        Write-Host -ForegroundColor Red "Installation cancelled. Place the AWI-package in the desired directory, and start again" 
         Start-Sleep -Seconds 3
     }
     Write-Host -ForegroundColor Cyan "Ending the PowerShell session..."
     Start-Sleep -Seconds 3
 }
 
-Install-RoWi
+Install-AWI
 
 
 
