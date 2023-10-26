@@ -78,7 +78,10 @@ function Get-FunctionNameFromCommandName {
   $command = Get-Command $commandName
   $commandType = $command.CommandType
   If ( $commandType -eq "Function" ) { Return $commandName }
-  If ( $commandType -eq "Alias" ) { Return $command.Definition }
+  If ( $commandType -eq "Alias" ) { 
+    OUT "`tCommand-name '$commandName' is an alias for Function-name '$($command.Definition)'`n", $global:colors.Cyan
+    Return $command.Definition 
+  }
   Else { OUT "`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in Get-FunctionNameFromCommandName`n", $global:colors.Red }
 }
 
