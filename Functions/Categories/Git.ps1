@@ -12,7 +12,7 @@ Add-ToFunctionList -category "Git" -name 'a' -value 'git add args'
 
 
 function GitCreateNewBranch {
-  OUTnew $(PE -txt:"Initiating git checkout -b `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: ") -NoNewline
+  OUT $(PE -txt:"Initiating git checkout -b `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: ") -NoNewline
   
   try { 
     [console]::ForegroundColor = 'DarkCyan'
@@ -20,7 +20,7 @@ function GitCreateNewBranch {
   }
   finally { [console]::ResetColor() }
   
-  OUTnew $(PE -txt:"Trying: git checkout -b "), $(PE -txt:"'$branchName'`n" -fg:$global:colors.DarkCyan)
+  OUT $(PE -txt:"Trying: git checkout -b "), $(PE -txt:"'$branchName'`n" -fg:$global:colors.DarkCyan)
   
   git checkout -b $branchName
 }
@@ -34,7 +34,7 @@ Add-ToFunctionList -category "Git" -name 'c' -value 'git commit'
 
 
 function GitCommitWithMessage {
-  OUTnew $(PE -txt:"Initiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: ") -NoNewline
+  OUT $(PE -txt:"Initiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: ") -NoNewline
   
   try { 
     [console]::ForegroundColor = 'DarkCyan'
@@ -42,7 +42,7 @@ function GitCommitWithMessage {
   }
   finally { [console]::ResetColor() }
   
-  OUTnew $(PE -txt:"Trying: git commit -m "), $(PE -txt:"'$commitMessage'`n" -fg:$global:colors.DarkCyan)
+  OUT $(PE -txt:"Trying: git commit -m "), $(PE -txt:"'$commitMessage'`n" -fg:$global:colors.DarkCyan)
   
   git commit -m $commitMessage
 }
@@ -85,7 +85,7 @@ Add-ToFunctionList -category "Git" -name 'gmb' -value 'Get git master branch'
 
 
 function GitCombinePreviousCommits {
-  OUTnew $(PE -txt:"Initiating 'git reset --soft <hash>' to combine all commits done after given hash
+  OUT $(PE -txt:"Initiating 'git reset --soft <hash>' to combine all commits done after given hash
   `tPlease provide the commit-hash belonging to the last commit
   `tdone BEFORE the first commit you want to include in this process, according to git log
   `tCommit-Hash: ") -NoNewline
@@ -96,11 +96,11 @@ function GitCombinePreviousCommits {
   }
   finally { [console]::ResetColor() }
   
-  OUTnew $(PE -txt:"Trying: git reset --soft "), $(PE -txt:"'$commitHash'`n" -fg:$global:colors.DarkCyan)
+  OUT $(PE -txt:"Trying: git reset --soft "), $(PE -txt:"'$commitHash'`n" -fg:$global:colors.DarkCyan)
   
   git reset --soft $commitHash
 
-  OUTnew $(PE -txt:"Next steps in the process: `n`t- Create the new commit(s) `n`t- Use the command GitPushForce (alias pf)")
+  OUT $(PE -txt:"Next steps in the process: `n`t- Create the new commit(s) `n`t- Use the command GitPushForce (alias pf)")
 }
 Set-Alias gcpc GitCombinePreviousCommits
 Add-ToFunctionList -category "Git" -name 'gcpc' -value 'Combine previous commits'
@@ -116,12 +116,12 @@ function GitDeleteCurrentBranch {
   $decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
   
   If ($decision -eq 0) {
-    OUTnew $(PE -txt:"Confirmed")
+    OUT $(PE -txt:"Confirmed")
     GitCheckoutMaster
     git branch -d $currentGitBranch
     git push origin --delete $currentGitBranch
   }
-  Else { OUTnew $(PE -txt:"Cancelled") }
+  Else { OUT $(PE -txt:"Cancelled") }
 }
 Set-Alias gd GitDeleteCurrentBranch
 Add-ToFunctionList -category "Git" -name 'gd' -value 'Delete current branch (local&remote)'
@@ -159,7 +159,7 @@ Add-ToFunctionList -category "Git" -name 'gr' -value 'git reset --hard'
 
 
 function GitRenameBranch { 
-  OUTnew $(PE -txt:"Initiating a renaming of current branch. Enter the new branch name `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: ") -NoNewline
+  OUT $(PE -txt:"Initiating a renaming of current branch. Enter the new branch name `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: ") -NoNewline
   try { 
     [console]::ForegroundColor = 'DarkCyan'
     $newBranchName = Read-Host 
@@ -236,14 +236,14 @@ function GitSetUpstreamAndPush {
   $question = 'Are you sure you want to proceed?'
   $choices = '&Yes', '&No'
   
-  OUTnew $(PE -txt:"Trying to run the following command:") -NoNewline
+  OUT $(PE -txt:"Trying to run the following command:") -NoNewline
   $decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
   
   If ($decision -eq 0) {
-    OUTnew $(PE -txt:"Confirmed")
+    OUT $(PE -txt:"Confirmed")
     git push --set-upstream origin $currentGitBranch
   }
-  Else { OUTnew $(PE -txt:"Cancelled") }
+  Else { OUT $(PE -txt:"Cancelled") }
 }
 Set-Alias pu GitSetUpstreamAndPush
 Add-ToFunctionList -category "Git" -name 'pu' -value 'git push --set-upstream origin'
@@ -320,5 +320,5 @@ function pullAllRepos {
   $needsManualWork = _pullAllRepos
   Set-Location $global:DEFAULT_START_PATH
   
-  OUTnew $(PE -txt:"The following repos need to be pulled manually:`n$needsManualWork" -fg:$colors.Red)
+  OUT $(PE -txt:"The following repos need to be pulled manually:`n$needsManualWork" -fg:$colors.Red)
 }

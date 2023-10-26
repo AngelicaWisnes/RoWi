@@ -27,5 +27,5 @@ Else { Push-Location $global:DEFAULT_START_PATH -ErrorAction SilentlyContinue }
 ############################
 
 function t {
-  OUTnew $(PE -txt:"This is a function-name available for testing scripts in the profile. It is not currently in use." -fg:$global:colors.Red)
+  OUT $(PE -txt:"This is a function-name available for testing scripts in the profile. It is not currently in use." -fg:$global:colors.Red)
 }

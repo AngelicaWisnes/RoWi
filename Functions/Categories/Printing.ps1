@@ -38,7 +38,7 @@ Add-ToFunctionList -category "Printing" -name 'dad' -value 'Print random dad-jok
 function Get-DadJoke_PowerShell5 { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  OUTnew $(PE -txt:"$dadJoke" -fg:$global:colors.Cyan)
+  OUT $(PE -txt:"$dadJoke" -fg:$global:colors.Cyan)
 }
 
 
@@ -132,7 +132,7 @@ function Get-ImplementedRGBColors {
     $colorName = "{0, 20} " -f $color.Name
     $hexAndRgbValue = " HEX: {0}   RGB: {1, 3}, {2, 3}, {3, 3}" -f $color.value.hex, $rgb.r, $rgb.g, $rgb.b
 
-    OUTnew $(PE -txt:$colorName), $(PE -txt:$sample -bg:$rgb), $(PE -txt:$hexAndRgbValue)
+    OUT $(PE -txt:$colorName), $(PE -txt:$sample -bg:$rgb), $(PE -txt:$hexAndRgbValue)
   }
 }
 Set-Alias implColors Get-ImplementedRGBColors
@@ -146,7 +146,7 @@ function Get-ColorCharts {
 
   foreach ($chart in $global:colorChart.Values) {
     foreach ($color in $chart) {
-      OUTnew $(PE -txt:$spaceLength -bg:$color) -NoNewlineStart
+      OUT $(PE -txt:$spaceLength -bg:$color) -NoNewlineStart
     }
     Write-Host "`n`n"
   }
@@ -177,7 +177,7 @@ function Get-PrintElement {
 Set-Alias PE Get-PrintElement
 
 
-function OUTnew {
+function OUT {
   param( 
     [Parameter(Mandatory)][PrintElementNew[]]$printElements,
     [switch]$NoNewline = $False,

@@ -132,5 +132,5 @@ Set-Alias l Get-ListOfFunctionsAndAliases
 Add-ToFunctionList -category 'Other' -name 'l' -value 'Get list of functions and aliases'
 
 function Get-FunctionListInfo {
-  Write-Host -ForegroundColor Red "Enter 'l' to list all AWI-defined functions and aliases "
+  OUT $(PE -txt:"Enter 'l' to list all AWI-defined functions and aliases " -fg:$global:colors.Red)
 }

@@ -115,6 +115,6 @@ function Get-UpgradeLists {
 Set-Alias u Get-UpgradeLists
   
 function Get-UpgradeListsInfo {
-  Write-Host -ForegroundColor Red "Enter 'u' to list all available 'winget'- and 'choco'-upgrades "
+  OUT $(PE -txt:"Enter 'u' to list all available 'winget'- and 'choco'-upgrades" -fg:$global:colors.Red) -NoNewlineStart
 }
 

@@ -99,13 +99,13 @@ function Get-Logo {
     "24.01" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
     "09.04" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
     "31.03" { Get-LogoRGB -colorChartString "trans"; Break }     # International Transgender Day Of Visibility
-    "04.05" { Write-Host -ForegroundColor Yellow -BackgroundColor Black $(Get-LogoAsString); Break }     # May the 4th be with you
+    "04.05" { OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Yellow -bg:$global:colors.Black); Break }     # May the 4th be with you
     ".*.06" { Get-LogoRGB -colorChartString "rainbow"; Break }   # Pride Month
     ".*.05" { Get-LogoRGB -colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
     ".*.07" { Get-LogoRGB -colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
     ".*.09" { Get-LogoRGB -colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
     ".*.11" { Get-LogoRGB -colorChartString "trans"; Break }     # Trans Awareness Month
-    default { Write-Host -ForegroundColor Red $(Get-LogoAsString); Break }
+    default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Red); Break }
   }
 
   Get-RainbowSlimLine
@@ -149,7 +149,7 @@ function Get-LogoRGB {
 
   for ($i = 0; $i -lt $lines.Count; $i++) {
     If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
-    OUTnew $(PE -txt:$lines[$i] -fg:$colors[$colorNumber]) -NoNewlineStart
+    OUT $(PE -txt:$lines[$i] -fg:$colors[$colorNumber]) -NoNewlineStart
   }
 }
 
