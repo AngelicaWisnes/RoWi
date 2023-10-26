@@ -165,10 +165,10 @@ function Get-PrintableRGBs {
   $printables = @()
   foreach ($element in $printElements) {
     If ( $element.GetType() -eq [string] ) { $printables += [PrintElement]@{ text = $element } }
-    If ( $element.GetType() -eq [RGB] ) { ($printables[-1]).color = $element }
-    If ( $element.GetType() -eq [COLOR] ) { ($printables[-1]).color = Get-Rgb $element }
-    If ( $element.GetType() -eq [bool] ) { ($printables[-1]).background = $element }
-  }
+      If ( $element.GetType() -eq [RGB] ) { ($printables[-1]).color = $element }
+      If ( $element.GetType() -eq [COLOR] ) { ($printables[-1]).color = Get-Rgb $element }
+      If ( $element.GetType() -eq [bool] ) { ($printables[-1]).background = $element }
+      }
   Return $printables
 }
 
@@ -185,8 +185,8 @@ function OUT {
   If (-Not $NoNewlineStart) { $sb.Append("`n") > $null }
   
   Foreach ($element in $printables) {
-    If ($null -eq $element.color) { $sb.AppendFormat( "{0}", $element.text ) > $null }
-    Else { $sb.AppendFormat( "{0}", (Get-RGBFormattedString $element) ) > $null }
+    If ($null -eq $element.color) { $sb.Append($element.text) > $null }
+    Else { $sb.Append($(Get-RGBFormattedString $element)) > $null }
   }
 
   Write-Host $sb.ToString() -NoNewline:$NoNewline
@@ -196,14 +196,15 @@ function OUT {
 function Get-RGBFormattedString {
   param( [Parameter(Mandatory)][PrintElement]$element )
   If ($element.text.Length -eq 0) { Return "" }
-  
-  If ($element.background) { $X = 48 }
+
+  If ($element.background) { $X = 48 } 
   Else { $X = 38 }
-  
+
   $colorSequence = $global:RGB_SEQUENCE -f $X, $element.color.r, $element.color.g, $element.color.b
-  $trimmed = ($element.text).Replace("`n", "")
-  
-  Return ($element.text).Replace($trimmed, $colorSequence + $trimmed + $global:RESET_SEQUENCE)
+  $lines = $element.text -split "`n"
+  $formattedLines = Foreach ($line in $lines) { $colorSequence + $line + $global:RESET_SEQUENCE }
+
+  Return $formattedLines -join "`n"
 }
 
 
