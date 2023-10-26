@@ -99,6 +99,7 @@ function Get-Logo {
     "24.01" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
     "09.04" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
     "31.03" { Get-LogoRGB -colorChartString "trans"; Break }     # International Transgender Day Of Visibility
+    "04.05" { Write-Host -ForegroundColor Yellow -BackgroundColor Black $(Get-LogoAsString); Break }     # May the 4th be with you
     ".*.06" { Get-LogoRGB -colorChartString "rainbow"; Break }   # Pride Month
     ".*.05" { Get-LogoRGB -colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
     ".*.07" { Get-LogoRGB -colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
