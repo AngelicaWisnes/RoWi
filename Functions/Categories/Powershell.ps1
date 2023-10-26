@@ -47,7 +47,7 @@ Add-ToFunctionList -category "PowerShell" -name 'awi' -value 'Push-Location $AWI
 
 function ReloadAWI { 
   $startPath = Get-Location
-  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:colors.Cyan
+  OUTnew $(PE -txt:"`tReloading profile with startpath: `n`t$startpath`n" -fg:$global:colors.Cyan)
   . $global:AWI\AWI.ps1
 }
 Set-Alias ra ReloadAWI
@@ -56,7 +56,7 @@ Add-ToFunctionList -category "PowerShell" -name '. ra' -value 'Reload AWI'
 
 function ReloadPsProfile { 
   $startPath = Get-Location
-  OUT "`tReloading profile with startpath: `n`t$startpath`n", $global:colors.Cyan
+  OUTnew $(PE -txt:"`tReloading profile with startpath: `n`t$startpath`n" -fg:$global:colors.Cyan)
   . $profile
 }
 Set-Alias rap ReloadPsProfile
@@ -79,10 +79,10 @@ function Get-FunctionNameFromCommandName {
   $commandType = $command.CommandType
   If ( $commandType -eq "Function" ) { Return $commandName }
   If ( $commandType -eq "Alias" ) { 
-    OUT "`tCommand-name '$commandName' is an alias for Function-name '$($command.Definition)'`n", $global:colors.Cyan
+    OUTnew $(PE -txt:"`tCommand-name '$commandName' is an alias for Function-name '$($command.Definition)'`n" -fg:$global:colors.Cyan)
     Return $command.Definition 
   }
-  Else { OUT "`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in Get-FunctionNameFromCommandName`n", $global:colors.Red }
+  Else { OUTnew $(PE -txt:"`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in Get-FunctionNameFromCommandName`n" -fg:$global:colors.Red) }
 }
 
 
@@ -114,8 +114,8 @@ $subDirUtils = @{
 
 # TODO: Check if this function is completed - If not: Complete it
 function _openAllSubDirs_continue {
-  If ( $subDirUtils.dirCount -eq 0 ) { Return OUT "No subdirectories found", $global:colors.Red }
-  If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return OUT "Finished", $global:colors.Red }
+  If ( $subDirUtils.dirCount -eq 0 ) { Return OUTnew $(PE -txt:"No subdirectories found" -fg:$global:colors.Red) }
+  If ( $subDirUtils.current -eq $subDirUtils.dirCount ) { Return OUTnew $(PE -txt:"Finished" -fg:$global:colors.Red) }
 
   $currentDir = $subDirUtils.directories[$subDirUtils.current]
   Write-Host -ForegroundColor Cyan "Current directory: $($subDirUtils.current+1)/$($subDirUtils.dirCount) `n  $currentDir `n"

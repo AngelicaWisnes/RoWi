@@ -107,6 +107,7 @@ function Get-Logo {
     ".*.11" { Get-LogoRGB -colorChartString "trans"; Break }     # Trans Awareness Month
     default { Write-Host -ForegroundColor Red $(Get-LogoAsString); Break }
   }
+
   Get-RainbowSlimLine
   Get-TransSlimLine -NoNewlineStart
   Write-Host
@@ -148,7 +149,7 @@ function Get-LogoRGB {
 
   for ($i = 0; $i -lt $lines.Count; $i++) {
     If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
-    OUT $lines[$i], $colors[$colorNumber] -NoNewlineStart
+    OUTnew $(PE -txt:$lines[$i] -fg:$colors[$colorNumber]) -NoNewlineStart
   }
 }
 

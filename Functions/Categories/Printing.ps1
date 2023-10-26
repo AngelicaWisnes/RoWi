@@ -38,7 +38,7 @@ Add-ToFunctionList -category "Printing" -name 'dad' -value 'Print random dad-jok
 function Get-DadJoke_PowerShell5 { 
   $dadContent = Invoke-WebRequest https://icanhazdadjoke.com/
   $dadJoke = ($dadContent.AllElements | Where-Object { $_.Class -eq "subtitle" }).innerText
-  OUT "$dadJoke", $global:colors.Cyan
+  OUTnew $(PE -txt:"$dadJoke" -fg:$global:colors.Cyan)
 }
 
 
@@ -112,7 +112,7 @@ function Get-AllRGBColors {
   for ($r = 0; $r -lt $rs.Count; $r += 15) {
     for ($g = 0; $g -lt $gs.Count; $g += 15) {
       for ($b = 0; $b -lt $bs.Count; $b += 15) {
-        $colorSequence = $global:RGB_SEQUENCE -f $X, $r, $g, $b
+        $colorSequence = "$global:COLOR_ESCAPE[{0};2;{1};{2};{3}m" -f $X, $r, $g, $b
         Write-Host $colorSequence "#" $global:RESET_SEQUENCE -NoNewline
         If ( ($b + 1) % 256 -eq 0 ) { Write-Host "" }
       }
@@ -132,7 +132,7 @@ function Get-ImplementedRGBColors {
     $colorName = "{0, 20} " -f $color.Name
     $hexAndRgbValue = " HEX: {0}   RGB: {1, 3}, {2, 3}, {3, 3}" -f $color.value.hex, $rgb.r, $rgb.g, $rgb.b
 
-    OUT $colorName, $sample, $rgb, $True, $hexAndRgbValue
+    OUTnew $(PE -txt:$colorName), $(PE -txt:$sample -bg:$rgb), $(PE -txt:$hexAndRgbValue)
   }
 }
 Set-Alias implColors Get-ImplementedRGBColors
@@ -146,7 +146,7 @@ function Get-ColorCharts {
 
   foreach ($chart in $global:colorChart.Values) {
     foreach ($color in $chart) {
-      OUT $spaceLength, $color, $True -NoNewlineStart
+      OUTnew $(PE -txt:$spaceLength -bg:$color) -NoNewlineStart
     }
     Write-Host "`n`n"
   }
@@ -158,34 +158,37 @@ Add-ToFunctionList -category "Printing" -name 'implCharts' -value 'See implement
 
 class RGB { [int]$r; [int]$g; [int]$b; } 
 
+class PrintElementNew { [string]$text; [RGB]$foreground; [RGB]$background; } 
 class PrintElement { [string]$text; [RGB]$color; [switch]$background; } 
 
-function Get-PrintableRGBs {
-  param( [Parameter(Mandatory)][Object[]]$printElements )
-  $printables = @()
-  foreach ($element in $printElements) {
-    If ( $element.GetType() -eq [string] ) { $printables += [PrintElement]@{ text = $element } }
-      If ( $element.GetType() -eq [RGB] ) { ($printables[-1]).color = $element }
-      If ( $element.GetType() -eq [COLOR] ) { ($printables[-1]).color = Get-Rgb $element }
-      If ( $element.GetType() -eq [bool] ) { ($printables[-1]).background = $element }
-      }
-  Return $printables
+function Get-PrintElement {
+  param (
+      [string]$txt,
+      [Object]$fg,
+      [Object]$bg
+  )
+
+  Return [PrintElementNew]@{
+      text = If ($null -eq $txt) { "" } Else { $txt }
+      foreground = If ($null -eq $fg) { $null } Elseif ($fg.GetType() -eq [COLOR]) { Get-Rgb $fg } Else { $fg }
+      background = If ($null -eq $bg) { $null } Elseif ($bg.GetType() -eq [COLOR]) { Get-Rgb $bg } Else { $bg }
+  }
 }
+Set-Alias PE Get-PrintElement
 
 
-function OUT {
+function OUTnew {
   param( 
-    [Parameter(Mandatory)][Object[]]$printElements,
+    [Parameter(Mandatory)][PrintElementNew[]]$printElements,
     [switch]$NoNewline = $False,
     [switch]$NoNewlineStart = $False
   )
 
-  $printables = Get-PrintableRGBs $printElements
   $sb = [System.Text.StringBuilder]::new()
   If (-Not $NoNewlineStart) { $sb.Append("`n") > $null }
   
-  Foreach ($element in $printables) {
-    If ($null -eq $element.color) { $sb.Append($element.text) > $null }
+  Foreach ($element in $printElements) {
+    If ($null -eq $element.foreground -AND $null -eq $element.background) { $sb.Append($element.text) > $null }
     Else { $sb.Append($(Get-RGBFormattedString $element)) > $null }
   }
 
@@ -194,17 +197,30 @@ function OUT {
 
 
 function Get-RGBFormattedString {
-  param( [Parameter(Mandatory)][PrintElement]$element )
+  param( [Parameter(Mandatory)][PrintElementNew]$element )
   If ($element.text.Length -eq 0) { Return "" }
 
-  If ($element.background) { $X = 48 } 
-  Else { $X = 38 }
-
-  $colorSequence = $global:RGB_SEQUENCE -f $X, $element.color.r, $element.color.g, $element.color.b
+  $colorSequence = Get-RgbStartSequence -fg:$element.foreground -bg:$element.background
   $lines = $element.text -split "`n"
   $formattedLines = Foreach ($line in $lines) { $colorSequence + $line + $global:RESET_SEQUENCE }
 
   Return $formattedLines -join "`n"
+}
+
+
+function Get-RgbStartSequence {
+  param (
+      [RGB]$fg,
+      [RGB]$bg
+  )
+
+  $foregroundSequence = If ($null -eq $fg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "38", $fg.r, $fg.g, $fg.b }
+  $backgroundSequence = If ($null -eq $bg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "48", $bg.r, $bg.g, $bg.b }
+
+  If ($foregroundSequence -ne "" -and $backgroundSequence -ne "") { Return $global:RGB_START_SEQUENCE -f "$foregroundSequence;$backgroundSequence" } 
+  Elseif ($foregroundSequence -ne "") { Return $global:RGB_START_SEQUENCE -f $foregroundSequence } 
+  Elseif ($backgroundSequence -ne "") { Return $global:RGB_START_SEQUENCE -f $backgroundSequence } 
+  Else { Return "" }
 }
 
 
