@@ -217,9 +217,9 @@ function Get-RgbStartSequence {
   $foregroundSequence = If ($null -eq $fg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "38", $fg.r, $fg.g, $fg.b }
   $backgroundSequence = If ($null -eq $bg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "48", $bg.r, $bg.g, $bg.b }
 
-  If ($foregroundSequence -ne "" -and $backgroundSequence -ne "") { Return $global:RGB_START_SEQUENCE -f "$foregroundSequence;$backgroundSequence" } 
-  Elseif ($foregroundSequence -ne "") { Return $global:RGB_START_SEQUENCE -f $foregroundSequence } 
-  Elseif ($backgroundSequence -ne "") { Return $global:RGB_START_SEQUENCE -f $backgroundSequence } 
+  If ($foregroundSequence -ne "" -and $backgroundSequence -ne "") { Return $global:RGB_SEQUENCE -f "$foregroundSequence;$backgroundSequence" } 
+  Elseif ($foregroundSequence -ne "") { Return $global:RGB_SEQUENCE -f $foregroundSequence } 
+  Elseif ($backgroundSequence -ne "") { Return $global:RGB_SEQUENCE -f $backgroundSequence } 
   Else { Return "" }
 }
 
