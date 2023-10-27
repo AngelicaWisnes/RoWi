@@ -126,11 +126,11 @@ function Get-ListOfFunctionsAndAliases {
     $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_ -NoPadding:$isSingleNoPadding)) > $null }
   }
 
-  Write-Host -ForegroundColor Red $sb.ToString()
+  OUT $(PE -txt:$sb.ToString() -fg:$global:colors.DeepPink)
 }
 Set-Alias l Get-ListOfFunctionsAndAliases
 Add-ToFunctionList -category 'Other' -name 'l' -value 'Get list of functions and aliases'
 
 function Get-FunctionListInfo {
-  OUT $(PE -txt:"Enter 'l' to list all AWI-defined functions and aliases " -fg:$global:colors.Red)
+  OUT $(PE -txt:"Enter 'l' to list all AWI-defined functions and aliases " -fg:$global:colors.DeepPink)
 }

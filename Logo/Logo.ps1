@@ -94,6 +94,8 @@ function Get-OutputSizes {
 }
 
 function Get-Logo {
+  $randomColor = $global:colors.Values.GetEnumerator() | Get-Random -Count 1
+
   switch -Regex (Get-Date -Format "dd.MM") {
     "23.01" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
     "24.01" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
@@ -105,7 +107,7 @@ function Get-Logo {
     ".*.07" { Get-LogoRGB -colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
     ".*.09" { Get-LogoRGB -colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
     ".*.11" { Get-LogoRGB -colorChartString "trans"; Break }     # Trans Awareness Month
-    default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Red); Break }
+    default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor); Break }
   }
 
   Get-RainbowSlimLine
@@ -120,7 +122,8 @@ function Get-AllLogoColors {
   Get-LogoRGB -colorChartString "nonbinary"
   Get-LogoRGB -colorChartString "bisexual"
   Get-LogoRGB -colorChartString "trans"
-  Write-Host -ForegroundColor Red $(Get-LogoAsString)
+  OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Yellow -bg:$global:colors.Black)
+  OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.DeepPink)
   Write-Host
 }
 Add-ToFunctionList -category 'Other' -name 'Get-AllLogoColors' -value 'Get all Logo colors'
