@@ -97,16 +97,16 @@ function Get-Logo {
   $randomColor = $global:colors.Values.GetEnumerator() | Get-Random -Count 1
 
   switch -Regex (Get-Date -Format "dd.MM") {
-    "23.01" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
-    "24.01" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
-    "09.04" { Get-LogoRGB -colorChartString "norway"; Break }    # Birthday
-    "31.03" { Get-LogoRGB -colorChartString "trans"; Break }     # International Transgender Day Of Visibility
+    "23.01" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Birthday
+    "24.01" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Birthday
+    "09.04" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Birthday
+    "31.03" { Get-LogoRGB -fg_colorChartString "trans"; Break }     # International Transgender Day Of Visibility
     "04.05" { OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Yellow -bg:$global:colors.Black); Break }     # May the 4th be with you
-    ".*.06" { Get-LogoRGB -colorChartString "rainbow"; Break }   # Pride Month
-    ".*.05" { Get-LogoRGB -colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
-    ".*.07" { Get-LogoRGB -colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
-    ".*.09" { Get-LogoRGB -colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
-    ".*.11" { Get-LogoRGB -colorChartString "trans"; Break }     # Trans Awareness Month
+    ".*.06" { Get-LogoRGB -fg_colorChartString "rainbow"; Break }   # Pride Month
+    ".*.05" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
+    ".*.07" { Get-LogoRGB -fg_colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
+    ".*.09" { Get-LogoRGB -fg_colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
+    ".*.11" { Get-LogoRGB -fg_colorChartString "trans"; Break }     # Trans Awareness Month
     default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor); Break }
   }
 
@@ -117,14 +117,14 @@ function Get-Logo {
 Add-ToFunctionList -category 'Other' -name 'Get-Logo' -value 'Get Logo'
 
 function Get-AllLogoColors {
-  Get-LogoRGB -colorChartString "norway"
-  Get-LogoRGB -colorChartString "rainbow"
-  Get-LogoRGB -colorChartString "nonbinary"
-  Get-LogoRGB -colorChartString "bisexual"
-  Get-LogoRGB -colorChartString "trans"
+  Get-LogoRGB -fg_colorChartString "norway"
+  Get-LogoRGB -fg_colorChartString "rainbow"
+  Get-LogoRGB -fg_colorChartString "nonbinary"
+  Get-LogoRGB -fg_colorChartString "bisexual"
+  Get-LogoRGB -fg_colorChartString "trans"
   OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Yellow -bg:$global:colors.Black)
   OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.DeepPink)
-  Write-Host
+  OUT
 }
 Add-ToFunctionList -category 'Other' -name 'Get-AllLogoColors' -value 'Get all Logo colors'
 
@@ -143,22 +143,32 @@ function Get-LogoRainbow {
 }
 
 function Get-LogoRGB {
-  param( [Parameter(Mandatory)][string]$colorChartString )
+  param( [string]$fg_colorChartString, [string]$bg_colorChartString )
   $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
-  $colorNumber = -1
-  $colors = $global:colorChart[$colorChartString]
-  $linesOfEachColor = [int]($lines.Count / $colors.Count)
+
+  $fg_colorNumber = -1
+  $fg_colors = If ($null -ne $fg_colorChartString) { $global:colorChart[$fg_colorChartString] }
+  $fg_linesOfEachColor = If ($null -ne $fg_colors) { [int]($lines.Count / $fg_colors.Count) } 
+
+  $bg_colorNumber = -1
+  $bg_colors = If ($null -ne $bg_colorChartString) { $global:colorChart[$bg_colorChartString] }
+  $bg_linesOfEachColor = If ($null -ne $bg_colors) { [int]($lines.Count / $bg_colors.Count) } 
 
   for ($i = 0; $i -lt $lines.Count; $i++) {
-    If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
-    OUT $(PE -txt:$lines[$i] -fg:$colors[$colorNumber]) -NoNewlineStart
+      If ($null -ne $fg_colors -and $i % $fg_linesOfEachColor -eq 0 -and $fg_colorNumber -lt ($fg_colors.Count - 1)) { $fg_colorNumber++ }
+      If ($null -ne $bg_colors -and $i % $bg_linesOfEachColor -eq 0 -and $bg_colorNumber -lt ($bg_colors.Count - 1)) { $bg_colorNumber++ }
+
+      $fg_color = If ($null -ne $fg_colors) { $fg_colors[$fg_colorNumber] }
+      $bg_color = If ($null -ne $bg_colors) { $bg_colors[$bg_colorNumber] }
+
+      OUT $(PE -txt:$lines[$i] -fg:$fg_color -bg:$bg_color) -NoNewlineStart
   }
 }
 
+
 function Get-Selfie {
-  $selfieOutput = Get-SelfieAsString
-  Write-Host -ForegroundColor Red $selfieOutput
+  OUT $(PE -txt:$(Get-SelfieAsString) -fg:$global:colors.DeepPink)
 }
 Add-ToFunctionList -category 'Other' -name 'Get-Selfie' -value 'Get selfie'
 

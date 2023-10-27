@@ -163,13 +163,13 @@ class PrintElement { [string]$text; [RGB]$color; [switch]$background; }
 
 function Get-PrintElement {
   param (
-      [string]$txt,
+      [string]$txt = "",
       [Object]$fg,
       [Object]$bg
   )
 
   Return [PrintElementNew]@{
-      text = If ($null -eq $txt) { "" } Else { $txt }
+      text = $txt
       foreground = If ($null -eq $fg) { $null } Elseif ($fg.GetType() -eq [COLOR]) { Get-Rgb $fg } Else { $fg }
       background = If ($null -eq $bg) { $null } Elseif ($bg.GetType() -eq [COLOR]) { Get-Rgb $bg } Else { $bg }
   }
@@ -179,13 +179,13 @@ Set-Alias PE Get-PrintElement
 
 function OUT {
   param( 
-    [Parameter(Mandatory)][PrintElementNew[]]$printElements,
+    [PrintElementNew[]]$printElements = @(),
     [switch]$NoNewline = $False,
     [switch]$NoNewlineStart = $False
   )
 
   $sb = [System.Text.StringBuilder]::new()
-  If (-Not $NoNewlineStart) { $sb.Append("`n") > $null }
+  If (-Not $NoNewlineStart -And $printElements.Count -gt 0) { $sb.Append("`n") > $null }
   
   Foreach ($element in $printElements) {
     If ($null -eq $element.foreground -AND $null -eq $element.background) { $sb.Append($element.text) > $null }
