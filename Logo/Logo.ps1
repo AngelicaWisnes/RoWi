@@ -176,7 +176,7 @@ function Get-SelfieAsString {
   $selfieImageExists = Test-Path -Path $selfie_image -PathType Leaf
   $selfieTextExists = Test-Path -Path $selfie_text -PathType Leaf
 
-  If ($global:SYSTEM_OS.Contains('Windows') -AND $selfieImageExists) { 
+  If ($global:SYSTEM_OS.Contains('Windows') -and $selfieImageExists) { 
     Return Convert-ImageToAsciiArt -Path $selfie_image 
   }
   Elseif ($selfieTextExists) { Return Resize-AsciiArt -Path $selfie_text }
@@ -187,7 +187,7 @@ function Get-LogoAsString {
   $logoImageExists = Test-Path -Path $logo -PathType Leaf
   $logoTextExists = Test-Path -Path $logo_text -PathType Leaf
 
-  If ($global:SYSTEM_OS.Contains('Windows') -AND $logoImageExists) { 
+  If ($global:SYSTEM_OS.Contains('Windows') -and $logoImageExists) { 
     Return Convert-ImageToAsciiArt -Path $logo -BinaryPixelated $true
   }
   Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $logo_text }

@@ -185,10 +185,10 @@ function OUT {
   )
 
   $sb = [System.Text.StringBuilder]::new()
-  If (-Not $NoNewlineStart -And $printElements.Count -gt 0) { $sb.Append("`n") > $null }
+  If (-Not $NoNewlineStart -and $printElements.Count -gt 0) { $sb.Append("`n") > $null }
   
   Foreach ($element in $printElements) {
-    If ($null -eq $element.foreground -AND $null -eq $element.background) { $sb.Append($element.text) > $null }
+    If ($null -eq $element.foreground -and $null -eq $element.background) { $sb.Append($element.text) > $null }
     Else { $sb.Append($(Get-RGBFormattedString $element)) > $null }
   }
 
@@ -209,10 +209,7 @@ function Get-RGBFormattedString {
 
 
 function Get-RgbStartSequence {
-  param (
-      [RGB]$fg,
-      [RGB]$bg
-  )
+  param ( [RGB]$fg, [RGB]$bg )
 
   $foregroundSequence = If ($null -eq $fg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "38", $fg.r, $fg.g, $fg.b }
   $backgroundSequence = If ($null -eq $bg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "48", $bg.r, $bg.g, $bg.b }
