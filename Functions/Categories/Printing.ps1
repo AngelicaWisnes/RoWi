@@ -175,7 +175,7 @@ function OUT {
   )
 
   $sb = [System.Text.StringBuilder]::new()
-  If (-Not $NoNewlineStart -and $printElements.Count -gt 0) { [void]$sb.Append("`n") }
+  If (-Not $NoNewlineStart -and $printElements.Count -gt 0) { [void]$sb.AppendLine() }
   
   Foreach ($element in $printElements) {
     If (-not $element.foreground -and -not $element.background) { [void]$sb.Append($element.text) }
