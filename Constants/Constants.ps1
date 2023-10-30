@@ -13,6 +13,7 @@ $global:RGB_SEQUENCE = "$global:COLOR_ESCAPE[{0}m"
 $global:RGB_COLOR_SEQUENCE = "{0};2;{1};{2};{3}"
 $global:RESET_SEQUENCE = "$global:RGB_SEQUENCE" -f "0"
 
+
 # Classes
 class RGB { [int]$r; [int]$g; [int]$b; } 
 class COLOR { [string]$hex; [RGB]$rgb } 
