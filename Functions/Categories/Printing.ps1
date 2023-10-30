@@ -100,11 +100,8 @@ Add-ToFunctionList -category "Printing" -name 'allAnsi' -value 'See all availabl
 
 
 function Get-AllRGBColors {
-  Param ([switch]$Background)
+  $sample = "   "
 
-  If ($Background) { $X = 48 }
-  Else { $X = 38 }
-  
   $rs = 0..255
   $gs = 0..255
   $bs = 0..255
@@ -112,8 +109,8 @@ function Get-AllRGBColors {
   for ($r = 0; $r -lt $rs.Count; $r += 15) {
     for ($g = 0; $g -lt $gs.Count; $g += 15) {
       for ($b = 0; $b -lt $bs.Count; $b += 15) {
-        $colorSequence = "$global:COLOR_ESCAPE[{0};2;{1};{2};{3}m" -f $X, $r, $g, $b
-        Write-Host $colorSequence "#" $global:RESET_SEQUENCE -NoNewline
+        $rgb = [RGB]@{r = $r ; g = $g ; b = $b}
+        OUT $(PE -txt:$sample -bg:$rgb) -NoNewlineStart -NoNewline
         If ( ($b + 1) % 256 -eq 0 ) { Write-Host "" }
       }
       If ( ($g + 1) % 256 -eq 0 ) { Write-Host "" }
@@ -156,12 +153,12 @@ Add-ToFunctionList -category "Printing" -name 'implCharts' -value 'See implement
 
 
 function Get-PrintElement {
-  param ( [string]$txt, [COLOR]$fg, [COLOR]$bg )
+  param ( [string]$txt, [Object]$fg, [Object]$bg )
 
   Return [PrintElement]@{
       text = $txt
-      foreground = Get-Rgb $fg
-      background = Get-Rgb $bg
+      foreground = If ($fg -and $fg.GetType() -eq [RGB]) { $fg } Else { Get-Rgb $fg }
+      background = If ($bg -and $bg.GetType() -eq [RGB]) { $bg } Else { Get-Rgb $bg }
   }
 }
 Set-Alias PE Get-PrintElement
