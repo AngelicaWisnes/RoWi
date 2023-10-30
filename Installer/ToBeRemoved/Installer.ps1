@@ -7,7 +7,7 @@ function COPY_ZIPPED_PROFILE_DIRECTORY {
   Set-Clipboard -Path $profileDirectoryZip
   
   Write-Host -ForegroundColor Cyan "'$profileDirectoryZip' is copied to clipboard. Paste it where you want it, and press any key to clean up..."
-  $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+  [void]$Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
   Remove-Item $profileDirectoryZip
 }
 

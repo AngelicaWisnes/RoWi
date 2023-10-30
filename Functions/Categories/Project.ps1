@@ -56,13 +56,13 @@ function _pro_getWebs {
   $sb = [System.Text.StringBuilder]::new()
   
   Foreach ($project in $projects) {
-    $sb.AppendFormat("{0} ", $project.webs) > $null
+    [void]$sb.AppendFormat("{0} ", $project.webs)
 
     If ($project.type -eq [ProjectType]::STANDARD) {
-      $sb.AppendFormat("{0}`n", (_openGitBranchInBrowser_string -repo $project.repo -branch $project.branch)) > $null 
+      [void]$sb.AppendFormat("{0}`n", (_openGitBranchInBrowser_string -repo $project.repo -branch $project.branch))
     }
     If ($project.type -eq [ProjectType]::MULTIPLE) {
-      $sb.AppendFormat("{0}`n", (_pro_getWebs -projects $project.nestedProjects)) > $null 
+      [void]$sb.AppendFormat("{0}`n", (_pro_getWebs -projects $project.nestedProjects))
     }
     #If ($project.type -eq [ProjectType]::ALL) {}
 

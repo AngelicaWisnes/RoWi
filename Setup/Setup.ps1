@@ -8,7 +8,7 @@ function logTime {
     [bool]$restart = $true 
   )
   $sw.Stop()
-  $log.AppendFormat(" {1:0.000}s - {0}`n", $timed, $($sw.ElapsedMilliseconds / 1000)) > $null
+  [void]$log.AppendFormat(" {1:0.000}s - {0}`n", $timed, $($sw.ElapsedMilliseconds / 1000))
   $sw.Reset()
   If ($restart) { $sw.Start() }
 }

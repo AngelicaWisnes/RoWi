@@ -277,7 +277,7 @@ function _pullAllRepos {
     # If not a git-repo, recursively check sub-directiroes, then return jump to next
     If ( -not $gitStatus ) { 
       $subDirs = _pullAllRepos
-      If ( $subDirs.Length -gt 0 ) { $needsManualWork.AppendFormat( "{0}", $subDirs ) > $null }
+      If ( $subDirs.Length -gt 0 ) { [void]$needsManualWork.AppendFormat( "{0}", $subDirs ) }
       Continue 
     }
 
@@ -292,7 +292,7 @@ function _pullAllRepos {
       #If ($currentGitBranch -ne $masterGitBranch) { GitCheckoutMaster }
       #GitPull
     }
-    Else { $needsManualWork.AppendFormat( "  {0}`n", $(Get-FullPath) ) > $null }
+    Else { [void]$needsManualWork.AppendFormat( "  {0}`n", $(Get-FullPath) ) }
   }
 
   Return $needsManualWork.ToString()

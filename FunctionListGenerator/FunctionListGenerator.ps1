@@ -16,10 +16,10 @@ function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
   $x = If ($NoPadding) { 1 } Else { 0 }
 
   $sb = [System.Text.StringBuilder]::new()
-  $sb.AppendFormat("|{0}|{1}|{2}|"
+  [void]$sb.AppendFormat("|{0}|{1}|{2}|"
     , (FormatString $element.category ($global:categoryWidth - $x) $fillerChar -NoPadding:$NoPadding)
     , (FormatString $element.name ($global:nameWidth - $x) $fillerChar -NoPadding:$NoPadding)
-    , (FormatString $element.value ($global:valueWidth - $x) $fillerChar -NoPadding:$NoPadding)) > $null
+    , (FormatString $element.value ($global:valueWidth - $x) $fillerChar -NoPadding:$NoPadding))
   Return $sb.ToString()
 }
 
@@ -116,14 +116,14 @@ function Get-ListOfFunctionsAndAliases {
   $newLine = If ($isSingleNoPadding) { "`n" } Else { "`n  " }
 
   If ($isDual) { 
-    $sb.AppendFormat("$newLine {0}   {0}$newLine", ("_" * ($global:fullWidth))) > $null
+    [void]$sb.AppendFormat("$newLine {0}   {0}$newLine", ("_" * ($global:fullWidth)))
     for ($i = 0; $i -lt $FunctionList_Dual_Col1.Count; $i++) { 
-      $sb.AppendFormat("{0} {1}$newLine", (FormatElement $FunctionList_Dual_Col1[$i]), (FormatElement $FunctionList_Dual_Col2[$i])) > $null 
+      [void]$sb.AppendFormat("{0} {1}$newLine", (FormatElement $FunctionList_Dual_Col1[$i]), (FormatElement $FunctionList_Dual_Col2[$i]))
     }
   }
   Else { 
-    $sb.AppendFormat("$newLine {0}$newLine", ("_" * ($global:fullWidth - $widthAdjustment))) > $null
-    $FunctionList_single | ForEach-Object { $sb.AppendFormat("{0}$newLine", (FormatElement $_ -NoPadding:$isSingleNoPadding)) > $null }
+    [void]$sb.AppendFormat("$newLine {0}$newLine", ("_" * ($global:fullWidth - $widthAdjustment)))
+    $FunctionList_single | ForEach-Object { [void]$sb.AppendFormat("{0}$newLine", (FormatElement $_ -NoPadding:$isSingleNoPadding)) }
   }
 
   OUT $(PE -txt:$sb.ToString() -fg:$global:colors.DeepPink)

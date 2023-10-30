@@ -175,11 +175,11 @@ function OUT {
   )
 
   $sb = [System.Text.StringBuilder]::new()
-  If (-Not $NoNewlineStart -and $printElements.Count -gt 0) { $sb.Append("`n") > $null }
+  If (-Not $NoNewlineStart -and $printElements.Count -gt 0) { [void]$sb.Append("`n") }
   
   Foreach ($element in $printElements) {
-    If (-not $element.foreground -and -not $element.background) { $sb.Append($element.text) > $null }
-    Else { $sb.Append($(Get-RGBFormattedString $element)) > $null }
+    If (-not $element.foreground -and -not $element.background) { [void]$sb.Append($element.text) }
+    Else { [void]$sb.Append($(Get-RGBFormattedString $element)) }
   }
 
   Write-Host $sb.ToString() -NoNewline:$NoNewline

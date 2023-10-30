@@ -25,7 +25,7 @@ function Convert-ImageToAsciiArt {
   $bitmap = new-object Drawing.Bitmap($imageFromFile , $outputWidth, $outputHeight) 
   
   $sb = [System.Text.StringBuilder]::new()
-  $null = $sb.AppendLine() 
+  [void]$sb.AppendLine() 
 
   for ($y = 0; $y -lt $outputHeight; $y++) {
     for ($x = 0; $x -lt $outputWidth; $x++) {
@@ -36,9 +36,9 @@ function Convert-ImageToAsciiArt {
       $ch = $characters[$offset]
       If (-not $ch) { $ch = $characters[-1] }
       
-      $null = $sb.Append($ch)
+      [void]$sb.Append($ch)
     }
-    $null = $sb.AppendLine()
+    [void]$sb.AppendLine()
   }
 
   $imageFromFile.Dispose()
@@ -56,7 +56,7 @@ function Resize-AsciiArt {
   $outputScale, $outputWidth, $outputHeight = Get-OutputSizes @($inputWidth, $inputHeight)
   
   $sb = [System.Text.StringBuilder]::new()
-  $null = $sb.AppendLine()
+  [void]$sb.AppendLine()
   
   # Nearest-neighbor interpolation
   for ($y = 0; $y -lt $outputHeight; $y++) {
@@ -66,9 +66,9 @@ function Resize-AsciiArt {
     for ($x = 0; $x -lt $outputWidth; $x++) {
       $nearestX = [Math]::Floor($x / $outputScale)
       $pixel = $line.Substring($nearestX, 1)
-      $null = $sb.Append($pixel)
+      [void]$sb.Append($pixel)
     }
-    $null = $sb.AppendLine()
+    [void]$sb.AppendLine()
   }
 
   Return $sb.ToString()
