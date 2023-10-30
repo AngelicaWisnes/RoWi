@@ -44,9 +44,9 @@ function Get-DadJoke_PowerShell5 {
 
 function Get-DadJoke_PowerShell7 { 
   [console]::ForegroundColor = 'Cyan'
-  Write-Host
+  OUT
   curl https://icanhazdadjoke.com/
-  Write-Host 
+  OUT
   [console]::ResetColor()
 }
 
@@ -64,7 +64,7 @@ function dance {
   try {
     $cursorSave = (Get-Host).UI.RawUI.cursorsize
     (Get-Host).UI.RawUI.cursorsize = 0
-    Write-Host
+    OUT
 
     for ( $n = 0; $n -lt $LoopCount; $n++ ) {
       for ( $i = 0; $i -lt $frames.count; $i++ ) {
@@ -75,7 +75,7 @@ function dance {
   }
   finally {
     (Get-Host).UI.RawUI.cursorsize = $cursorSave
-    Write-Host
+    OUT
   }
 }
 Add-ToFunctionList -category "Printing" -name 'dance' -value 'See the PowerShell DanceSquad'
@@ -229,4 +229,15 @@ function Convert-HexToRgb {
   $blue = [convert]::ToInt32($hex.Substring(5, 2), 16)
 
   Return [RGB]@{ r = $red ; g = $green ; b = $blue }
+}
+
+
+function Get-ColoredInput {
+  try { 
+    [console]::ForegroundColor = 'DarkCyan'
+    $coloredInput = Read-Host 
+  }
+  finally { [console]::ResetColor() }
+
+  Return $coloredInput
 }

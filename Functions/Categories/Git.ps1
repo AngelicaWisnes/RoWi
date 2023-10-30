@@ -14,11 +14,7 @@ Add-ToFunctionList -category "Git" -name 'a' -value 'git add args'
 function GitCreateNewBranch {
   OUT $(PE -txt:"Initiating git checkout -b `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: ") -NoNewline
   
-  try { 
-    [console]::ForegroundColor = 'DarkCyan'
-    $branchName = Read-Host 
-  }
-  finally { [console]::ResetColor() }
+  $branchName = Get-ColoredInput
   
   OUT $(PE -txt:"Trying: git checkout -b "), $(PE -txt:"'$branchName'`n" -fg:$global:colors.DarkCyan)
   
@@ -36,11 +32,7 @@ Add-ToFunctionList -category "Git" -name 'c' -value 'git commit'
 function GitCommitWithMessage {
   OUT $(PE -txt:"Initiating git commit -m `n`tMessage-length  $global:FIFTY_CHARS `n`tCommit message: ") -NoNewline
   
-  try { 
-    [console]::ForegroundColor = 'DarkCyan'
-    $commitMessage = Read-Host 
-  }
-  finally { [console]::ResetColor() }
+  $commitMessage = Get-ColoredInput
   
   OUT $(PE -txt:"Trying: git commit -m "), $(PE -txt:"'$commitMessage'`n" -fg:$global:colors.DarkCyan)
   
@@ -90,11 +82,7 @@ function GitCombinePreviousCommits {
   `tdone BEFORE the first commit you want to include in this process, according to git log
   `tCommit-Hash: ") -NoNewline
   
-  try { 
-    [console]::ForegroundColor = 'DarkCyan'
-    $commitHash = Read-Host 
-  }
-  finally { [console]::ResetColor() }
+  $commitHash = Get-ColoredInput
   
   OUT $(PE -txt:"Trying: git reset --soft "), $(PE -txt:"'$commitHash'`n" -fg:$global:colors.DarkCyan)
   
@@ -160,12 +148,8 @@ Add-ToFunctionList -category "Git" -name 'gr' -value 'git reset --hard'
 
 function GitRenameBranch { 
   OUT $(PE -txt:"Initiating a renaming of current branch. Enter the new branch name `n`tName-length  $global:FIFTY_CHARS `n`tBranch-name: ") -NoNewline
-  try { 
-    [console]::ForegroundColor = 'DarkCyan'
-    $newBranchName = Read-Host 
-  }
-  finally { [console]::ResetColor() }
   
+  $newBranchName = Get-ColoredInput
   $oldBranchName = Get-CurrentGitBranch
   
   # Rename local branch.
@@ -268,8 +252,8 @@ Add-ToFunctionList -category "Git" -name 's' -value 'git status'
 
 
 function Set-TokenizedRemoteURL { 
-  Write-Host "Go to GitHub -> Profile -> Settings -> Developer Settings -> Personal access token, and generate a token."
-  $token = Read-Host "Enter token"
+  OUT $(PE -txt:"`tGo to GitHub -> Profile -> Settings -> Developer Settings -> Personal access token, and generate a token. `n`tEnter token: ") -NoNewline
+  $token = Get-ColoredInput
 
   git remote set-url origin "https://$token@github.com/AngelicaWisnes/RoWi"
 }

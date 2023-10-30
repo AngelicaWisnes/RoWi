@@ -112,7 +112,7 @@ function Get-Logo {
 
   Get-RainbowSlimLine
   Get-TransSlimLine -NoNewlineStart
-  Write-Host
+  OUT
 }
 Add-ToFunctionList -category 'Other' -name 'Get-Logo' -value 'Get Logo'
 

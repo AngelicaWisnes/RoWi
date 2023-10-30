@@ -67,7 +67,7 @@ function Get-FunctionDefinition {
   param( [Parameter(Mandatory)][String]$commandName )
   $functionName = Get-FunctionNameFromCommandName( $commandName )
   $codeBlock = Get-FunctionDefinitionAsString $functionName
-  Write-Host -ForegroundColor White "$codeBlock"
+  OUT $(PE -txt:$codeBlock -fg:$global:colors.White)
 }
 Set-Alias see Get-FunctionDefinition
 Add-ToFunctionList -category "PowerShell" -name 'see' -value 'See the code-block of function'
