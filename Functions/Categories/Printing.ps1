@@ -156,16 +156,12 @@ Add-ToFunctionList -category "Printing" -name 'implCharts' -value 'See implement
 
 
 function Get-PrintElement {
-  param (
-      [string]$txt = "",
-      [Object]$fg,
-      [Object]$bg
-  )
+  param ( [string]$txt, [COLOR]$fg, [COLOR]$bg )
 
   Return [PrintElement]@{
       text = $txt
-      foreground = If ($null -eq $fg) { $null } Elseif ($fg.GetType() -eq [COLOR]) { Get-Rgb $fg } Else { $fg }
-      background = If ($null -eq $bg) { $null } Elseif ($bg.GetType() -eq [COLOR]) { Get-Rgb $bg } Else { $bg }
+      foreground = Get-Rgb $fg
+      background = Get-Rgb $bg
   }
 }
 Set-Alias PE Get-PrintElement
@@ -182,7 +178,7 @@ function OUT {
   If (-Not $NoNewlineStart -and $printElements.Count -gt 0) { $sb.Append("`n") > $null }
   
   Foreach ($element in $printElements) {
-    If ($null -eq $element.foreground -and $null -eq $element.background) { $sb.Append($element.text) > $null }
+    If (-not $element.foreground -and -not $element.background) { $sb.Append($element.text) > $null }
     Else { $sb.Append($(Get-RGBFormattedString $element)) > $null }
   }
 
@@ -216,9 +212,10 @@ function Get-RgbStartSequence {
 
 
 function Get-Rgb {
-  param( [Parameter(Mandatory)][COLOR]$color )
+  param( [COLOR]$color )
 
-  If ($color.rgb) { Return $color.rgb }
+  If (-not $color) { Return $null }
+  Elseif ($color.rgb) { Return $color.rgb }
   Else { Return Convert-HexToRgb $color }
 }
 

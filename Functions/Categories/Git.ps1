@@ -291,7 +291,7 @@ function _pullAllRepos {
     $gitStatus = Get-GitStatus
     
     # If not a git-repo, recursively check sub-directiroes, then return jump to next
-    If ( $null -eq $gitStatus ) { 
+    If ( -not $gitStatus ) { 
       $subDirs = _pullAllRepos
       If ( $subDirs.Length -gt 0 ) { $needsManualWork.AppendFormat( "{0}", $subDirs ) > $null }
       Continue 

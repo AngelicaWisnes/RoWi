@@ -48,7 +48,7 @@ function Set-PathVariable {
     if (![string]::IsNullOrWhiteSpace($pathString)) {
         $formattedPath = Format-VariablePath $pathString
         
-        if ($null -eq $formattedPath) {
+        if (-not $formattedPath) {
             return Write-Host -ForegroundColor Red "Failed setting variable"
         }
 
