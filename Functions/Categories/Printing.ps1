@@ -155,12 +155,6 @@ Set-Alias implCharts Get-ColorCharts
 Add-ToFunctionList -category "Printing" -name 'implCharts' -value 'See implemented color-charts'
 
 
-
-class RGB { [int]$r; [int]$g; [int]$b; } 
-
-class PrintElementNew { [string]$text; [RGB]$foreground; [RGB]$background; } 
-class PrintElement { [string]$text; [RGB]$color; [switch]$background; } 
-
 function Get-PrintElement {
   param (
       [string]$txt = "",
@@ -168,7 +162,7 @@ function Get-PrintElement {
       [Object]$bg
   )
 
-  Return [PrintElementNew]@{
+  Return [PrintElement]@{
       text = $txt
       foreground = If ($null -eq $fg) { $null } Elseif ($fg.GetType() -eq [COLOR]) { Get-Rgb $fg } Else { $fg }
       background = If ($null -eq $bg) { $null } Elseif ($bg.GetType() -eq [COLOR]) { Get-Rgb $bg } Else { $bg }
@@ -179,7 +173,7 @@ Set-Alias PE Get-PrintElement
 
 function OUT {
   param( 
-    [PrintElementNew[]]$printElements = @(),
+    [PrintElement[]]$printElements = @(),
     [switch]$NoNewline = $False,
     [switch]$NoNewlineStart = $False
   )
@@ -197,7 +191,7 @@ function OUT {
 
 
 function Get-RGBFormattedString {
-  param( [Parameter(Mandatory)][PrintElementNew]$element )
+  param( [Parameter(Mandatory)][PrintElement]$element )
   If ($element.text.Length -eq 0) { Return "" }
 
   $colorSequence = Get-RgbStartSequence -fg:$element.foreground -bg:$element.background
@@ -211,24 +205,21 @@ function Get-RGBFormattedString {
 function Get-RgbStartSequence {
   param ( [RGB]$fg, [RGB]$bg )
 
-  $foregroundSequence = If ($null -eq $fg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "38", $fg.r, $fg.g, $fg.b }
-  $backgroundSequence = If ($null -eq $bg) { "" } Else { $global:RGB_COLOR_SEQUENCE -f "48", $bg.r, $bg.g, $bg.b }
+  $fgSequence = If ($fg) { $global:RGB_COLOR_SEQUENCE -f "38", $fg.r, $fg.g, $fg.b }
+  $bgSequence = If ($bg) { $global:RGB_COLOR_SEQUENCE -f "48", $bg.r, $bg.g, $bg.b }
 
-  If ($foregroundSequence -ne "" -and $backgroundSequence -ne "") { Return $global:RGB_SEQUENCE -f "$foregroundSequence;$backgroundSequence" } 
-  Elseif ($foregroundSequence -ne "") { Return $global:RGB_SEQUENCE -f $foregroundSequence } 
-  Elseif ($backgroundSequence -ne "") { Return $global:RGB_SEQUENCE -f $backgroundSequence } 
-  Else { Return "" }
+  If ($fgSequence -and $bgSequence) { Return $global:RGB_SEQUENCE -f "$fgSequence;$bgSequence" } 
+  elseif ($fgSequence) { Return $global:RGB_SEQUENCE -f $fgSequence } 
+  elseif ($bgSequence) { Return $global:RGB_SEQUENCE -f $bgSequence } 
+  else { Return "" }
 }
 
 
 function Get-Rgb {
   param( [Parameter(Mandatory)][COLOR]$color )
 
-  if ($color.r -and $color.g -and $color.b) {
-    Return [RGB]@{ r = $color.r ; g = $color.g ; b = $color.b }
-  }
-
-  Return Convert-HexToRgb $color
+  If ($color.rgb) { Return $color.rgb }
+  Else { Return Convert-HexToRgb $color }
 }
 
 
