@@ -93,16 +93,16 @@ function Get-Logo {
   $randomColor = $global:colors.Values.GetEnumerator() | Get-Random -Count 1
 
   switch -Regex (Get-Date -Format "dd.MM") {
-    "23.01" { Get-LogoRGB -colorChartString "norway"; $explanation = "Birthday"; Break }
-    "24.01" { Get-LogoRGB -colorChartString "norway"; $explanation = "Birthday"; Break }
-    "09.04" { Get-LogoRGB -colorChartString "norway"; $explanation = "Birthday"; Break }
-    "31.03" { Get-LogoRGB -colorChartString "trans"; $explanation = "International Transgender Day Of Visibility"; Break }
+    "23.01" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
+    "24.01" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
+    "09.04" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
+    "31.03" { Get-LogoRGB -colorChartString:"trans"; $explanation = "International Transgender Day Of Visibility"; Break }
     "04.05" { Get-LogoRGB -colorChartString:"starWars"; $explanation = "May the 4th be with you"; Break }
-    ".*.06" { Get-LogoRGB -colorChartString "rainbow"; $explanation = "Pride Month"; Break }
-    ".*.05" { Get-LogoRGB -colorChartString "norway"; $explanation = "Norwegian National Day (May 17th)"; Break }
-    ".*.07" { Get-LogoRGB -colorChartString "nonbinary"; $explanation = "Nonbinary Awareness Week (approx. 14th)"; Break }
-    ".*.09" { Get-LogoRGB -colorChartString "bisexual"; $explanation = "Bisexual Awareness Week (approx. 16th-23rd)"; Break }
-    ".*.11" { Get-LogoRGB -colorChartString "trans"; $explanation = "Trans Awareness Month"; Break }
+    ".*.06" { Get-LogoRGB -colorChartString:"rainbow"; $explanation = "Pride Month"; Break }
+    ".*.05" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Norwegian National Day (May 17th)"; Break }
+    ".*.07" { Get-LogoRGB -colorChartString:"nonbinary"; $explanation = "Nonbinary Awareness Week (approx. 14th)"; Break }
+    ".*.09" { Get-LogoRGB -colorChartString:"bisexual"; $explanation = "Bisexual Awareness Week (approx. 16th-23rd)"; Break }
+    ".*.11" { Get-LogoRGB -colorChartString:"trans"; $explanation = "Trans Awareness Month"; Break }
     default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor); Break }
   }
 
@@ -115,11 +115,11 @@ function Get-Logo {
 Add-ToFunctionList -category 'Other' -name 'Get-Logo' -value 'Get Logo'
 
 function Get-AllLogoColors {
-  Get-LogoRGB -colorChartString "norway"
-  Get-LogoRGB -colorChartString "rainbow"
-  Get-LogoRGB -colorChartString "nonbinary"
-  Get-LogoRGB -colorChartString "bisexual"
-  Get-LogoRGB -colorChartString "trans"
+  Get-LogoRGB -colorChartString:"norway"
+  Get-LogoRGB -colorChartString:"rainbow"
+  Get-LogoRGB -colorChartString:"nonbinary"
+  Get-LogoRGB -colorChartString:"bisexual"
+  Get-LogoRGB -colorChartString:"trans"
   Get-LogoRGB -colorChartString:"starWars"
   OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.DeepPink)
   OUT
