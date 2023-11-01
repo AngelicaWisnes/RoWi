@@ -138,10 +138,10 @@ Add-ToFunctionList -category "Printing" -name 'implColors' -value 'See implement
 
 
 function Get-ColorCharts {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $windowWidth, $_ = Get-WindowDimensions
   $spaceLength = (" " * $windowWidth)
 
-  foreach ($chart in $global:colorChart.Values) {
+  foreach ($chart in $global:fgColorChart.Values) {
     foreach ($color in $chart) {
       OUT $(PE -txt:$spaceLength -bg:$color) -NoNewlineStart
     }
@@ -157,8 +157,8 @@ function Get-PrintElement {
 
   Return [PrintElement]@{
       text = $txt
-      foreground = If ($fg -and $fg.GetType() -eq [RGB]) { $fg } Else { Get-Rgb $fg }
-      background = If ($bg -and $bg.GetType() -eq [RGB]) { $bg } Else { Get-Rgb $bg }
+      foreground = If ($fg -and $fg.GetType() -eq [RGB]) { $fg } Else { Get-Rgb -color:$fg }
+      background = If ($bg -and $bg.GetType() -eq [RGB]) { $bg } Else { Get-Rgb -color:$bg }
   }
 }
 Set-Alias PE Get-PrintElement
@@ -179,7 +179,8 @@ function OUT {
     Else { [void]$sb.Append($(Get-RGBFormattedString $element)) }
   }
 
-  Write-Host $sb.ToString() -NoNewline:$NoNewline
+  If ( $NoNewline ) { Write-Host $sb.ToString() -NoNewline }
+  Else { Return $sb.ToString() }
 }
 
 

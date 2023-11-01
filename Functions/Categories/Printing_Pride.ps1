@@ -3,7 +3,7 @@
 # Pride-related functions #
 ###########################
 function Get-RainbowLine {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $windowWidth, $_ = Get-WindowDimensions
   $spaceLength = (" " * $windowWidth)
   
   OUT $(PE -txt:$spaceLength -bg:$colors.PrideRed), $(PE -txt:"`n"),
@@ -16,7 +16,7 @@ function Get-RainbowLine {
 
 
 function Get-TransLine {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 1
+  $windowWidth, $_ = Get-WindowDimensions
   $spaceLength = (" " * $windowWidth)
   
   OUT $(PE -txt:$spaceLength -bg:$colors.PrideCyan), $(PE -txt:"`n"),
@@ -30,7 +30,7 @@ function Get-TransLine {
 function Get-RainbowSlimLine {
   param( [switch]$NoNewlineStart = $False )
 
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width
+  $windowWidth, $_ = Get-WindowDimensions -widthPadding:0
   $spaceLength = [math]::floor($windowWidth / 6)
   $spaces = " " * $spaceLength
   $restSpaceLength = $windowWidth - ($spaceLength * 6)
@@ -49,7 +49,7 @@ function Get-RainbowSlimLine {
 function Get-TransSlimLine {
   param( [switch]$NoNewlineStart = $False )
 
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width
+  $windowWidth, $_ = Get-WindowDimensions -widthPadding:0
   $spaceLength = [math]::floor($windowWidth / 5)
   $spaces = " " * $spaceLength
   $restSpaceLength = $windowWidth - ($spaceLength * 5)

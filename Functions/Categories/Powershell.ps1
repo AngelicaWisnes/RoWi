@@ -85,6 +85,15 @@ function Get-FunctionNameFromCommandName {
   Else { OUT $(PE -txt:"`tMISSING IMPLEMENTATION FOR COMMAND-TYPE '$commandType', in Get-FunctionNameFromCommandName`n" -fg:$global:colors.Red) }
 }
 
+function Get-WindowDimensions {
+  param(
+  [int]$heightPadding = 13,
+  [int]$widthPadding = 1
+  )
+  $windowWidth = $Host.UI.RawUI.WindowSize.Width - $widthPadding
+  $windowHeight = $Host.UI.RawUI.WindowSize.Height - $heightPadding
+  Return @($windowWidth, $windowHeight)
+}
 
 function Get-FunctionDefinitionAsString { Return (Get-Command $args).ScriptBlock }
 

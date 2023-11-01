@@ -106,7 +106,7 @@ function Add-ToFunctionList {
 }
 
 function Get-ListOfFunctionsAndAliases {
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - 2
+  $windowWidth, $_ = Get-WindowDimensions -widthPadding:2
   $isDual = $global:total_width_dual -lt $windowWidth
   $isSingleWithPadding = $global:total_width_single -lt $windowWidth
   $isSingleNoPadding = (-not $isDual) -and (-not $isSingleWithPadding)

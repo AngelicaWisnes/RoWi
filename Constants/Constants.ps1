@@ -90,10 +90,21 @@ $global:colors = [ordered]@{
 }
 
 
-$global:colorChart = @{
+$global:fgColorChart = @{
     rainbow   = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple );
     trans     = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan );
     bisexual  = @( $colors.PrideBiPink, $colors.PrideBiPurple, $colors.PrideBiBlue );
     nonbinary = @( $colors.PrideNbYellow, $colors.PrideWhite, $colors.PrideNbPurple, $colors.PrideBlack );
     norway    = @( $colors.Red, $colors.White, $colors.Blue, $colors.White, $colors.Red );
+    starWars  = @( $colors.Yellow );
+}
+
+
+$global:bgColorChart = @{
+    rainbow   = $null;
+    trans     = $null;
+    bisexual  = $null;
+    nonbinary = $null;
+    norway    = $null;
+    starWars  = @( $colors.Black );
 }

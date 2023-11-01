@@ -78,11 +78,7 @@ function Get-OutputSizes {
   param([Parameter(Mandatory)][int[]] $inputDimensions) 
   $inputWidth, $inputHeight = $inputDimensions
 
-  $windowHeightPadding = 10
-  $windowWidthPadding = 1
-
-  $windowWidth = $Host.UI.RawUI.WindowSize.Width - $windowWidthPadding
-  $windowHeight = $Host.UI.RawUI.WindowSize.Height - $windowHeightPadding
+  $windowWidth, $windowHeight = Get-WindowDimensions
   $minScaleWidth = $windowWidth / $inputWidth
   $minScaleHeight = $windowHeight / $inputHeight
 
@@ -97,18 +93,20 @@ function Get-Logo {
   $randomColor = $global:colors.Values.GetEnumerator() | Get-Random -Count 1
 
   switch -Regex (Get-Date -Format "dd.MM") {
-    "23.01" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Birthday
-    "24.01" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Birthday
-    "09.04" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Birthday
-    "31.03" { Get-LogoRGB -fg_colorChartString "trans"; Break }     # International Transgender Day Of Visibility
-    "04.05" { OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Yellow -bg:$global:colors.Black); Break }     # May the 4th be with you
-    ".*.06" { Get-LogoRGB -fg_colorChartString "rainbow"; Break }   # Pride Month
-    ".*.05" { Get-LogoRGB -fg_colorChartString "norway"; Break }    # Norwegian National Day (May 17th)
-    ".*.07" { Get-LogoRGB -fg_colorChartString "nonbinary"; Break } # Nonbinary Awareness Week (approx. 14th)
-    ".*.09" { Get-LogoRGB -fg_colorChartString "bisexual"; Break }  # Bisexual Awareness Week (approx. 16th-23rd)
-    ".*.11" { Get-LogoRGB -fg_colorChartString "trans"; Break }     # Trans Awareness Month
+    "23.01" { Get-LogoRGB -colorChartString "norway"; $explanation = "Birthday"; Break }
+    "24.01" { Get-LogoRGB -colorChartString "norway"; $explanation = "Birthday"; Break }
+    "09.04" { Get-LogoRGB -colorChartString "norway"; $explanation = "Birthday"; Break }
+    "31.03" { Get-LogoRGB -colorChartString "trans"; $explanation = "International Transgender Day Of Visibility"; Break }
+    "04.05" { Get-LogoRGB -colorChartString:"starWars"; $explanation = "May the 4th be with you"; Break }
+    ".*.06" { Get-LogoRGB -colorChartString "rainbow"; $explanation = "Pride Month"; Break }
+    ".*.05" { Get-LogoRGB -colorChartString "norway"; $explanation = "Norwegian National Day (May 17th)"; Break }
+    ".*.07" { Get-LogoRGB -colorChartString "nonbinary"; $explanation = "Nonbinary Awareness Week (approx. 14th)"; Break }
+    ".*.09" { Get-LogoRGB -colorChartString "bisexual"; $explanation = "Bisexual Awareness Week (approx. 16th-23rd)"; Break }
+    ".*.11" { Get-LogoRGB -colorChartString "trans"; $explanation = "Trans Awareness Month"; Break }
     default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor); Break }
   }
+
+  If ($explanation) { Get-Explanation -expl:$explanation }
 
   Get-RainbowSlimLine
   Get-TransSlimLine -NoNewlineStart
@@ -117,12 +115,12 @@ function Get-Logo {
 Add-ToFunctionList -category 'Other' -name 'Get-Logo' -value 'Get Logo'
 
 function Get-AllLogoColors {
-  Get-LogoRGB -fg_colorChartString "norway"
-  Get-LogoRGB -fg_colorChartString "rainbow"
-  Get-LogoRGB -fg_colorChartString "nonbinary"
-  Get-LogoRGB -fg_colorChartString "bisexual"
-  Get-LogoRGB -fg_colorChartString "trans"
-  OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.Yellow -bg:$global:colors.Black)
+  Get-LogoRGB -colorChartString "norway"
+  Get-LogoRGB -colorChartString "rainbow"
+  Get-LogoRGB -colorChartString "nonbinary"
+  Get-LogoRGB -colorChartString "bisexual"
+  Get-LogoRGB -colorChartString "trans"
+  Get-LogoRGB -colorChartString:"starWars"
   OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.DeepPink)
   OUT
 }
@@ -143,18 +141,19 @@ function Get-LogoRainbow {
 }
 
 function Get-LogoRGB {
-  param( [string]$fg_colorChartString, [string]$bg_colorChartString )
+  param( [string][string]$colorChartString )
   $outputString = Get-LogoAsString
   $lines = $outputString.Split("`n")
-
-  $fg_colorNumber = -1
-  $fg_colors = If ($null -ne $fg_colorChartString) { $global:colorChart[$fg_colorChartString] }
-  $fg_linesOfEachColor = If ($null -ne $fg_colors) { [int]($lines.Count / $fg_colors.Count) } 
-
-  $bg_colorNumber = -1
-  $bg_colors = If ($null -ne $bg_colorChartString) { $global:colorChart[$bg_colorChartString] }
-  $bg_linesOfEachColor = If ($null -ne $bg_colors) { [int]($lines.Count / $bg_colors.Count) } 
-
+  
+  If ($null -ne $colorChartString) {
+    $fg_colorNumber = -1
+    $fg_colors = $global:fgColorChart[$colorChartString]
+    $fg_linesOfEachColor = If ($null -ne $fg_colors) { [int]($lines.Count / $fg_colors.Count) } 
+    
+    $bg_colorNumber = -1
+    $bg_colors = $global:bgColorChart[$colorChartString]
+    $bg_linesOfEachColor = If ($null -ne $bg_colors) { [int]($lines.Count / $bg_colors.Count) } 
+  }
   for ($i = 0; $i -lt $lines.Count; $i++) {
       If ($null -ne $fg_colors -and $i % $fg_linesOfEachColor -eq 0 -and $fg_colorNumber -lt ($fg_colors.Count - 1)) { $fg_colorNumber++ }
       If ($null -ne $bg_colors -and $i % $bg_linesOfEachColor -eq 0 -and $bg_colorNumber -lt ($bg_colors.Count - 1)) { $bg_colorNumber++ }
@@ -162,7 +161,7 @@ function Get-LogoRGB {
       $fg_color = If ($null -ne $fg_colors) { $fg_colors[$fg_colorNumber] }
       $bg_color = If ($null -ne $bg_colors) { $bg_colors[$bg_colorNumber] }
 
-      OUT $(PE -txt:$lines[$i] -fg:$fg_color -bg:$bg_color) -NoNewlineStart
+      OUT $(PE -txt:$lines[$i] -fg:$fg_color -bg:$bg_color) -NoNewline -NoNewlineStart:$($i -eq 0)
   }
 }
 
@@ -192,4 +191,14 @@ function Get-LogoAsString {
   }
   Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $logo_text }
   Else { Return "Could not print logo, as the file is missing" }
+}
+
+function Get-Explanation {
+  param( [Parameter(Mandatory)][string]$expl )
+
+  $windowWidth, $_ = Get-WindowDimensions
+  $leftPadding = $windowWidth - $expl.Length
+  $padding = [string]::new(' ', [Math]::Max(0, $leftPadding))
+  
+  OUT $(PE -txt:$($padding + $expl) -fg:$global:colors.DeepPink) -NoNewlineStart
 }
