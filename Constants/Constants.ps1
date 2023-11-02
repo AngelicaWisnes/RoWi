@@ -103,7 +103,7 @@ $global:fgColorChart = @{
     starWars   = @( $colors.Yellow );
     colorfull  = @( $colors.Red, $colors.Orange, $colors.Yellow, $colors.Chartreuse, $colors.Lime, $colors.SpringGreen, $colors.BlueRibbon, 
                     $colors.Cyan, $colors.DarkCyan, $colors.DodgerBlue, $colors.Blue, $colors.ElectricIndigo, $colors.Magenta, $colors.DeepPink, 
-                    $colors.MonaLisa, $colors.PinkRibbon, $colors.MintGreen, $colors.LightSlateBlue )
+                    $colors.MonaLisa, $colors.PinkRibbon, $colors.MintGreen, $colors.LightSlateBlue );                    
 }
 
 
