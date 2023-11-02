@@ -95,6 +95,7 @@ function Get-Logo {
   switch -Regex (Get-Date -Format "dd.MM") {
     "23.01" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
     "24.01" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
+    ".*.01" { Get-LogoRGB -colorChartString:"colorfull"; $explanation = ""; Break }
     "09.04" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
     "31.03" { Get-LogoRGB -colorChartString:"trans"; $explanation = "International Transgender Day Of Visibility"; Break }
     "04.05" { Get-LogoRGB -colorChartString:"starWars"; $explanation = "May the 4th be with you"; Break }
@@ -123,6 +124,7 @@ function Get-AllLogoColors {
   Get-LogoRGB -colorChartString:"bisexual"
   Get-LogoRGB -colorChartString:"trans"
   Get-LogoRGB -colorChartString:"pinkRibbon"
+  Get-LogoRGB -colorChartString:"blueRibbon"
   Get-LogoRGB -colorChartString:"starWars"
   OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.DeepPink)
   OUT
