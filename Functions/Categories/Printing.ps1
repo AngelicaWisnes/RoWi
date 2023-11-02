@@ -152,6 +152,13 @@ Set-Alias implCharts Get-ColorCharts
 Add-ToFunctionList -category "Printing" -name 'implCharts' -value 'See implemented color-charts'
 
 
+function Get-ColorFromHEX {
+  param ( [Parameter(Mandatory)][string]$hex )
+
+  Return [COLOR]@{ hex = $hex; rgb = $null };
+}
+
+
 function Get-PrintElement {
   param ( [string]$txt, [Object]$fg, [Object]$bg )
 
@@ -238,4 +245,11 @@ function Get-ColoredInput {
   finally { [console]::ResetColor() }
 
   Return $coloredInput
+}
+
+function TestHexColor {
+  param ([Parameter(Mandatory)][string]$hex )
+  $color = Get-ColorFromHEX -hex:$hex
+
+  OUT $(PE -txt:"TESTING COLOR`n" -fg:$color), $(PE -txt:"             " -bg:$color)
 }

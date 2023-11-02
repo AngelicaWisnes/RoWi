@@ -29,6 +29,7 @@ $global:colors = [ordered]@{
     Chartreuse         = [COLOR]@{ hex = "#80FF00"; rgb = [RGB]@{r = 128; g = 255; b = 0;}; };
     Lime               = [COLOR]@{ hex = "#00FF00"; rgb = [RGB]@{r = 0; g = 255; b = 0;}; };
     SpringGreen        = [COLOR]@{ hex = "#00FF80"; rgb = [RGB]@{r = 0; g = 255; b = 128;}; };
+    BlueRibbon         = [COLOR]@{ hex = "#ADD8E6"; rgb = [RGB]@{r = 173; g = 216; b = 230;}; };
     Cyan               = [COLOR]@{ hex = "#00FFFF"; rgb = [RGB]@{r = 0; g = 255; b = 255;}; };
     DarkCyan           = [COLOR]@{ hex = "#3A96DD"; rgb = [RGB]@{r = 58; g = 150; b = 221;}; };
     DodgerBlue         = [COLOR]@{ hex = "#0080FF"; rgb = [RGB]@{r = 0; g = 128; b = 255;}; };
@@ -37,6 +38,7 @@ $global:colors = [ordered]@{
     Magenta            = [COLOR]@{ hex = "#FF00FF"; rgb = [RGB]@{r = 255; g = 0; b = 255;}; };
     DeepPink           = [COLOR]@{ hex = "#FF0080"; rgb = [RGB]@{r = 255; g = 0; b = 128;}; };
     MonaLisa           = [COLOR]@{ hex = "#FF8080"; rgb = [RGB]@{r = 255; g = 128; b = 128;}; };
+    PinkRibbon         = [COLOR]@{ hex = "#FFC0CB"; rgb = [RGB]@{r = 255; g = 192; b = 203;}; };
     MintGreen          = [COLOR]@{ hex = "#80FF80"; rgb = [RGB]@{r = 128; g = 255; b = 128;}; };
     LightSlateBlue     = [COLOR]@{ hex = "#8080FF"; rgb = [RGB]@{r = 128; g = 128; b = 255;}; };
     # Dark colors
@@ -91,20 +93,24 @@ $global:colors = [ordered]@{
 
 
 $global:fgColorChart = @{
-    rainbow   = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple );
-    trans     = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan );
-    bisexual  = @( $colors.PrideBiPink, $colors.PrideBiPurple, $colors.PrideBiBlue );
-    nonbinary = @( $colors.PrideNbYellow, $colors.PrideWhite, $colors.PrideNbPurple, $colors.PrideBlack );
-    norway    = @( $colors.Red, $colors.White, $colors.Blue, $colors.White, $colors.Red );
-    starWars  = @( $colors.Yellow );
+    rainbow    = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple );
+    trans      = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan );
+    bisexual   = @( $colors.PrideBiPink, $colors.PrideBiPurple, $colors.PrideBiBlue );
+    nonbinary  = @( $colors.PrideNbYellow, $colors.PrideWhite, $colors.PrideNbPurple, $colors.PrideBlack );
+    norway     = @( $colors.Red, $colors.White, $colors.Blue, $colors.White, $colors.Red );
+    blueRibbon = @( $colors.BlueRibbon );
+    pinkRibbon = @( $colors.PinkRibbon );
+    starWars   = @( $colors.Yellow );
 }
 
 
 $global:bgColorChart = @{
-    rainbow   = $null;
-    trans     = $null;
-    bisexual  = $null;
-    nonbinary = $null;
-    norway    = $null;
-    starWars  = @( $colors.Black );
+    rainbow    = $null;
+    trans      = $null;
+    bisexual   = $null;
+    nonbinary  = $null;
+    norway     = $null;
+    blueRibbon = $null;
+    pinkRibbon = $null;
+    starWars   = @( $colors.Black );
 }

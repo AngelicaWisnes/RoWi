@@ -101,9 +101,11 @@ function Get-Logo {
     ".*.06" { Get-LogoRGB -colorChartString:"rainbow"; $explanation = "Pride Month"; Break }
     ".*.05" { Get-LogoRGB -colorChartString:"norway"; $explanation = "Norwegian National Day (May 17th)"; Break }
     ".*.07" { Get-LogoRGB -colorChartString:"nonbinary"; $explanation = "Nonbinary Awareness Week (approx. 14th)"; Break }
+    "^(?:0[0-9])\.09$" { Get-LogoRGB -colorChartString:"blueRibbon"; $explanation = "Prostate Cancer Awareness Month"; Break }
     ".*.09" { Get-LogoRGB -colorChartString:"bisexual"; $explanation = "Bisexual Awareness Week (approx. 16th-23rd)"; Break }
+    ".*.10" { Get-LogoRGB -colorChartString:"pinkRibbon"; $explanation = "Breast Cancer Awareness Month"; Break }
     ".*.11" { Get-LogoRGB -colorChartString:"trans"; $explanation = "Trans Awareness Month"; Break }
-    default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor); Break }
+    default { OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor); $explanation = ""; Break }
   }
 
   If ($explanation) { Get-Explanation -expl:$explanation }
@@ -120,6 +122,7 @@ function Get-AllLogoColors {
   Get-LogoRGB -colorChartString:"nonbinary"
   Get-LogoRGB -colorChartString:"bisexual"
   Get-LogoRGB -colorChartString:"trans"
+  Get-LogoRGB -colorChartString:"pinkRibbon"
   Get-LogoRGB -colorChartString:"starWars"
   OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.DeepPink)
   OUT
