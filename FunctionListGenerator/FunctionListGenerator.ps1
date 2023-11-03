@@ -7,10 +7,10 @@
 ########################
 class FunctionListElement { [string]$category ; [string]$name ; [string]$value } 
 
-$FunctionSubList_BREAK = [FunctionListElement]@{ category = '-'; name = '-'; value = '-' }
-$FunctionSubList_Empty = [FunctionListElement]@{ category = ''; name = ''; value = '' }
-$FunctionSubList_Labels = [FunctionListElement]@{ category = 'CATEGORY'; name = 'NAME'; value = 'VALUE' }
-$FunctionSubList_End = [FunctionListElement]@{ category = '_'; name = '_'; value = '_' }
+$ListElement_BREAK = [FunctionListElement]@{ category = '-'; name = '-'; value = '-' }
+$ListElement_Empty = [FunctionListElement]@{ category = ''; name = ''; value = '' }
+$ListElement_Labels = [FunctionListElement]@{ category = 'CATEGORY'; name = 'NAME'; value = 'VALUE' }
+$ListElement_End = [FunctionListElement]@{ category = '_'; name = '_'; value = '_' }
 
 $global:FunctionLists = @{
   Program    = [System.Collections.Generic.List[FunctionListElement]]::new();
@@ -24,16 +24,47 @@ $global:FunctionLists = @{
   Other      = [System.Collections.Generic.List[FunctionListElement]]::new();
 }
 
-foreach ($list in $global:FunctionLists.Values) { $list.Add( $FunctionSubList_BREAK ) }
+foreach ($list in $global:FunctionLists.Values) { $list.Add( $ListElement_BREAK ) }
 
-$FunctionList_single = [System.Collections.Generic.List[FunctionListElement]]::new()
-$FunctionList_Dual_Col1 = [System.Collections.Generic.List[FunctionListElement]]::new()
-$FunctionList_Dual_Col2 = [System.Collections.Generic.List[FunctionListElement]]::new()
+$SingleList = [System.Collections.Generic.List[FunctionListElement]]::new()
+$DualList_Col1 = [System.Collections.Generic.List[FunctionListElement]]::new()
+$DualList_Col2 = [System.Collections.Generic.List[FunctionListElement]]::new()
 
+
+########################################################
+# Define helper-functions for function-list-generation #
+########################################################
+function Add-BlankLinesToDualLists {
+  $col1_Len = $DualList_Col2.Count - $DualList_Col1.Count
+  $col2_Len = $DualList_Col1.Count - $DualList_Col2.Count
+  
+  For ($i = 0; $i -lt $col1_Len; $i++) { $DualList_Col1.Add( $ListElement_Empty ) }
+  For ($i = 0; $i -lt $col2_Len; $i++) { $DualList_Col2.Add( $ListElement_Empty ) }
+}
+
+function FormatString([string]$str, [int]$colWidth, [string]$fillerChar) { 
+  $padding = If ($global:isNoPadding) { "" } Else { $fillerChar }
+  return $padding + $str.PadRight($colWidth, $fillerChar) + $padding 
+}
+
+
+function FormatElement([FunctionListElement]$element) {
+  $fillerChar = If ($element.value -eq "_") { "_" } Elseif ($element.value -eq "-") { "-" } Else { " " }
+  
+  Return "|{0}|{1}|{2}|" -f `
+  (FormatString -str:$element.category -colWidth:$global:categoryWidth -fillerChar:$fillerChar),
+  (FormatString -str:$element.name -colWidth:$global:nameWidth -fillerChar:$fillerChar),
+  (FormatString -str:$element.value -colWidth:$global:valueWidth -fillerChar:$fillerChar)
+}
+
+
+####################
+# Calling-function #
+####################
 function Initialize-FunctionListGenerator {
-  $FunctionList_single.Add( $FunctionSubList_Labels )
-  $FunctionList_Dual_Col1.Add( $FunctionSubList_Labels )
-  $FunctionList_Dual_Col2.Add( $FunctionSubList_Labels )
+  $SingleList.Add( $ListElement_Labels )
+  $DualList_Col1.Add( $ListElement_Labels )
+  $DualList_Col2.Add( $ListElement_Labels )
   
   $global:FunctionLists = $global:FunctionLists.GetEnumerator() `
   | Sort-Object { - ($_.Value.Count) } `
@@ -41,56 +72,23 @@ function Initialize-FunctionListGenerator {
   
   foreach ($listObject in $global:FunctionLists.Values) { 
     $listObject = [System.Collections.Generic.List[FunctionListElement]]($listObject | Sort-Object -Property:value)
-    $FunctionList_single.AddRange( $listObject )
+    $SingleList.AddRange( $listObject )
     
-    $diff = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
-    if ($diff -le 0) { $FunctionList_Dual_Col1.AddRange( $listObject ) }
-    else { $FunctionList_Dual_Col2.AddRange( $listObject ) }
+    $diff = $DualList_Col1.Count - $DualList_Col2.Count
+    if ($diff -le 0) { $DualList_Col1.AddRange( $listObject ) }
+    else { $DualList_Col2.AddRange( $listObject ) }
   }
   
   Add-BlankLinesToDualLists
-  $FunctionList_single.Add( $FunctionSubList_End )
-  $FunctionList_Dual_Col1.Add( $FunctionSubList_End ) 
-  $FunctionList_Dual_Col2.Add( $FunctionSubList_End ) 
+  $SingleList.Add( $ListElement_End )
+  $DualList_Col1.Add( $ListElement_End ) 
+  $DualList_Col2.Add( $ListElement_End ) 
   
-  # Define helper-variables for function-list-generation
-  $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property:Length).Maximum
-  $global:nameWidth = (($FunctionList_single.name) | Measure-Object -Maximum -Property:Length).Maximum
-  $global:valueWidth = (($FunctionList_single.value) | Measure-Object -Maximum -Property:Length).Maximum
+  $global:categoryWidth = (($SingleList.category) | Measure-Object -Maximum -Property:Length).Maximum
+  $global:nameWidth = (($SingleList.name) | Measure-Object -Maximum -Property:Length).Maximum
+  $global:valueWidth = (($SingleList.value) | Measure-Object -Maximum -Property:Length).Maximum
 }
 
-
-########################################################
-# Define helper-functions for function-list-generation #
-########################################################
-
-function Add-BlankLinesToDualLists {
-  $col1_Len = $FunctionList_Dual_Col2.Count - $FunctionList_Dual_Col1.Count
-  $col2_Len = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
-  
-  For ($i = 0; $i -lt $col1_Len; $i++) { $FunctionList_Dual_Col1.Add( $FunctionSubList_Empty ) }
-  For ($i = 0; $i -lt $col2_Len; $i++) { $FunctionList_Dual_Col2.Add( $FunctionSubList_Empty ) }
-}
-
-function FormatString([string]$str, [int]$colWidth, [string]$fillerChar, [switch]$NoPadding) { 
-  $padding = If ($NoPadding) { "" } Else { $fillerChar }
-  return $padding + $str.PadRight($colWidth, $fillerChar) + $padding 
-}
-
-
-function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
-  $fillerChar = If ($element.value -eq "_") { "_" } Elseif ($element.value -eq "-") { "-" } Else { " " }
-  
-  Return "|{0}|{1}|{2}|" -f `
-  (FormatString -str:$element.category -colWidth:$global:categoryWidth -fillerChar:$fillerChar -NoPadding:$NoPadding),
-  (FormatString -str:$element.name -colWidth:$global:nameWidth -fillerChar:$fillerChar -NoPadding:$NoPadding),
-  (FormatString -str:$element.value -colWidth:$global:valueWidth -fillerChar:$fillerChar -NoPadding:$NoPadding)
-}
-
-
-####################
-# Calling-function #
-####################
 function Add-ToFunctionList {
   param(
     [Parameter(Mandatory)][String]$category,
@@ -107,23 +105,23 @@ function Get-ListOfFunctionsAndAliases {
   $total_width_single = $fullInnerWidth + $outerFrames + $indentSize + $paddingSize
   $total_width_dual = $total_width_single * 2
   $windowWidth, $_ = Get-WindowDimensions
-  $isDual = $global:total_width_dual -lt $windowWidth
-  $isSingleNoPadding = $total_width_single -gt $windowWidth
+  $isDual = $total_width_dual -lt $windowWidth
+  $global:isNoPadding = $total_width_single -gt $windowWidth
 
-  If ($isSingleNoPadding) { $paddingSize = $indentSize = 0 }
+  If ($global:isNoPadding) { $paddingSize = $indentSize = 0 }
   $indent = " " * $indentSize
 
   $sb = [System.Text.StringBuilder]::new("AWI-defined functions and aliases:`n")
 
   If ($isDual) { 
     [void]$sb.AppendFormat("$indent.{0}.$indent.{0}.`n", ("_" * ($fullInnerWidth + $paddingSize)))
-    for ($i = 0; $i -lt $FunctionList_Dual_Col1.Count; $i++) { 
-      [void]$sb.AppendFormat("$indent{0}$indent{1}`n", (FormatElement -element:$FunctionList_Dual_Col1[$i]), (FormatElement -element:$FunctionList_Dual_Col2[$i]))
+    for ($i = 0; $i -lt $DualList_Col1.Count; $i++) { 
+      [void]$sb.AppendFormat("$indent{0}$indent{1}`n", (FormatElement -element:$DualList_Col1[$i]), (FormatElement -element:$DualList_Col2[$i]))
     }
   }
   Else { 
     [void]$sb.AppendFormat("$indent.{0}.`n", ("_" * ($fullInnerWidth + $paddingSize)))
-    $FunctionList_single | ForEach-Object { [void]$sb.AppendFormat("$indent{0}`n", (FormatElement -element:$_ -NoPadding:$isSingleNoPadding)) }
+    $SingleList | ForEach-Object { [void]$sb.AppendFormat("$indent{0}`n", (FormatElement -element:$_)) }
   }
 
   OUT $(PE -txt:$sb.ToString() -fg:$global:colors.DeepPink)
