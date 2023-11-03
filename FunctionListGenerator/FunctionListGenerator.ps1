@@ -57,7 +57,6 @@ function Initialize-FunctionListGenerator {
   $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property:Length).Maximum
   $global:nameWidth = (($FunctionList_single.name) | Measure-Object -Maximum -Property:Length).Maximum
   $global:valueWidth = (($FunctionList_single.value) | Measure-Object -Maximum -Property:Length).Maximum
-  $global:fullWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + 2
 }
 
 
@@ -101,26 +100,29 @@ function Add-ToFunctionList {
     $global:FunctionLists[$category].Add(( [FunctionListElement]@{ category = $category; name = $name; value = $value } ))
   }
   
-  function Get-ListOfFunctionsAndAliases {
-  $global:total_width_single = $global:fullWidth + 3
-  $global:total_width_dual = $global:total_width_single * 2
+function Get-ListOfFunctionsAndAliases {
+  $columnDividers = $outerFrames = $indentSize = 2
+  $paddingSize = 6
+  $fullInnerWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + $columnDividers
+  $total_width_single = $fullInnerWidth + $outerFrames + $indentSize + $paddingSize
+  $total_width_dual = $total_width_single * 2
   $windowWidth, $_ = Get-WindowDimensions
   $isDual = $global:total_width_dual -lt $windowWidth
-  $isSingleWithPadding = $global:total_width_single -lt $windowWidth
-  $isSingleNoPadding = (-not $isDual) -and (-not $isSingleWithPadding)
-  $widthAdjustment = If ($isSingleNoPadding) { 6 } Else { 0 }
+  $isSingleNoPadding = $total_width_single -gt $windowWidth
+
+  If ($isSingleNoPadding) { $paddingSize = $indentSize = 0 }
+  $indent = " " * $indentSize
 
   $sb = [System.Text.StringBuilder]::new("AWI-defined functions and aliases:`n")
-  $indent = If ($isSingleNoPadding) { "" } Else { "  " }
 
   If ($isDual) { 
-    [void]$sb.AppendFormat("$indent.{0}. .{0}.`n", ("_" * ($global:fullWidth)))
+    [void]$sb.AppendFormat("$indent.{0}.$indent.{0}.`n", ("_" * ($fullInnerWidth + $paddingSize)))
     for ($i = 0; $i -lt $FunctionList_Dual_Col1.Count; $i++) { 
-      [void]$sb.AppendFormat("$indent{0} {1}`n", (FormatElement -element:$FunctionList_Dual_Col1[$i]), (FormatElement -element:$FunctionList_Dual_Col2[$i]))
+      [void]$sb.AppendFormat("$indent{0}$indent{1}`n", (FormatElement -element:$FunctionList_Dual_Col1[$i]), (FormatElement -element:$FunctionList_Dual_Col2[$i]))
     }
   }
   Else { 
-    [void]$sb.AppendFormat("$indent.{0}.`n", ("_" * ($global:fullWidth - $widthAdjustment)))
+    [void]$sb.AppendFormat("$indent.{0}.`n", ("_" * ($fullInnerWidth + $paddingSize)))
     $FunctionList_single | ForEach-Object { [void]$sb.AppendFormat("$indent{0}`n", (FormatElement -element:$_ -NoPadding:$isSingleNoPadding)) }
   }
 
