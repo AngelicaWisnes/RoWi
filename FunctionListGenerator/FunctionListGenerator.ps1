@@ -75,19 +75,27 @@ function Add-BlankLinesToDualLists {
   For ($i = 0; $i -lt $col2_Len; $i++) { $FunctionList_Dual_Col2.Add( $FunctionSubList_Empty ) }
 }
 
-function FormatString([string]$str, [int]$length, [string]$fillerChar, [switch]$NoPadding) { 
-  $extraPadding = If ($NoPadding) { "" } Else { $fillerChar }
-  Return $extraPadding + $str + ($fillerChar * ($length - (($extraPadding + $str).Length))) + $extraPadding 
+function FormatStringw([string]$str, [int]$colWidth, [string]$fillerChar, [switch]$NoPadding) { 
+  $padding = If ($NoPadding) { "" } Else { $fillerChar }
+  $x = If ($NoPadding) { 1 } Else { 0 }
+  $fillerLength = ($colWidth - $x) - (($padding + $str).Length)
+  Return $padding + $str + ($fillerChar * $fillerLength) + $padding 
 }
+
+function FormatString([string]$str, [int]$colWidth, [string]$fillerChar, [switch]$NoPadding) { 
+  $padding = If ($NoPadding) { "" } Else { $fillerChar }
+  return $padding + $str.PadRight($colWidth-1, $fillerChar) + $padding 
+}
+
+
 
 function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
   $fillerChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
-  $x = If ($NoPadding) { 1 } Else { 0 }
 
   Return "|{0}|{1}|{2}|" -f `
-    (FormatString -str:$element.category -length:($global:categoryWidth - $x) -fillerChar:$fillerChar -NoPadding:$NoPadding),
-    (FormatString -str:$element.name -length:($global:nameWidth - $x) -fillerChar:$fillerChar -NoPadding:$NoPadding),
-    (FormatString -str:$element.value -length:($global:valueWidth - $x) -fillerChar:$fillerChar -NoPadding:$NoPadding)
+    (FormatString -str:$element.category -colWidth:$global:categoryWidth -fillerChar:$fillerChar -NoPadding:$NoPadding),
+    (FormatString -str:$element.name -colWidth:$global:nameWidth -fillerChar:$fillerChar -NoPadding:$NoPadding),
+    (FormatString -str:$element.value -colWidth:$global:valueWidth -fillerChar:$fillerChar -NoPadding:$NoPadding)
 }
 
 
