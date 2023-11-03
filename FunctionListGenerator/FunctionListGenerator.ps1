@@ -67,6 +67,14 @@ function Initialize-FunctionListGenerator {
 # Define helper-functions for function-list-generation #
 ########################################################
 
+function Add-BlankLinesToDualLists {
+  $col1_Len = $FunctionList_Dual_Col2.Count - $FunctionList_Dual_Col1.Count
+  $col2_Len = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
+  
+  For ($i = 0; $i -lt $col1_Len; $i++) { $FunctionList_Dual_Col1.Add( $FunctionSubList_Empty ) }
+  For ($i = 0; $i -lt $col2_Len; $i++) { $FunctionList_Dual_Col2.Add( $FunctionSubList_Empty ) }
+}
+
 function FormatString([string]$str, [int]$length, [string]$fillerChar, [switch]$NoPadding) { 
   $extraPadding = If ($NoPadding) { "" } Else { $fillerChar }
   Return $extraPadding + $str + ($fillerChar * ($length - (($extraPadding + $str).Length))) + $extraPadding 
@@ -82,14 +90,6 @@ function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
     , (FormatString $element.name ($global:nameWidth - $x) $fillerChar -NoPadding:$NoPadding)
     , (FormatString $element.value ($global:valueWidth - $x) $fillerChar -NoPadding:$NoPadding))
   Return $sb.ToString()
-}
-
-function Add-BlankLinesToDualLists {
-  $col1_Len = $FunctionList_Dual_Col2.Count - $FunctionList_Dual_Col1.Count
-  $col2_Len = $FunctionList_Dual_Col1.Count - $FunctionList_Dual_Col2.Count
-  
-  For ($i = 0; $i -lt $col1_Len; $i++) { $FunctionList_Dual_Col1.Add( $FunctionSubList_Empty ) }
-  For ($i = 0; $i -lt $col2_Len; $i++) { $FunctionList_Dual_Col2.Add( $FunctionSubList_Empty ) }
 }
 
 
