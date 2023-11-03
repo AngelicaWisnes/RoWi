@@ -84,12 +84,10 @@ function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
   $fillerChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
   $x = If ($NoPadding) { 1 } Else { 0 }
 
-  $sb = [System.Text.StringBuilder]::new()
-  [void]$sb.AppendFormat("|{0}|{1}|{2}|"
-    , (FormatString $element.category ($global:categoryWidth - $x) $fillerChar -NoPadding:$NoPadding)
-    , (FormatString $element.name ($global:nameWidth - $x) $fillerChar -NoPadding:$NoPadding)
-    , (FormatString $element.value ($global:valueWidth - $x) $fillerChar -NoPadding:$NoPadding))
-  Return $sb.ToString()
+  Return "|{0}|{1}|{2}|" -f `
+    (FormatString -str:$element.category -length:($global:categoryWidth - $x) -fillerChar:$fillerChar -NoPadding:$NoPadding),
+    (FormatString -str:$element.name -length:($global:nameWidth - $x) -fillerChar:$fillerChar -NoPadding:$NoPadding),
+    (FormatString -str:$element.value -length:($global:valueWidth - $x) -fillerChar:$fillerChar -NoPadding:$NoPadding)
 }
 
 
@@ -106,7 +104,7 @@ function Add-ToFunctionList {
 }
 
 function Get-ListOfFunctionsAndAliases {
-  $windowWidth, $_ = Get-WindowDimensions -widthPadding:2
+  $windowWidth, $_ = Get-WindowDimensions
   $isDual = $global:total_width_dual -lt $windowWidth
   $isSingleWithPadding = $global:total_width_single -lt $windowWidth
   $isSingleNoPadding = (-not $isDual) -and (-not $isSingleWithPadding)
@@ -118,12 +116,12 @@ function Get-ListOfFunctionsAndAliases {
   If ($isDual) { 
     [void]$sb.AppendFormat("$newLine {0}   {0}$newLine", ("_" * ($global:fullWidth)))
     for ($i = 0; $i -lt $FunctionList_Dual_Col1.Count; $i++) { 
-      [void]$sb.AppendFormat("{0} {1}$newLine", (FormatElement $FunctionList_Dual_Col1[$i]), (FormatElement $FunctionList_Dual_Col2[$i]))
+      [void]$sb.AppendFormat("{0} {1}$newLine", (FormatElement -element:$FunctionList_Dual_Col1[$i]), (FormatElement -element:$FunctionList_Dual_Col2[$i]))
     }
   }
   Else { 
     [void]$sb.AppendFormat("$newLine {0}$newLine", ("_" * ($global:fullWidth - $widthAdjustment)))
-    $FunctionList_single | ForEach-Object { [void]$sb.AppendFormat("{0}$newLine", (FormatElement $_ -NoPadding:$isSingleNoPadding)) }
+    $FunctionList_single | ForEach-Object { [void]$sb.AppendFormat("{0}$newLine", (FormatElement -element:$_ -NoPadding:$isSingleNoPadding)) }
   }
 
   OUT $(PE -txt:$sb.ToString() -fg:$global:colors.DeepPink)
