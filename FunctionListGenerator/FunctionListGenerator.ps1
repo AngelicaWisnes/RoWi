@@ -54,10 +54,10 @@ function Initialize-FunctionListGenerator {
   $FunctionList_Dual_Col2.Add( $FunctionSubList_End ) 
   
   # Define helper-variables for function-list-generation
-  $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property:Length).Maximum + 1
-  $global:nameWidth = (($FunctionList_single.name) | Measure-Object -Maximum -Property:Length).Maximum + 1
-  $global:valueWidth = (($FunctionList_single.value) | Measure-Object -Maximum -Property:Length).Maximum + 1
-  $global:fullWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + 5
+  $global:categoryWidth = (($FunctionList_single.category) | Measure-Object -Maximum -Property:Length).Maximum
+  $global:nameWidth = (($FunctionList_single.name) | Measure-Object -Maximum -Property:Length).Maximum
+  $global:valueWidth = (($FunctionList_single.value) | Measure-Object -Maximum -Property:Length).Maximum
+  $global:fullWidth = $global:categoryWidth + $global:nameWidth + $global:valueWidth + 2
 }
 
 
@@ -75,7 +75,7 @@ function Add-BlankLinesToDualLists {
 
 function FormatString([string]$str, [int]$colWidth, [string]$fillerChar, [switch]$NoPadding) { 
   $padding = If ($NoPadding) { "" } Else { $fillerChar }
-  return $padding + $str.PadRight($colWidth-1, $fillerChar) + $padding 
+  return $padding + $str.PadRight($colWidth, $fillerChar) + $padding 
 }
 
 
