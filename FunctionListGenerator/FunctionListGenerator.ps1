@@ -110,17 +110,18 @@ function Get-ListOfFunctionsAndAliases {
 
   If ($global:isNoPadding) { $paddingSize = $indentSize = 0 }
   $indent = " " * $indentSize
-
+  $topBar = "_" * ($fullInnerWidth + $paddingSize)
+  
   $sb = [System.Text.StringBuilder]::new("AWI-defined functions and aliases:`n")
 
   If ($isDual) { 
-    [void]$sb.AppendFormat("$indent.{0}.$indent.{0}.`n", ("_" * ($fullInnerWidth + $paddingSize)))
+    [void]$sb.AppendFormat("$indent.{0}.$indent.{0}.`n", $topBar)
     for ($i = 0; $i -lt $DualList_Col1.Count; $i++) { 
       [void]$sb.AppendFormat("$indent{0}$indent{1}`n", (FormatElement -element:$DualList_Col1[$i]), (FormatElement -element:$DualList_Col2[$i]))
     }
   }
   Else { 
-    [void]$sb.AppendFormat("$indent.{0}.`n", ("_" * ($fullInnerWidth + $paddingSize)))
+    [void]$sb.AppendFormat("$indent.{0}.`n", $topBar)
     $SingleList | ForEach-Object { [void]$sb.AppendFormat("$indent{0}`n", (FormatElement -element:$_)) }
   }
 
