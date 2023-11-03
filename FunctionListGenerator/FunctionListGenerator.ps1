@@ -110,7 +110,7 @@ function Get-ListOfFunctionsAndAliases {
 
   If ($global:isNoPadding) { $paddingSize = $indentSize = 0 }
   $indent = " " * $indentSize
-  $topBar = "." + "_" * ($fullInnerWidth + $paddingSize) + "."
+  $topBar = ".{0}." -f ("_" * ($fullInnerWidth + $paddingSize))
 
   $sb = [System.Text.StringBuilder]::new("AWI-defined functions and aliases:`n")
 
