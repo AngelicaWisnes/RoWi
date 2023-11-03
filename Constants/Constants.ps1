@@ -92,29 +92,41 @@ $global:colors = [ordered]@{
 }
 
 
-$global:fgColorChart = @{
-    rainbow    = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple );
-    trans      = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan );
-    bisexual   = @( $colors.PrideBiPink, $colors.PrideBiPurple, $colors.PrideBiBlue );
-    nonbinary  = @( $colors.PrideNbYellow, $colors.PrideWhite, $colors.PrideNbPurple, $colors.PrideBlack );
-    norway     = @( $colors.Red, $colors.White, $colors.Blue, $colors.White, $colors.Red );
-    blueRibbon = @( $colors.BlueRibbon );
-    pinkRibbon = @( $colors.PinkRibbon );
-    starWars   = @( $colors.Yellow );
-    colorfull  = @( $colors.Red, $colors.Orange, $colors.Yellow, $colors.Chartreuse, $colors.Lime, $colors.SpringGreen, $colors.BlueRibbon, 
-                    $colors.Cyan, $colors.DarkCyan, $colors.DodgerBlue, $colors.Blue, $colors.ElectricIndigo, $colors.Magenta, $colors.DeepPink, 
-                    $colors.MonaLisa, $colors.PinkRibbon, $colors.MintGreen, $colors.LightSlateBlue );                    
-}
-
-
-$global:bgColorChart = @{
-    rainbow    = $null;
-    trans      = $null;
-    bisexual   = $null;
-    nonbinary  = $null;
-    norway     = $null;
-    blueRibbon = $null;
-    pinkRibbon = $null;
-    starWars   = @( $colors.Black );
-    colorfull  = $null;
+$global:colorChart = @{
+    rainbow = @{
+        fg = @( $colors.PrideRed, $colors.PrideOrange, $colors.PrideYellow, $colors.PrideGreen, $colors.PrideBlue, $colors.PridePurple );
+        bg = $null
+       };
+    trans = @{
+        fg = @( $colors.PrideCyan, $colors.PridePink, $colors.PrideWhite, $colors.PridePink, $colors.PrideCyan );
+        bg = $null
+       };
+    bisexual = @{
+        fg = @( $colors.PrideBiPink, $colors.PrideBiPurple, $colors.PrideBiBlue );
+        bg = $null
+       };
+    nonbinary = @{
+        fg = @( $colors.PrideNbYellow, $colors.PrideWhite, $colors.PrideNbPurple, $colors.PrideBlack );
+        bg = $null
+       };
+    norway = @{
+        fg = @( $colors.Red, $colors.White, $colors.Blue, $colors.White, $colors.Red );
+        bg = $null
+       };
+    blueRibbon = @{
+        fg = @( $colors.BlueRibbon );
+        bg = $null
+       };
+    pinkRibbon = @{
+        fg = @( $colors.PinkRibbon );
+        bg = $null
+       };
+    starWars = @{
+        fg = @( $colors.Yellow );
+        bg = ( $colors.Black )
+       };
+    colorfull = @{
+        fg = @( $($global:colors.GetEnumerator() | Select-Object -First 18).Value);      
+        bg = $null
+       };
 }

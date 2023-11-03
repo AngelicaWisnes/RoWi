@@ -5,13 +5,9 @@
 function Get-RainbowLine {
   $windowWidth, $_ = Get-WindowDimensions
   $spaceLength = (" " * $windowWidth)
-  
-  OUT $(PE -txt:$spaceLength -bg:$colors.PrideRed), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PrideOrange), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PrideYellow), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PrideGreen), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PrideBlue), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PridePurple)
+
+  $counter = 0
+  $global:colorChart["rainbow"].fg | ForEach-Object { OUT $(PE -txt:$spaceLength -bg:$_) -NoNewlineStart:$($counter++ -ne 0) }
 }
 
 
@@ -19,11 +15,8 @@ function Get-TransLine {
   $windowWidth, $_ = Get-WindowDimensions
   $spaceLength = (" " * $windowWidth)
   
-  OUT $(PE -txt:$spaceLength -bg:$colors.PrideCyan), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PridePink), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PrideWhite), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PridePink), $(PE -txt:"`n"),
-  $(PE -txt:$spaceLength -bg:$colors.PrideCyan)
+  $counter = 0
+  $global:colorChart["trans"].fg | ForEach-Object { OUT $(PE -txt:$spaceLength -bg:$_) -NoNewlineStart:$($counter++ -ne 0) }
 }
 
 
@@ -34,15 +27,13 @@ function Get-RainbowSlimLine {
   $spaceLength = [math]::floor($windowWidth / 6)
   $spaces = " " * $spaceLength
   $restSpaceLength = $windowWidth - ($spaceLength * 6)
-  $restSpaces = " " * $restSpaceLength
-
-  OUT $(PE -txt:$spaces -bg:$colors.PrideRed),
-  $(PE -txt:$spaces -bg:$colors.PrideOrange),
-  $(PE -txt:$spaces -bg:$colors.PrideYellow),
-  $(PE -txt:$spaces -bg:$colors.PrideGreen),
-  $(PE -txt:$spaces -bg:$colors.PrideBlue),
-  $(PE -txt:$spaces -bg:$colors.PridePurple),
-  $(PE -txt:$restSpaces -bg:$colors.PridePurple) -NoNewlineStart:$NoNewlineStart
+  $restSpaces = $spaces + (" " * $restSpaceLength)
+  
+  $colors = $global:colorChart["rainbow"].fg
+  $counter = 0
+  $colors | ForEach-Object { 
+    OUT $(PE -txt:$(If ($counter -eq $colors.Count-1) { $restSpaces } Else { $spaces }) -bg:$_) -NoNewlineStart:($($counter++ -ne 0) -or $NoNewlineStart) -NoNewline 
+  }
 }
 
 
@@ -53,41 +44,35 @@ function Get-TransSlimLine {
   $spaceLength = [math]::floor($windowWidth / 5)
   $spaces = " " * $spaceLength
   $restSpaceLength = $windowWidth - ($spaceLength * 5)
-  $restSpaces = " " * $restSpaceLength
-
-  OUT $(PE -txt:$spaces -bg:$colors.PrideCyan),
-  $(PE -txt:$spaces -bg:$colors.PridePink),
-  $(PE -txt:$spaces -bg:$colors.PrideWhite),
-  $(PE -txt:$spaces -bg:$colors.PridePink),
-  $(PE -txt:$spaces -bg:$colors.PrideCyan),
-  $(PE -txt:$restSpaces -bg:$colors.PrideCyan) -NoNewlineStart:$NoNewlineStart
+  $restSpaces = $spaces + (" " * $restSpaceLength)
+  
+  $colors = $global:colorChart["trans"].fg
+  $counter = 0
+  $colors | ForEach-Object { 
+    OUT $(PE -txt:$(If ($counter -eq $colors.Count-1) { $restSpaces } Else { $spaces }) -bg:$_) -NoNewlineStart:($($counter++ -ne 0) -or $NoNewlineStart) -NoNewline 
+  }
 }
 
 
 function Get-RainbowSlimShortLine {
   $spaceLength = "   "
-  OUT $(PE -txt:$spaceLength -bg:$colors.PrideRed),
-  $(PE -txt:$spaceLength -bg:$colors.PrideOrange),
-  $(PE -txt:$spaceLength -bg:$colors.PrideYellow),
-  $(PE -txt:$spaceLength -bg:$colors.PrideGreen),
-  $(PE -txt:$spaceLength -bg:$colors.PrideBlue),
-  $(PE -txt:$spaceLength -bg:$colors.PridePurple)
+  $global:colorChart["rainbow"].fg | ForEach-Object { OUT $(PE -txt:$spaceLength -bg:$_) -NoNewlineStart -NoNewline}
 }
 
 
 function Get-PrideSmall {
-  OUT $(PE -txt:"#" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"####################################" -fg:$colors.PrideRed), $(PE -txt:"`n"),
-  $(PE -txt:"##" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"###################################" -fg:$colors.PrideRed), $(PE -txt:"`n"),
-  $(PE -txt:"#" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#################################" -fg:$colors.PrideOrange), $(PE -txt:"`n"),
-  $(PE -txt:"##" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"################################" -fg:$colors.PrideOrange), $(PE -txt:"`n"),
-  $(PE -txt:"#" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"##############################" -fg:$colors.PrideYellow), $(PE -txt:"`n"),
-  $(PE -txt:"##" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#############################" -fg:$colors.PrideYellow), $(PE -txt:"`n"),
-  $(PE -txt:"##" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#############################" -fg:$colors.PrideGreen), $(PE -txt:"`n"),
-  $(PE -txt:"#" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"##############################" -fg:$colors.PrideGreen), $(PE -txt:"`n"),
-  $(PE -txt:"##" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"################################" -fg:$colors.PrideBlue), $(PE -txt:"`n"),
-  $(PE -txt:"#" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#################################" -fg:$colors.PrideBlue), $(PE -txt:"`n"),
-  $(PE -txt:"##" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"###################################" -fg:$colors.PridePurple), $(PE -txt:"`n"),
-  $(PE -txt:"#" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"####################################" -fg:$colors.PridePurple)
+  OUT <#$(PE -txt:"" -fg:$colors.PrideWhite), $(PE -txt:"" -fg:$colors.PridePink),#> $(PE -txt:"#" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"####################################" -fg:$colors.PrideRed), $(PE -txt:"`n"),
+  <#$(PE -txt:"" -fg:$colors.PrideWhite), $(PE -txt:"" -fg:$colors.PridePink),#> $(PE -txt:"##" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"###################################" -fg:$colors.PrideRed), $(PE -txt:"`n"),
+  <#$(PE -txt:"" -fg:$colors.PrideWhite),#> $(PE -txt:"#" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#################################" -fg:$colors.PrideOrange), $(PE -txt:"`n"),
+  <#$(PE -txt:"" -fg:$colors.PrideWhite),#> $(PE -txt:"##" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"################################" -fg:$colors.PrideOrange), $(PE -txt:"`n"),
+  <##>$(PE -txt:"#" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"##############################" -fg:$colors.PrideYellow), $(PE -txt:"`n"),
+  <##>$(PE -txt:"##" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#############################" -fg:$colors.PrideYellow), $(PE -txt:"`n"),
+  <##>$(PE -txt:"##" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#############################" -fg:$colors.PrideGreen), $(PE -txt:"`n"),
+  <##>$(PE -txt:"#" -fg:$colors.PrideWhite), $(PE -txt:"###" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"##############################" -fg:$colors.PrideGreen), $(PE -txt:"`n"),
+  <#$(PE -txt:"" -fg:$colors.PrideWhite),#> $(PE -txt:"##" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"################################" -fg:$colors.PrideBlue), $(PE -txt:"`n"),
+  <#$(PE -txt:"" -fg:$colors.PrideWhite),#> $(PE -txt:"#" -fg:$colors.PridePink), $(PE -txt:"###" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"#################################" -fg:$colors.PrideBlue), $(PE -txt:"`n"),
+  <#$(PE -txt:"" -fg:$colors.PrideWhite), $(PE -txt:"" -fg:$colors.PridePink),#> $(PE -txt:"##" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"###################################" -fg:$colors.PridePurple), $(PE -txt:"`n"),
+  <#$(PE -txt:"" -fg:$colors.PrideWhite), $(PE -txt:"" -fg:$colors.PridePink),#> $(PE -txt:"#" -fg:$colors.PrideCyan), $(PE -txt:"###" -fg:$colors.PrideBrown), $(PE -txt:"###" -fg:$colors.PrideBlack), $(PE -txt:"####################################" -fg:$colors.PridePurple)
 }
 
 

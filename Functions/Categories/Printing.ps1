@@ -141,12 +141,12 @@ function Get-ColorCharts {
   $windowWidth, $_ = Get-WindowDimensions
   $spaceLength = (" " * $windowWidth)
 
-  foreach ($chart in $global:fgColorChart.Values) {
-    foreach ($color in $chart) {
+  foreach ($chart in $global:colorChart.Values) {
+    foreach ($color in $chart.fg) {
       OUT $(PE -txt:$spaceLength -bg:$color) -NoNewlineStart
     }
     Write-Host "`n`n"
-  }
+}
 }
 Set-Alias implCharts Get-ColorCharts
 Add-ToFunctionList -category "Printing" -name 'implCharts' -value 'See implemented color-charts'

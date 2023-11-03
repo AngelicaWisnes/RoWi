@@ -152,11 +152,11 @@ function Get-LogoRGB {
   
   If ($null -ne $colorChartString) {
     $fg_colorNumber = -1
-    $fg_colors = $global:fgColorChart[$colorChartString]
+    $fg_colors = $global:colorChart[$colorChartString].fg
     $fg_linesOfEachColor = If ($null -ne $fg_colors) { [int]($lines.Count / $fg_colors.Count) } 
     
     $bg_colorNumber = -1
-    $bg_colors = $global:bgColorChart[$colorChartString]
+    $bg_colors = $global:colorChart[$colorChartString].bg
     $bg_linesOfEachColor = If ($null -ne $bg_colors) { [int]($lines.Count / $bg_colors.Count) } 
   }
   for ($i = 0; $i -lt $lines.Count; $i++) {
