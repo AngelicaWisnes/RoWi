@@ -79,7 +79,7 @@ function FormatString([string]$str, [int]$colWidth, [string]$fillerChar, [switch
 
 
 function FormatElement([FunctionListElement]$element, [switch]$NoPadding) {
-  $fillerChar = If ($element.value -eq "_") { "_" } elseif ($element.value -eq "-") { "-" } Else { " " }
+  $fillerChar = If ($element.value -eq "_") { "_" } Elseif ($element.value -eq "-") { "-" } Else { " " }
   
   Return "|{0}|{1}|{2}|" -f `
   (FormatString -str:$element.category -colWidth:$global:categoryWidth -fillerChar:$fillerChar -NoPadding:$NoPadding),
