@@ -43,7 +43,7 @@ function Add-BlankLinesToDualLists {
 }
 
 function FormatString([string]$str, [int]$colWidth, [string]$fillerChar) { 
-  $padding = If ($global:isNoPadding) { "" } Else { $fillerChar }
+  $padding = If ($global:isPadded) { $fillerChar }
   return $padding + $str.PadRight($colWidth, $fillerChar) + $padding 
 }
 
@@ -106,9 +106,9 @@ function Get-ListOfFunctionsAndAliases {
   $total_width_dual = $total_width_single * 2
   $windowWidth, $_ = Get-WindowDimensions
   $isDual = $total_width_dual -lt $windowWidth
-  $global:isNoPadding = $total_width_single -gt $windowWidth
+  $global:isPadded = $total_width_single -le $windowWidth
 
-  If ($global:isNoPadding) { $paddingSize = $indentSize = 0 }
+  If (-not $global:isPadded) { $paddingSize = $indentSize = 0 }
   $indent = " " * $indentSize
   $topBar = ".{0}." -f ("_" * ($fullInnerWidth + $paddingSize))
 
