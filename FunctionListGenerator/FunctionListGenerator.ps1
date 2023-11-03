@@ -117,7 +117,7 @@ function Get-ListOfFunctionsAndAliases {
   If ($isDual) { 
     [void]$sb.AppendLine("$indent{0}$indent{0}" -f $topBar)
     for ($i = 0; $i -lt $DualList_Col1.Count; $i++) { 
-      [void]$sb.AppendFormat("$indent{0}$indent{1}`n", (FormatElement -element:$DualList_Col1[$i]), (FormatElement -element:$DualList_Col2[$i]))
+      [void]$sb.AppendLine("$indent{0}$indent{1}" -f ((FormatElement -element:$DualList_Col1[$i]), (FormatElement -element:$DualList_Col2[$i])))
     }
   }
   Else { 
