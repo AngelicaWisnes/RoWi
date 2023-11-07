@@ -175,7 +175,8 @@ function OUT {
   param( 
     [PrintElement[]]$printElements = @(),
     [switch]$NoNewline = $False,
-    [switch]$NoNewlineStart = $False
+    [switch]$NoNewlineStart = $False,
+    [switch]$ForceString = $False
   )
 
   $sb = [System.Text.StringBuilder]::new()
@@ -186,7 +187,7 @@ function OUT {
     Else { [void]$sb.Append($(Get-RGBFormattedString $element)) }
   }
 
-  If ( $NoNewline ) { Write-Host $sb.ToString() -NoNewline }
+  If ( $NoNewline -and -not $ForceString ) { Write-Host $sb.ToString() -NoNewline }
   Else { Return $sb.ToString() }
 }
 
