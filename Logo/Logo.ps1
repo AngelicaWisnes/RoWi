@@ -92,25 +92,12 @@ function Get-OutputSizes {
 
 function Get-Logo {
   $randomColor = $global:colors.Values.GetEnumerator() | Get-Random -Count 1
+  $colorChartString, $explanation = Get-ColorChartStringAndExplanation
 
-  switch -Regex (Get-Date -Format "dd.MM") {
-    "23.01" { $coloredLogo = Get-ArtRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
-    "24.01" { $coloredLogo = Get-ArtRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
-    ".*.01" { $coloredLogo = Get-ArtRGB -colorChartString:"colorfull"; $explanation = ""; Break }
-    "09.04" { $coloredLogo = Get-ArtRGB -colorChartString:"norway"; $explanation = "Birthday"; Break }
-    "31.03" { $coloredLogo = Get-ArtRGB -colorChartString:"trans"; $explanation = "International Transgender Day Of Visibility"; Break }
-    "04.05" { $coloredLogo = Get-ArtRGB -colorChartString:"starWars"; $explanation = "May the 4th be with you"; Break }
-    ".*.06" { $coloredLogo = Get-ArtRGB -colorChartString:"rainbow"; $explanation = "Pride Month"; Break }
-    ".*.05" { $coloredLogo = Get-ArtRGB -colorChartString:"norway"; $explanation = "Norwegian National Day (May 17th)"; Break }
-    ".*.07" { $coloredLogo = Get-ArtRGB -colorChartString:"nonbinary"; $explanation = "Nonbinary Awareness Week (approx. 14th)"; Break }
-    "^(?:0[0-9])\.09$" { $coloredLogo = Get-ArtRGB -colorChartString:"blueRibbon"; $explanation = "Prostate Cancer Awareness Month"; Break }
-    ".*.09" { $coloredLogo = Get-ArtRGB -colorChartString:"bisexual"; $explanation = "Bisexual Awareness Week (approx. 16th-23rd)"; Break }
-    ".*.10" { $coloredLogo = Get-ArtRGB -colorChartString:"pinkRibbon"; $explanation = "Breast Cancer Awareness Month"; Break }
-    ".*.11" { $coloredLogo = Get-ArtRGB -colorChartString:"trans"; $explanation = "Trans Awareness Month"; Break }
-    default { $coloredLogo = OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor); $explanation = ""; Break }
-  }
+  If ($colorChartString) { $coloredLogo = Get-ArtRGB -colorChartString:$colorChartString }
+  Else { $coloredLogo = OUT $(PE -txt:$(Get-LogoAsString) -fg:$randomColor) }
 
-  Get-HeartStampedLogo -text:$coloredLogo
+  Get-HeartStampedLogo -text:$coloredLogo -logoColorChart:$colorChartString
 
   If ($explanation) { Get-Explanation -expl:$explanation }
 
@@ -119,6 +106,27 @@ function Get-Logo {
   OUT
 }
 Add-ToFunctionList -category 'Other' -name 'Get-Logo' -value 'Get Logo'
+
+function Get-ColorChartStringAndExplanation {
+  switch -Regex (Get-Date -Format "dd.MM") {
+    "23.01" { $colorChartString = "norway"; $explanation = "Birthday"; Break }
+    "24.01" { $colorChartString = "norway"; $explanation = "Birthday"; Break }
+    ".*.01" { $colorChartString = "colorfull"; $explanation = ""; Break }
+    "09.04" { $colorChartString = "norway"; $explanation = "Birthday"; Break }
+    "31.03" { $colorChartString = "trans"; $explanation = "International Transgender Day Of Visibility"; Break }
+    "04.05" { $colorChartString = "starWars"; $explanation = "May the 4th be with you"; Break }
+    ".*.06" { $colorChartString = "rainbow"; $explanation = "Pride Month"; Break }
+    ".*.05" { $colorChartString = "norway"; $explanation = "Norwegian National Day (May 17th)"; Break }
+    ".*.07" { $colorChartString = "nonbinary"; $explanation = "Nonbinary Awareness Week (approx. 14th)"; Break }
+    "^(?:0[0-9])\.09$" { $colorChartString = "blueRibbon"; $explanation = "Prostate Cancer Awareness Month"; Break }
+    ".*.09" { $colorChartString = "bisexual"; $explanation = "Bisexual Awareness Week (approx. 16th-23rd)"; Break }
+    ".*.10" { $colorChartString = "pinkRibbon"; $explanation = "Breast Cancer Awareness Month"; Break }
+    ".*.11" { $colorChartString = "trans"; $explanation = "Trans Awareness Month"; Break }
+    default { $colorChartString = ""; $explanation = ""; Break }
+  }
+  
+  Return $colorChartString, $explanation
+}
 
 function Get-AllLogoColors {
   Get-ArtRGB -colorChartString:"norway"
@@ -207,6 +215,7 @@ function Get-LogoAsString {
   Else { Return "Could not print logo, as the file is missing" }
 }
 
+
 function Get-Explanation {
   param( [Parameter(Mandatory)][string]$expl )
 
@@ -235,31 +244,32 @@ function Get-HeartAsString {
 
 function Get-HeartStampedLogo {
   param (
-      [Parameter(Mandatory)]
-      [string]$text
+      [Parameter(Mandatory)][string]$text,
+      [Parameter(Mandatory)][string]$logoColorChart
   )
+  If ( $logoColorChart -eq "trans" ) { $colorChartString = "rainbow" } Else { $colorChartString = "trans" }
+
   $heightOffset = 2
   $widthOffset = 3
   $widthOffsetString = " " * $widthOffset
 
   $heart = Get-HeartAsString
-  $coloredHeart = Get-ArtRGB -colorChartString:"trans" -outputString:$heart
+  $coloredHeart = Get-ArtRGB -colorChartString:$colorChartString -outputString:$heart
 
   $startPosition = [Math]::Max($text.IndexOf('m'), 0)
 
-  $lines = $text -split "`n"
+  $outputLines = $text -split "`n"
   $heartLines = $heart -split "`n"
   $coloredHeartLines = $coloredHeart -split "`n"
-  $linesToOverwrite = [Math]::Min($lines.Length, $coloredHeartLines.Length)
+  $linesToOverwrite = [Math]::Min($outputLines.Length, $coloredHeartLines.Length)
   
-  # Iterate over the lines to overwrite
   for ($i = 0; $i -lt $linesToOverwrite; $i++) {
-    $line = $lines[$i + $heightOffset]
-    $newLine = $widthOffsetString + $heartLines[$i]
-    $coloredNewLine = $widthOffsetString + $coloredHeartLines[$i]
-    $line = $coloredNewLine + $line.Substring(0, $startPosition) + $line.Substring($startPosition + $newLine.Length)
-    $lines[$i + $heightOffset] = $line
+    $line = $outputLines[$i + $heightOffset]
+    $heartLine = $widthOffsetString + $heartLines[$i]
+    $coloredHeartLine = $widthOffsetString + $coloredHeartLines[$i]
+    $line = $coloredHeartLine + $line.Substring(0, $startPosition) + $line.Substring($startPosition + $heartLine.Length)
+    $outputLines[$i + $heightOffset] = $line
   }
 
-  Return $lines -join "`n"
+  Return $outputLines -join "`n"
 }
