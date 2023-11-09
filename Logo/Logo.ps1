@@ -265,11 +265,11 @@ function Get-HeartStampedLogo {
   $linesToOverwrite = [Math]::Min($outputLines.Length, $coloredHeartLines.Length)
   
   for ($i = 0; $i -lt $linesToOverwrite; $i++) {
-    $line = $outputLines[$i + $heightOffset]
+    $currentLine = $outputLines[$i + $heightOffset]
     $heartLine = $widthOffsetString + $heartLines[$i]
     $coloredHeartLine = $widthOffsetString + $coloredHeartLines[$i]
-    $line = $coloredHeartLine + $line.Substring(0, $startPosition) + $line.Substring($startPosition + $heartLine.Length)
-    $outputLines[$i + $heightOffset] = $line
+    $newCurrentLine = $coloredHeartLine + $currentLine.Substring(0, $startPosition) + $currentLine.Substring($startPosition + $heartLine.Length)
+    $outputLines[$i + $heightOffset] = $newCurrentLine
   }
 
   Return $outputLines -join "`n"
