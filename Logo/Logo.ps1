@@ -47,14 +47,17 @@ function Convert-ImageToAsciiArt {
 } 
 
 function Resize-AsciiArt {
-  param([Parameter(Mandatory)][String] $Path)
+  param(
+    [Parameter(Mandatory)][String] $Path,
+    [int[]] $widthHeightDivisors = @(1,1)
+    )
 
   [string[]]$imageArrayFromFile = Get-Content -Path $Path
   
   $inputWidth = $imageArrayFromFile[0].Length
   $inputHeight = $imageArrayFromFile.Length 
   
-  $outputScale, $outputWidth, $outputHeight = Get-OutputSizes @($inputWidth, $inputHeight)
+  $outputScale, $outputWidth, $outputHeight = Get-OutputSizes @($inputWidth, $inputHeight) $widthHeightDivisors
   
   $sb = [System.Text.StringBuilder]::new()
   [void]$sb.AppendLine()
@@ -76,12 +79,18 @@ function Resize-AsciiArt {
 } 
 
 function Get-OutputSizes {
-  param([Parameter(Mandatory)][int[]] $inputDimensions) 
+  param(
+    [Parameter(Mandatory)][int[]] $inputDimensions,
+    [Parameter(Mandatory)][int[]] $widthHeightDivisors
+  ) 
   $inputWidth, $inputHeight = $inputDimensions
 
   $windowWidth, $windowHeight = Get-WindowDimensions
-  $minScaleWidth = $windowWidth / $inputWidth
-  $minScaleHeight = $windowHeight / $inputHeight
+  $adjustedWindowWidth = $windowWidth / $widthHeightDivisors[0]
+  $adjustedWindowHeight = $windowHeight / $widthHeightDivisors[1]
+  
+  $minScaleWidth = $adjustedWindowWidth / $inputWidth
+  $minScaleHeight = $adjustedWindowHeight / $inputHeight
 
   $outputScale = [Math]::Min($minScaleWidth, $minScaleHeight)
   $outputWidth = [Math]::Floor($inputWidth * $outputScale)
@@ -231,12 +240,12 @@ function Get-HeartAsString {
   $heartTextExists = Test-Path -Path $heart_text -PathType Leaf
 
   If ($heartTextExists) { 
-    [string[]]$heartArrayFromFile = Get-Content -Path $heart_text
+    Return Resize-AsciiArt -Path:$heart_text -widthHeightDivisors:@(5,3)
     
-    $sb = [System.Text.StringBuilder]::new()
-    Foreach ($line in $heartArrayFromFile) { [void]$sb.AppendLine($line) }
-    
-    Return $sb.ToString()
+    #[string[]]$heartArrayFromFile = Get-Content -Path $heart_text    
+    #$sb = [System.Text.StringBuilder]::new()
+    #Foreach ($line in $heartArrayFromFile) { [void]$sb.AppendLine($line) }
+    #Return $sb.ToString()
     
   }
 }
