@@ -146,6 +146,7 @@ function Get-AllLogoColors {
   Get-ArtRGB -colorChartString:"pinkRibbon"
   Get-ArtRGB -colorChartString:"blueRibbon"
   Get-ArtRGB -colorChartString:"starWars"
+  Get-ArtRGB -colorChartString:"colorfull"
   OUT $(PE -txt:$(Get-LogoAsString) -fg:$global:colors.DeepPink)
   OUT
 }
