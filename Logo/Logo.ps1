@@ -151,19 +151,6 @@ function Get-AllLogoColors {
 }
 Add-ToFunctionList -category 'Other' -name 'Get-AllLogoColors' -value 'Get all Logo colors'
 
-function Get-LogoRainbow {
-  $outputString = Get-LogoAsString
-  $lines = $outputString.Split("`n")
-  $colors = @( "DarkRed", "Red", "Yellow", "Green", "Blue", "Magenta" )
-  $colorNumber = -1
-  $linesOfEachColor = [int]($lines.Count / $colors.Count)
-
-  for ($i = 0; $i -lt $lines.Count; $i++) {
-    If ($i % $linesOfEachColor -eq 0 -and $colorNumber -lt ($colors.Count - 1)) { $colorNumber++ }
-    Write-Host -ForegroundColor $colors[$colorNumber] $lines[$i]
-    #Write-Host -BackgroundColor $colors[$colorCount] -ForegroundColor Black $logoLines[$i]
-  }
-}
 
 function Get-ArtRGB {
   param( 
