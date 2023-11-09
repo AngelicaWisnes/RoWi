@@ -248,7 +248,7 @@ function Get-HeartStampedLogo {
       [Parameter(Mandatory)][string]$text,
       [Parameter(Mandatory)][string]$logoColorChart
   )
-  If ( $logoColorChart -eq "trans" ) { $colorChartString = "rainbow" } Else { $colorChartString = "trans" }
+  $colorChartString = If ($logoColorChart -eq "trans") { "rainbow" } Else { "trans" }
 
   $heightOffset = 2
   $widthOffset = 3
@@ -266,8 +266,10 @@ function Get-HeartStampedLogo {
   
   for ($i = 0; $i -lt $linesToOverwrite; $i++) {
     $currentLine = $outputLines[$i + $heightOffset]
+
     $heartLine = $widthOffsetString + $heartLines[$i]
     $coloredHeartLine = $widthOffsetString + $coloredHeartLines[$i]
+    
     $newCurrentLine = $coloredHeartLine + $currentLine.Substring(0, $startPosition) + $currentLine.Substring($startPosition + $heartLine.Length)
     $outputLines[$i + $heightOffset] = $newCurrentLine
   }
