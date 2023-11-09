@@ -50,7 +50,7 @@ function Resize-AsciiArt {
   param(
     [Parameter(Mandatory)][String] $Path,
     [int[]] $widthHeightDivisors = @(1,1)
-    )
+  )
 
   [string[]]$imageArrayFromFile = Get-Content -Path $Path
   
@@ -81,7 +81,7 @@ function Resize-AsciiArt {
 function Get-OutputSizes {
   param(
     [Parameter(Mandatory)][int[]] $inputDimensions,
-    [Parameter(Mandatory)][int[]] $widthHeightDivisors
+    [int[]] $widthHeightDivisors = @(1, 1)
   ) 
   $inputWidth, $inputHeight = $inputDimensions
 
@@ -172,13 +172,13 @@ function Get-ArtRGB {
 
   $sb = [System.Text.StringBuilder]::new()
   for ($i = 0; $i -lt $lines.Count; $i++) {
-      If ($null -ne $fg_colors -and $i % $fg_linesOfEachColor -eq 0 -and $fg_colorNumber -lt ($fg_colors.Count - 1)) { $fg_colorNumber++ }
-      If ($null -ne $bg_colors -and $i % $bg_linesOfEachColor -eq 0 -and $bg_colorNumber -lt ($bg_colors.Count - 1)) { $bg_colorNumber++ }
+    If ($null -ne $fg_colors -and $i % $fg_linesOfEachColor -eq 0 -and $fg_colorNumber -lt ($fg_colors.Count - 1)) { $fg_colorNumber++ }
+    If ($null -ne $bg_colors -and $i % $bg_linesOfEachColor -eq 0 -and $bg_colorNumber -lt ($bg_colors.Count - 1)) { $bg_colorNumber++ }
 
-      $fg_color = If ($null -ne $fg_colors) { $fg_colors[$fg_colorNumber] }
-      $bg_color = If ($null -ne $bg_colors) { $bg_colors[$bg_colorNumber] }
+    $fg_color = If ($null -ne $fg_colors) { $fg_colors[$fg_colorNumber] }
+    $bg_color = If ($null -ne $bg_colors) { $bg_colors[$bg_colorNumber] }
 
-      [void]$sb.Append($(OUT $(PE -txt:$lines[$i] -fg:$fg_color -bg:$bg_color) -NoNewline -NoNewlineStart:$($i -eq 0) -ForceString))
+    [void]$sb.Append($(OUT $(PE -txt:$lines[$i] -fg:$fg_color -bg:$bg_color) -NoNewline -NoNewlineStart:$($i -eq 0) -ForceString))
   }
   
   Return $sb.ToString()
@@ -197,7 +197,7 @@ function Get-SelfieAsString {
   If ($global:SYSTEM_OS.Contains('Windows') -and $selfieImageExists) { 
     Return Convert-ImageToAsciiArt -Path $selfie_image 
   }
-  Elseif ($selfieTextExists) { Return Resize-AsciiArt -Path $selfie_text }
+  Elseif ($selfieTextExists) { Return Resize-AsciiArt -Path:$selfie_text }
   Else { Return "Could not print selfie, as the file is missing" }
 }
 
@@ -208,7 +208,7 @@ function Get-LogoAsString {
   If ($global:SYSTEM_OS.Contains('Windows') -and $logoImageExists) { 
     Return Convert-ImageToAsciiArt -Path $logo -BinaryPixelated $true
   }
-  Elseif ($logoTextExists) { Return Resize-AsciiArt -Path $logo_text }
+  Elseif ($logoTextExists) { Return Resize-AsciiArt -Path:$logo_text }
   Else { Return "Could not print logo, as the file is missing" }
 }
 
@@ -227,7 +227,7 @@ function Get-Explanation {
 function Get-HeartAsString {
   $heartTextExists = Test-Path -Path $heart_text -PathType Leaf
 
-  If ($heartTextExists) { Return Resize-AsciiArt -Path:$heart_text -widthHeightDivisors:@(5,3) }
+  If ($heartTextExists) { Return Resize-AsciiArt -Path:$heart_text -widthHeightDivisors:@(5, 3) }
 }
 
 
