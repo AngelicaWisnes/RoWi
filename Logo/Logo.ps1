@@ -239,15 +239,7 @@ function Get-Explanation {
 function Get-HeartAsString {
   $heartTextExists = Test-Path -Path $heart_text -PathType Leaf
 
-  If ($heartTextExists) { 
-    Return Resize-AsciiArt -Path:$heart_text -widthHeightDivisors:@(5,3)
-    
-    #[string[]]$heartArrayFromFile = Get-Content -Path $heart_text    
-    #$sb = [System.Text.StringBuilder]::new()
-    #Foreach ($line in $heartArrayFromFile) { [void]$sb.AppendLine($line) }
-    #Return $sb.ToString()
-    
-  }
+  If ($heartTextExists) { Return Resize-AsciiArt -Path:$heart_text -widthHeightDivisors:@(5,3) }
 }
 
 
